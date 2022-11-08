@@ -23,6 +23,9 @@ call plug#begin()
    Plug 'nvim-lua/plenary.nvim'
    Plug 'mfussenegger/nvim-dap'
    Plug 'marcuscaisey/please.nvim'
+
+   " vim-devicons has to be last
+   Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 set autoread
@@ -64,6 +67,7 @@ let mapleader = '\'
 syntax on
 colorscheme darcula
 let g:airline_theme='raven'
+let g:airline_powerline_fonts = 1
 
 " Find and replace a word
 :nnoremap <C-g> :%s/\<<C-r><C-w>\>/

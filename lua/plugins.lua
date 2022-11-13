@@ -50,27 +50,31 @@ return require('packer').startup(function(use)
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
 
-  use { "windwp/nvim-autopairs" }
-
   use {"iamcco/markdown-preview.nvim", cmd = "MarkdownPreview"}
 
+  -- Git signs
+  use { "lewis6991/gitsigns.nvim" }
 
   -- statusline - lualine
   use {
-  'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    "nvim-lualine/lualine.nvim",
+    requires = { "kyazdani42/nvim-web-devicons", opt = true }
   }
 
+  -- Treesitter
+  use { "nvim-treesitter/nvim-treesitter" }
+
   -- Autocompletion
+  use { "hrsh7th/nvim-cmp" }
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" } -- buffer completions
   use { "hrsh7th/cmp-path" } -- path completions
   use { "hrsh7th/cmp-cmdline" }
-  use { "hrsh7th/nvim-cmp" }
+  use { "lukas-reineke/cmp-rg" }
 
-  -- TODO: find out what these do
-  use { 'hrsh7th/cmp-vsnip' }
-  use { 'hrsh7th/vim-vsnip' }
+  use { "rafamadriz/friendly-snippets" }
+  use { "L3MON4D3/LuaSnip", tag = "v1.1.0" }
+  use { "saadparwaiz1/cmp_luasnip" }
 
   -- LSPs and LSP installer
   use {
@@ -79,21 +83,19 @@ return require('packer').startup(function(use)
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig"
   }
-  -- use { "hrsh7th/cmp-nvim-lua" }
 
   -- Telescope
   use { "nvim-telescope/telescope.nvim", tag = "0.1.0" }
   use { "vijaymarupudi/nvim-fzf" }
 
+  use { "windwp/nvim-autopairs" }
+
   -- Golang specific
-  use 'ray-x/go.nvim'
-  use 'ray-x/guihua.lua' -- floating window support
+  use "ray-x/go.nvim"
+  use "ray-x/guihua.lua" -- floating window support
 
   -- Darcula theme
-  use {
-    "briones-gabriel/darcula-solid.nvim",
-    requires = "rktjmp/lush.nvim",
-  }
+  use { "doums/darcula" }
 
   -- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

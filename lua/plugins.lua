@@ -91,14 +91,30 @@ return require('packer').startup(function(use)
   use { "windwp/nvim-autopairs" }
 
   -- Golang specific
-  use "ray-x/go.nvim"
-  use "ray-x/guihua.lua" -- floating window support
+  use { "ray-x/guihua.lua", run = "cd lua/fzf && make" } -- floating window support
+  use {
+    "ray-x/navigator.lua",
+    config = function() require("navigator").setup() end,
+  }
+  use { "ray-x/go.nvim" }
 
   -- Darcula theme
   use { "doums/darcula" }
 
   -- Smooth scrolling
   use { "karb94/neoscroll.nvim" }
+
+  -- Commenting
+  use {
+    "numToStr/Comment.nvim",
+    config = function() require("Comment").setup() end,
+  }
+
+  -- Renaming
+  use {
+    "smjonas/inc-rename.nvim",
+    config = function() require("inc_rename").setup() end,
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

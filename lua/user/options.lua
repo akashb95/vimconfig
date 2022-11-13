@@ -8,11 +8,11 @@ vim.o.number = true
 vim.o.relativenumber = true
 
 -- default items in popup menu (e.g. for autocompletion suggestions)
-vim.o.pumheight = 7
+vim.o.pumheight = 5
 
 vim.o.linebreak = true
 
-vim.o.scrolloff = 3
+vim.o.scrolloff = 5
 
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
@@ -147,10 +147,52 @@ require("mason-lspconfig").setup({
 
 local treesitter_configs = require("nvim-treesitter.configs")
 treesitter_configs.setup({
-  ensure_installed = { "lua", "python", "go", "json", "yaml", "proto" },
+  ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
+  ignore_install = { "phpdoc" },
   highlight = { enabled = true, },
   indent = { enabled = true, },
+  incremental_selection = {
+      enable = true,
+      keymaps = {
+          init_selection = "tsn",
+          scope_incremental = "n",
+          node_decremental = "N",
+      },
+  },
+  textobjects = {
+      select = {
+          enable = true,
+          lookahead = false,
+          keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["aP"] = "@parameter.outer",
+              ["iP"] = "@parameter.inner",
+          },
+      },
+      move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+              ["]f"] = "@function.outer",
+              ["]p"] = "@parameter.outer",
+          },
+          goto_previous_start = {
+              ["]F"] = "@function.outer",
+          },
+          goto_next_end = {
+              ["[f"] = "@function.outer",
+              ["[a"] = "@paramter.inner",
+          },
+          goto_previous_end = {
+              ["[F"] = "@function.outer",
+          },
+      },
+  },
 })
+vim.o.foldmethod = "expr";
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldenable = false
 
 -- LSP config
 local lspconfig = require("lspconfig")
@@ -163,8 +205,23 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
 
 lspconfig.sumneko_lua.setup({})
 lspconfig.pyright.setup({})
-lspconfig.gopls.setup({})
+lspconfig.gopls.setup({
+  settings = {
+    gopls = {
+      directoryFilters = { "-plz-out" },
+      linksInHover = false,
+    },
+    root_dir = {"go.mod", ".plzconfig", "src", ".git"},
+  }
+})
 lspconfig.bufls.setup({})
+-- lspconfig.configs.please = {
+--     default_config = {
+--         cmd = { "plz", "tool", "lps" },
+--         filetypes = { "please" },
+--         root_dir = lsp_util.root_pattern(".plzconfig"),
+--     },
+-- }
 
 vim.api.nvim_create_autocmd(
   'LspAttach',
@@ -241,10 +298,10 @@ cmp.setup({
     fields = { "menu", "abbr", "kind" },
     format = function(entry, item)
       local menu_icon = {
-        nvim_lsp = "λ",
-        luasnip = "⋗",
+        nvim_lsp = "Λ",
+        luasnip = "✂",
         buffer = "Ω",
-        path = "🖫",
+        path = "⨒",
       }
 
       item.menu = menu_icon[entry.source.name]
@@ -252,16 +309,22 @@ cmp.setup({
     end,
   },
   mapping = {
+    -- Navigate suggestions.
     ["<Up>"] = cmp.mapping.select_prev_item(select_opts),
     ["<Down>"] = cmp.mapping.select_next_item(select_opts),
 
+    -- Alternative keymaps to navigate suggestions.
     ["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
     ["<C-n>"] = cmp.mapping.select_next_item(select_opts),
 
+    -- Scroll in suggestions window.
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
 
+    -- Cancel.
     ["<C-e>"] = cmp.mapping.abort(),
+
+    -- Autocomplete - behaviour configured to emulate IntelliJ.
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
     ["<Tab>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 
@@ -284,7 +347,6 @@ cmp.setup({
 })
 
 vim.diagnostic.config({
-  virtual_text = false,
   severity_sort = true,
   update_in_insert = true,
   virtual_text = true,
@@ -325,8 +387,6 @@ if vim.o.ft == 'clap_input' and vim.o.ft == 'guihua' and vim.o.ft == 'guihua_rus
   require 'cmp'.setup.buffer { completion = { enable = false } }
 end
 
--- require("go").setup()
 vim.cmd "colorscheme darcula"
-
 
 require('neoscroll').setup()

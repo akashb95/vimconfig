@@ -83,6 +83,13 @@ return require('packer').startup(function(use)
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig"
   }
+  use {
+    "ray-x/lsp_signature.nvim",
+    config = function() require("lsp_signature").setup({
+      bind = true,
+      hint_enable = false,
+    }) end,
+  }
 
   -- Telescope
   use { "nvim-telescope/telescope.nvim", tag = "0.1.0" }
@@ -91,7 +98,7 @@ return require('packer').startup(function(use)
   use { "windwp/nvim-autopairs" }
 
   -- Golang specific
-  use { "ray-x/guihua.lua", run = "cd lua/fzf && make" } -- floating window support
+  -- use { "ray-x/guihua.lua", run = "cd lua/fzf && make" } -- floating window support
   -- use {
   --   "ray-x/navigator.lua",
   --   config = function() require("navigator").setup() end,
@@ -109,6 +116,15 @@ return require('packer').startup(function(use)
     "numToStr/Comment.nvim",
     config = function() require("Comment").setup() end,
   }
+
+  -- Please integration.
+  use {
+    "marcuscaisey/please.nvim",
+    requires = { "mfussenegger/nvim-dap" }
+  }
+
+  -- Formatter
+  -- use { "sbdchd/neoformat" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

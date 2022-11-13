@@ -98,7 +98,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 require("nvim-tree").setup({
- view = {
+  view = {
     adaptive_size = true,
     mappings = {
       list = {
@@ -112,24 +112,24 @@ require("nvim-tree").setup({
 
 require("gitsigns").setup({
   update_debounce = 200,
-  current_line_blame_opts = { 
-    virt_text_pos = "right_align", 
+  current_line_blame_opts = {
+    virt_text_pos = "right_align",
     ignore_whitespace = true,
   },
 })
 
 require("lualine").setup({
-    options = { theme = "dracula" }
+  options = { theme = "dracula" }
 })
 
 require("mason").setup({
   ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-        },
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
     },
+  },
 })
 require("mason-lspconfig").setup({
   ensure_installed = {
@@ -167,12 +167,12 @@ lspconfig.gopls.setup({})
 lspconfig.bufls.setup({})
 
 vim.api.nvim_create_autocmd(
-  'LspAttach', 
+  'LspAttach',
   {
     desc = 'LSP actions',
     callback = function()
       local bufmap = function(mode, lhs, rhs)
-        local opts = {buffer = true}
+        local opts = { buffer = true }
         vim.keymap.set(mode, lhs, rhs, opts)
       end
 
@@ -191,7 +191,7 @@ vim.api.nvim_create_autocmd(
       -- Jumps to the definition of the type symbol
       bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
 
-      -- Lists all the references 
+      -- Lists all the references
       bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
 
       -- Displays a function's signature information
@@ -220,7 +220,7 @@ vim.api.nvim_create_autocmd(
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
-local select_opts = {behavior = cmp.SelectBehavior.Select}
+local select_opts = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
   snippet = {
@@ -245,7 +245,7 @@ cmp.setup({
         luasnip = "⋗",
         buffer = "Ω",
         path = "🖫",
-       }
+      }
 
       item.menu = menu_icon[entry.source.name]
       return item
@@ -284,35 +284,35 @@ cmp.setup({
 })
 
 vim.diagnostic.config({
-    virtual_text = false,
-    severity_sort = true,
-    update_in_insert = true,
-    virtual_text = true,
-    float = {
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
-    }
+  virtual_text = false,
+  severity_sort = true,
+  update_in_insert = true,
+  virtual_text = true,
+  float = {
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  }
 })
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    { border = "rounded" }
+  vim.lsp.handlers.hover,
+  { border = "rounded" }
 )
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    { border = "rounded" }
+  vim.lsp.handlers.signature_help,
+  { border = "rounded" }
 )
 
 cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-        { name = "path" },
-    },
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  },
     {
-        { name = "cmdline" },
+      { name = "cmdline" },
     }),
 })
 
@@ -322,12 +322,11 @@ require("nvim-autopairs").setup({
   disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
 })
 if vim.o.ft == 'clap_input' and vim.o.ft == 'guihua' and vim.o.ft == 'guihua_rust' then
-  require'cmp'.setup.buffer { completion = {enable = false} }
+  require 'cmp'.setup.buffer { completion = { enable = false } }
 end
 
-require("go").setup()
+-- require("go").setup()
 vim.cmd "colorscheme darcula"
 
 
 require('neoscroll').setup()
-

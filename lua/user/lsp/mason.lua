@@ -15,7 +15,6 @@ require("mason-lspconfig").setup({
     "gopls",
     "bufls",
     "jsonls",
-    "please",
     "bashls",
     "yamlls",
   },

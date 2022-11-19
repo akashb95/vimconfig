@@ -21,9 +21,16 @@ end
 
 -- Telescope
 local telescope_builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", function()
-	telescope_builtin.find_files({ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1] })
-end)
+local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
+if reporoot_ok then
+  vim.keymap.set("n", "<C-S-f>", function() telescope_builtin.live_grep({ cwd = reporoot[1] }) end)
+  vim.keymap.set("n", "<C-f>", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
+else
+  vim.keymap.set("n", "<C-S-f>", telescope_builtin.live_grep, {})
+  vim.keymap.set("n", "<C-f>", telescope_builtin.live_grep, {})
+end
+vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, {})
 
 -- LSP
 

@@ -32,7 +32,7 @@ lspconfig.gopls.setup({
       directoryFilters = { "-plz-out" },
       linksInHover = false,
     },
-    root_dir = {"go.mod", ".plzconfig", "src", ".git"},
+    root_dir = {"go.mod", ".plzconfig", ".git"},
   }
 })
 lspconfig.bufls.setup({})

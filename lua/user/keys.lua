@@ -1,12 +1,65 @@
-local map = vim.api.nvim_set_keymap
-
 -- Toggle nvim-tree
 vim.keymap.set('n', '<leader>e', [[:NvimTreeToggle<CR>]], {})
 vim.keymap.set('n', '<leader>E', [[:NvimTreeFindFile<CR>]], {})
 
+-- Linebreaks
+vim.keymap.set('n', '<C-CR>', 'i<CR><ESC>', {})
+vim.keymap.set('n', '<S-CR>', 'O<ESC>', {})
+
+-- Insert-mode navigation
+vim.keymap.set("i", "jj", "<esc>")
+vim.keymap.set("i", "II", "<esc>I")
+vim.keymap.set("i", "AA", "<esc>A")
+
+-- Please
 local ok, please = pcall(require, "please")
 if not ok then return
 else
   vim.keymap.set("n", "<leader>pb", please.build, { silent = true } )
   vim.keymap.set("n", "<leader>py", please.yank, { silent = true } )
 end
+
+-- Telescope
+local telescope_builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", function()
+	telescope_builtin.find_files({ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1] })
+end)
+
+-- LSP
+
+-- Displays hover information about the symbol under the cursor
+vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+
+-- Jump to the definition
+vim.keymap.set('n', '<C-b>', vim.lsp.buf.definition)
+
+-- Jump to declaration
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+
+-- Lists all the implementations for the symbol under the cursor
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
+
+-- Jumps to the definition of the type symbol
+vim.keymap.set('n', 'go', vim.lsp.buf.type_definition)
+
+-- Lists all the references
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+
+-- Displays a function's signature information
+vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help)
+
+-- Renames all references to the symbol under the cursor
+vim.keymap.set('n', '<F6>', vim.lsp.buf.rename)
+
+-- Selects a code action available at the current cursor position
+vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action)
+vim.keymap.set('x', '<F4>', vim.lsp.buf.range_code_action)
+
+-- Show diagnostics in a floating window
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
+
+-- Move to the previous diagnostic
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+
+-- Move to the next diagnostic
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)

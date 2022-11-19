@@ -97,14 +97,6 @@ return require('packer').startup(function(use)
 
   use { "windwp/nvim-autopairs" }
 
-  -- Golang specific
-  -- use { "ray-x/guihua.lua", run = "cd lua/fzf && make" } -- floating window support
-  -- use {
-  --   "ray-x/navigator.lua",
-  --   config = function() require("navigator").setup() end,
-  -- }
-  -- use { "ray-x/go.nvim" }
-
   -- Darcula theme
   use { "doums/darcula" }
 

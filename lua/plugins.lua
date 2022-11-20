@@ -40,9 +40,17 @@ packer.init({
 
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- must be first
+
+  -- Very common deps
   use { "nvim-lua/plenary.nvim" }
   use { "nvim-tree/nvim-web-devicons" }
   use { "folke/neodev.nvim" }
+
+  -- Surround
+  use {
+    "kylechui/nvim-surround",
+    config = function() require("nvim-surround").setup() end
+  }
 
   -- navigation
   use {

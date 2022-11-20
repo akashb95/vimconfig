@@ -124,6 +124,7 @@ require("lualine").setup({
 })
 
 local treesitter_configs = require("nvim-treesitter.configs")
+
 treesitter_configs.setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
   highlight = { enabled = true, },
@@ -144,8 +145,8 @@ treesitter_configs.setup({
           keymaps = {
               ["af"] = "@function.outer",
               ["if"] = "@function.inner",
-              ["aP"] = "@parameter.outer",
-              ["iP"] = "@parameter.inner",
+              ["ap"] = "@parameter.outer",
+              ["ip"] = "@parameter.inner",
           },
       },
       move = {
@@ -156,23 +157,23 @@ treesitter_configs.setup({
               ["]p"] = "@parameter.outer",
           },
           goto_previous_start = {
-              ["]F"] = "@function.outer",
+              ["]f"] = "@function.outer",
           },
           goto_next_end = {
               ["[f"] = "@function.outer",
               ["[a"] = "@paramter.inner",
           },
           goto_previous_end = {
-              ["[F"] = "@function.outer",
+              ["[f"] = "@function.outer",
           },
       },
       swap = {
         enable = true,
         swap_next = {
-          ["<Leader>;"] = "@swappable",
+          ["<leader>;"] = "@swappable",
         },
         swap_previous = {
-          ["<Leader>,"] = "@swappable",
+          ["<leader>,"] = "@swappable",
         },
       },
   },
@@ -297,4 +298,5 @@ end
 
 vim.cmd "colorscheme darcula"
 
+-- Smooth scrolling
 require('neoscroll').setup()

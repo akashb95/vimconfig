@@ -52,6 +52,11 @@ return require('packer').startup(function(use)
     config = function() require("nvim-surround").setup() end
   }
 
+  use {
+    "folke/todo-comments.nvim",
+    config = function() require("todo-comments").setup({}) end
+  }
+
   -- navigation
   use {
     'nvim-tree/nvim-tree.lua',

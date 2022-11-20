@@ -71,6 +71,7 @@ return require('packer').startup(function(use)
 
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter" }
+  use { "nvim-treesitter/nvim-treesitter-textobjects" }
 
   -- Autocompletion
   use { "hrsh7th/nvim-cmp" }

@@ -38,6 +38,7 @@ vim.o.signcolumn = "yes:2"
 vim.o.splitbelow = true
 vim.o.splitright = true
 
+vim.o.guifont = "JetBrains Mono:h12"
 vim.o.termguicolors = true
 vim.o.updatetime = 80
 
@@ -125,9 +126,9 @@ require("lualine").setup({
 local treesitter_configs = require("nvim-treesitter.configs")
 treesitter_configs.setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
-  ignore_install = { "phpdoc" },
   highlight = { enabled = true, },
   indent = { enabled = true, },
+  playground = { enable = true },
   incremental_selection = {
       enable = true,
       keymaps = {
@@ -164,6 +165,15 @@ treesitter_configs.setup({
           goto_previous_end = {
               ["[F"] = "@function.outer",
           },
+      },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<Leader>;"] = "@swappable",
+        },
+        swap_previous = {
+          ["<Leader>,"] = "@swappable",
+        },
       },
   },
 })

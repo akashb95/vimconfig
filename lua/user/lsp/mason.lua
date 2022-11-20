@@ -13,7 +13,7 @@ require("mason-lspconfig").setup({
     "sumneko_lua",
     "pyright",
     "gopls",
-    "bufls",
+    -- "bufls",
     "jsonls",
     "bashls",
     "yamlls",

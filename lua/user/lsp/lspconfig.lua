@@ -35,7 +35,7 @@ lspconfig.gopls.setup({
     root_dir = {"go.mod", ".plzconfig", ".git"},
   }
 })
-lspconfig.bufls.setup({})
+-- lspconfig.bufls.setup({})
 lspconfig.jsonls.setup({})
 lspconfig.bashls.setup({})
 lspconfig.yamlls.setup({})

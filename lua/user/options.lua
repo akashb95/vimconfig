@@ -37,8 +37,6 @@ vim.o.signcolumn = "yes:2"
 -- split screen settings
 vim.o.splitbelow = true
 vim.o.splitright = true
-
-vim.o.guifont = "JetBrains Mono:h12"
 vim.o.termguicolors = true
 vim.o.updatetime = 80
 
@@ -123,9 +121,7 @@ require("lualine").setup({
   options = { theme = "dracula" }
 })
 
-local treesitter_configs = require("nvim-treesitter.configs")
-
-treesitter_configs.setup({
+require("nvim-treesitter.configs").setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
   highlight = { enabled = true, },
   indent = { enabled = true, },
@@ -137,6 +133,11 @@ treesitter_configs.setup({
           scope_incremental = "n",
           node_decremental = "N",
       },
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = 2000,
   },
   textobjects = {
       select = {

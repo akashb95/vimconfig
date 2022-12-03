@@ -2,6 +2,9 @@
 vim.keymap.set('n', '<leader>e', [[:NvimTreeToggle<CR>]], {})
 vim.keymap.set('n', '<leader>E', [[:NvimTreeFindFile<CR>]], {})
 
+-- local current_fpath = vim.api.nvim_buf_get_name(0)
+-- vim.keymap.set('n', '<leader>o', [[:NvimTreeOpen ]], {})
+
 -- Linebreaks
 vim.keymap.set('n', '<C-CR>', 'i<CR><ESC>', {})
 vim.keymap.set('n', '<S-CR>', 'O<ESC>', {})
@@ -23,11 +26,11 @@ end
 local telescope_builtin = require("telescope.builtin")
 local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
 if reporoot_ok then
-  vim.keymap.set("n", "<C-S-f>", function() telescope_builtin.live_grep({ cwd = reporoot[1] }) end)
+  vim.keymap.set("n", "<leader>fg", function() telescope_builtin.live_grep({ cwd = reporoot[1] }) end)
   vim.keymap.set("n", "<C-f>", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
 else
-  vim.keymap.set("n", "<C-S-f>", telescope_builtin.live_grep, {})
-  vim.keymap.set("n", "<C-f>", telescope_builtin.live_grep, {})
+  vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, {})
+  vim.keymap.set("n", "<C-f>", telescope_builtin.find_files, {})
 end
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, {})
@@ -60,7 +63,7 @@ vim.keymap.set('n', '<F6>', vim.lsp.buf.rename)
 
 -- Selects a code action available at the current cursor position
 vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action)
-vim.keymap.set('x', '<F4>', vim.lsp.buf.range_code_action)
+-- vim.keymap.set('x', '<F4>', vim.lsp.buf.range_code_action)
 
 -- Show diagnostics in a floating window
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float)

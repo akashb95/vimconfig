@@ -52,12 +52,19 @@ return require('packer').startup(function(use)
     config = function() require("nvim-surround").setup() end
   }
 
+  -- highlight comments beginning with TODO.
   use {
     "folke/todo-comments.nvim",
-    config = function() require("todo-comments").setup({}) end
+    config = function() require("todo-comments").setup({}) end,
   }
 
-  -- navigation
+  -- buffer navigation
+  use {
+    "ggandor/leap.nvim",
+    config = function() require("leap").add_default_mappings() end,
+  }
+
+  -- fs navigation
   use {
     'nvim-tree/nvim-tree.lua',
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
@@ -77,6 +84,7 @@ return require('packer').startup(function(use)
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter" }
   use { "nvim-treesitter/nvim-treesitter-textobjects" }
+  use { "p00f/nvim-ts-rainbow" }
 
   -- Autocompletion
   use { "hrsh7th/nvim-cmp" }

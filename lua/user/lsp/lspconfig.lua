@@ -18,8 +18,8 @@ lspconfig.pyright.setup({
         useLibraryCodeForTypes = true,
         typeCheckingMode = "strict",
         extraPaths = {
-          -- /path/to/repo/root
-          -- /path/to/repo/root/plz-out/gen
+          "/home/akash/src/",
+          "/home/akash/src/plz-out/gen",
         },
       },
     },
@@ -31,6 +31,11 @@ lspconfig.gopls.setup({
     gopls = {
       directoryFilters = { "-plz-out" },
       linksInHover = false,
+      analyses = {unusedparams = true,},
+      staticcheck = true,
+      env = {
+        GOPATH = "/home/akash:/home/akash/src/plz-out/go:/home/akash/src/plz-out/gen/third_party/go:/home/akash",
+      },
     },
     root_dir = {"go.mod", ".plzconfig", ".git"},
   }

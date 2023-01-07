@@ -118,7 +118,14 @@ return require('packer').startup(function(use)
   }
 
   -- Telescope
-  use { "nvim-telescope/telescope.nvim", tag = "0.1.0" }
+  use {
+    "nvim-telescope/telescope.nvim",
+    config = function() require("telescope").load_extension("live_grep_args") end,
+    requires = {
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+    },
+    tag = "0.1.0",
+  }
   use { "vijaymarupudi/nvim-fzf" }
 
   use { "windwp/nvim-autopairs" }

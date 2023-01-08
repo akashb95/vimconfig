@@ -94,6 +94,12 @@ return require('packer').startup(function(use)
   }
   use { "mrjones2014/nvim-ts-rainbow" }
 
+  -- Folding
+  use {
+    "kevinhwang91/nvim-ufo",
+    requires = {"kevinhwang91/promise-async"},
+  }
+
   -- Autocompletion
   use { "hrsh7th/nvim-cmp" }
   use { "hrsh7th/cmp-nvim-lsp" }

@@ -5,10 +5,16 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
   lsp_defaults.capabilities,
   require("cmp_nvim_lsp").default_capabilities()
 )
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
 
-lspconfig.sumneko_lua.setup({})
+lspconfig.sumneko_lua.setup({capabilities=capabilities})
 
 lspconfig.pyright.setup({
+  capabilities = capabilities,
   root_dir = function() return vim.fn.getcwd() end,
   settings = {
     python = {
@@ -27,6 +33,7 @@ lspconfig.pyright.setup({
 })
 
 lspconfig.gopls.setup({
+  capabilities = capabilities,
   settings = {
     gopls = {
       directoryFilters = { "-plz-out" },
@@ -40,14 +47,18 @@ lspconfig.gopls.setup({
     root_dir = {"go.mod", ".plzconfig", ".git"},
   }
 })
--- lspconfig.bufls.setup({})
-lspconfig.jsonls.setup({})
-lspconfig.bashls.setup({})
-lspconfig.yamlls.setup({})
+-- lspconfig.bufls.setup({capabilities = capabilities})
+lspconfig.jsonls.setup({capabilities = capabilities})
+lspconfig.bashls.setup({capabilities = capabilities})
+lspconfig.yamlls.setup({capabilities = capabilities})
 lspconfig.please = {
+    capabilities = capabilities,
     default_config = {
         cmd = { "plz", "tool", "lps" },
         filetypes = { "please" },
         root_dir = lspconfig.util.root_pattern(".plzconfig"),
     },
 }
+
+-- Enable folding
+require("ufo").setup()

@@ -41,6 +41,16 @@ vim.o.updatetime = 80
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+-- Folding
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+local ufo = require("ufo")
+vim.keymap.set('n', 'zR', ufo.openAllFolds)
+vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 
 require("file_types").setup({
@@ -298,5 +308,3 @@ vim.cmd "colorscheme darcula"
 -- Smooth scrolling
 require('neoscroll').setup()
 
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"

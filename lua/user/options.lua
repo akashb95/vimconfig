@@ -1,4 +1,3 @@
-vim.o.autoread = true
 vim.o.swapfile = false
 vim.o.clipboard = 'unnamedplus'
 
@@ -123,7 +122,12 @@ require("lualine").setup({
 
 require("nvim-treesitter.configs").setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
-  highlight = { enabled = true, },
+  highlight = { enabled = true },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  },
   indent = { enabled = true, },
   playground = { enable = true },
   incremental_selection = {
@@ -133,11 +137,6 @@ require("nvim-treesitter.configs").setup({
           scope_incremental = "n",
           node_decremental = "N",
       },
-  },
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = 2000,
   },
   textobjects = {
       select = {
@@ -179,9 +178,6 @@ require("nvim-treesitter.configs").setup({
       },
   },
 })
-vim.o.foldmethod = "expr";
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldenable = false
 
 -- cmp config
 local cmp = require('cmp')
@@ -301,3 +297,6 @@ vim.cmd "colorscheme darcula"
 
 -- Smooth scrolling
 require('neoscroll').setup()
+
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"

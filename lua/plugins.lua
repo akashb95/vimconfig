@@ -88,7 +88,11 @@ return require('packer').startup(function(use)
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter" }
   use { "nvim-treesitter/nvim-treesitter-textobjects" }
-  use { "p00f/nvim-ts-rainbow" }
+  use {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function () require("treesitter-context").setup({}) end,
+  }
+  use { "mrjones2014/nvim-ts-rainbow" }
 
   -- Autocompletion
   use { "hrsh7th/nvim-cmp" }

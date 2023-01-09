@@ -1,4 +1,3 @@
-vim.o.autoread = true
 vim.o.swapfile = false
 vim.o.clipboard = 'unnamedplus'
 
@@ -41,6 +40,17 @@ vim.o.termguicolors = true
 vim.o.updatetime = 80
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+-- Folding
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+local ufo = require("ufo")
+vim.keymap.set('n', 'zR', ufo.openAllFolds)
+vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor)
 
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 
@@ -123,7 +133,12 @@ require("lualine").setup({
 
 require("nvim-treesitter.configs").setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
-  highlight = { enabled = true, },
+  highlight = { enabled = true },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  },
   indent = { enabled = true, },
   playground = { enable = true },
   incremental_selection = {
@@ -133,11 +148,6 @@ require("nvim-treesitter.configs").setup({
           scope_incremental = "n",
           node_decremental = "N",
       },
-  },
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = 2000,
   },
   textobjects = {
       select = {
@@ -179,9 +189,6 @@ require("nvim-treesitter.configs").setup({
       },
   },
 })
-vim.o.foldmethod = "expr";
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldenable = false
 
 -- cmp config
 local cmp = require('cmp')
@@ -317,3 +324,4 @@ require("telescope").setup({
     },
   }
 })
+

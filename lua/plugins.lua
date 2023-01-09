@@ -88,7 +88,17 @@ return require('packer').startup(function(use)
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter" }
   use { "nvim-treesitter/nvim-treesitter-textobjects" }
-  use { "p00f/nvim-ts-rainbow" }
+  use {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function () require("treesitter-context").setup({}) end,
+  }
+  use { "mrjones2014/nvim-ts-rainbow" }
+
+  -- Folding
+  use {
+    "kevinhwang91/nvim-ufo",
+    requires = {"kevinhwang91/promise-async"},
+  }
 
   -- Autocompletion
   use { "hrsh7th/nvim-cmp" }
@@ -118,7 +128,14 @@ return require('packer').startup(function(use)
   }
 
   -- Telescope
-  use { "nvim-telescope/telescope.nvim", tag = "0.1.0" }
+  use {
+    "nvim-telescope/telescope.nvim",
+    config = function() require("telescope").load_extension("live_grep_args") end,
+    requires = {
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+    },
+    tag = "0.1.0",
+  }
   use { "vijaymarupudi/nvim-fzf" }
 
   use { "windwp/nvim-autopairs" }

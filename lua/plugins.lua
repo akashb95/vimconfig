@@ -78,6 +78,7 @@ return require('packer').startup(function(use)
 
   -- Git signs
   use { "lewis6991/gitsigns.nvim" }
+  use { "f-person/git-blame.nvim" }
 
   -- statusline - lualine
   use {

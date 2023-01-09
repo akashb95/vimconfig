@@ -301,3 +301,19 @@ vim.cmd "colorscheme darcula"
 
 -- Smooth scrolling
 require('neoscroll').setup()
+
+-- Telescope configuration
+require("telescope").setup({
+  defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim",
+    },
+  }
+})

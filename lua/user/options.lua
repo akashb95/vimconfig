@@ -119,24 +119,6 @@ require("nvim-tree").setup({
   },
 })
 
-require("gitsigns").setup({
-  update_debounce = 200,
-  current_line_blame_opts = {
-    virt_text_pos = "right_align",
-    ignore_whitespace = true,
-  },
-})
-
-git_blame = require("gitblame")
-require("lualine").setup({
-  options = { theme = "dracula" },
-  sections = {
-    lualine_c = {
-      { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available }
-    }
-  }
-})
-
 require("nvim-treesitter.configs").setup({
   ensure_installed = {"python", "go", "lua", "json", "yaml", "proto"},
   highlight = { enabled = true },

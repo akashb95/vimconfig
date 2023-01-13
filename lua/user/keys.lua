@@ -28,10 +28,10 @@ local telescope_extensions = require("telescope").extensions
 local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
 if reporoot_ok then
   vim.keymap.set("n", "<leader>fg", function() telescope_extensions.live_grep_args.live_grep_args() end)
-  vim.keymap.set("n", "<C-f>", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
+  vim.keymap.set("n", "<leader>ff", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
 else
   vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, {})
-  vim.keymap.set("n", "<C-f>", telescope_builtin.find_files, {})
+  vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, {})
 end
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, {})

@@ -22,7 +22,7 @@ lspconfig.pyright.setup({
         autoSearchPaths = true,
         diagnosticMode = "workspace",
         useLibraryCodeForTypes = true,
-        typeCheckingMode = "strict",
+        -- typeCheckingMode = "strict",
         extraPaths = {
           "/home/akash/src/",
           "/home/akash/src/plz-out/gen",
@@ -59,6 +59,8 @@ lspconfig.please = {
         root_dir = lspconfig.util.root_pattern(".plzconfig"),
     },
 }
+
+lspconfig.sqlls.setup({capabilities = capabilities})
 
 -- Enable folding
 require("ufo").setup()

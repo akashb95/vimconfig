@@ -130,14 +130,20 @@ return require('packer').startup(function(use)
 
   -- Telescope
   use {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "/opt/homebrew/bin/cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && /opt/homebrew/bin/cmake --build build --config Release && /opt/homebrew/bin/cmake --install build --prefix build",
+  }
+  use {
     "nvim-telescope/telescope.nvim",
-    config = function() require("telescope").load_extension("live_grep_args") end,
+    config = function()
+      local t = require("telescope")
+      t.load_extension("live_grep_args")
+    end,
     requires = {
       { "nvim-telescope/telescope-live-grep-args.nvim" },
     },
     tag = "0.1.0",
   }
-  use { "vijaymarupudi/nvim-fzf" }
 
   use { "windwp/nvim-autopairs" }
 
@@ -158,9 +164,6 @@ return require('packer').startup(function(use)
     "marcuscaisey/please.nvim",
     requires = { "mfussenegger/nvim-dap" }
   }
-
-  -- Formatter
-  -- use { "sbdchd/neoformat" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

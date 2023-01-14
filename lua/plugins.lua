@@ -131,13 +131,12 @@ return require('packer').startup(function(use)
   -- Telescope
   use {
     "nvim-telescope/telescope-fzf-native.nvim",
-    run = "/opt/homebrew/bin/cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && /opt/homebrew/bin/cmake --build build --config Release && /opt/homebrew/bin/cmake --install build --prefix build",
+    run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
   }
   use {
     "nvim-telescope/telescope.nvim",
     config = function()
-      local t = require("telescope")
-      t.load_extension("live_grep_args")
+      require("telescope").load_extension("live_grep_args")
     end,
     requires = {
       { "nvim-telescope/telescope-live-grep-args.nvim" },

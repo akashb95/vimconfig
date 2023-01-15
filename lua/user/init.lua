@@ -1,6 +1,7 @@
 require("user.options")
 require("user.keys")
 
+require("user.autocommands")
 require("user.cmp")
 require("user.gitsigns")
 require("user.nvim-autopairs")

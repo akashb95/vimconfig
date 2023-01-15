@@ -49,13 +49,13 @@ local telescope_builtin = require("telescope.builtin")
 local telescope_extensions = require("telescope").extensions
 local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
 if reporoot_ok then
-  vim.api.nvim_set_keymap(
-    "n",
-    "<leader>ff",
-    string.format("<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = '${reporoot}' })<CR>", {reporoot=reporoot}),
-    {noremap = true, silent = true}
-  )
-  -- vim.keymap.set("n", "<leader>ff", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
+  -- vim.api.nvim_set_keymap(
+  --   "n",
+  --   "<leader>ff",
+  --   string.format("<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = '${reporoot}' })<CR>", {reporoot=reporoot}),
+  --   {noremap = true, silent = true}
+  -- )
+  vim.keymap.set("n", "<leader>ff", function() telescope_builtin.find_files({ cwd = reporoot[1] }) end)
   vim.keymap.set(
     "n",
     "<leader>fg",
@@ -64,17 +64,17 @@ if reporoot_ok then
     end
   )
 else
-  -- vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, {})
-  vim.api.nvim_set_keymap(
-    "n",
-    "<leader>ff",
-    "<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = 'CWD' })<CR>",
-    {noremap = true, silent = true}
-  )
+  vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, {})
+  -- vim.api.nvim_set_keymap(
+  --   "n",
+  --   "<leader>ff",
+  --   "<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = 'CWD' })<CR>",
+  --   {noremap = true, silent = true}
+  -- )
   vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, {})
 end
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, {})
 
 telescope.load_extension("fzf")
-telescope.load_extension("frecency")
+-- telescope.load_extension("frecency")

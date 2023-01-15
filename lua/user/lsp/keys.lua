@@ -24,7 +24,7 @@ vim.keymap.set('n', '<F6>', vim.lsp.buf.rename)
 
 -- Selects a code action available at the current cursor position
 vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action)
-vim.keymap.set('x', '<F4>', vim.lsp.buf.range_code_action)
+-- vim.keymap.set('x', '<F4>', vim.lsp.buf.range_code_action)
 
 -- Show diagnostics in a floating window
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float)

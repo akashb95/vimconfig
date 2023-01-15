@@ -45,6 +45,7 @@ return require('packer').startup(function(use)
   use { "nvim-lua/plenary.nvim" }
   use { "nvim-tree/nvim-web-devicons" }
   use { "folke/neodev.nvim" }
+  use { "kkharji/sqlite.lua" }
 
   -- Surround
   use {
@@ -143,6 +144,7 @@ return require('packer').startup(function(use)
     },
     tag = "0.1.0",
   }
+  use { "nvim-telescope/telescope-frecency.nvim" }
 
   use { "windwp/nvim-autopairs" }
 
@@ -163,6 +165,41 @@ return require('packer').startup(function(use)
     "marcuscaisey/please.nvim",
     requires = { "mfussenegger/nvim-dap" }
   }
+
+  -- Make quickfix entries prettier (e.g. when using `gr`).
+  use {
+    "https://gitlab.com/yorickpeterse/nvim-pqf",
+    config = function() require("pqf").setup() end
+  }
+
+  -- Copy text and put on system clipboard.
+  use {
+    "ojroques/nvim-osc52",
+    config = function()
+      osc52 = require("osc52")
+      osc52.setup({trim = true}) -- Trim text before copy
+
+      local function copy()
+        if vim.v.event.operator == 'y' and vim.v.event.regname == 'c' then
+          osc52.copy_register("c")
+        end
+      end
+      vim.api.nvim_create_autocmd("TextYankPost", {callback = copy})
+    end
+  }
+
+  -- use {
+  --   "folke/which-key.nvim",
+  --   config = function()
+  --     vim.o.timeout = true
+  --     vim.o.timeoutlen = 300
+  --     require("which-key").setup {
+  --       -- your configuration comes here
+  --       -- or leave it empty to use the default settings
+  --       -- refer to the configuration section below
+  --     }
+  --   end
+  -- }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

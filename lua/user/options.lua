@@ -114,10 +114,3 @@ vim.cmd "colorscheme darcula"
 -- Smooth scrolling
 require('neoscroll').setup()
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.cmd("let @* = @_")
-	end,
-	group = vim.api.nvim_create_augroup("clipboard", { clear = true }),
-})
-

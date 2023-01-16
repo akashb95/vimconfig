@@ -45,7 +45,7 @@ return require('packer').startup(function(use)
   use { "nvim-lua/plenary.nvim" }
   use { "nvim-tree/nvim-web-devicons" }
   use { "folke/neodev.nvim" }
-  -- use { "kkharji/sqlite.lua" }
+  use { "kkharji/sqlite.lua" }  -- Ensure SQLite also installed on OS.
 
   -- Surround
   use {
@@ -144,7 +144,7 @@ return require('packer').startup(function(use)
     },
     tag = "0.1.0",
   }
-  -- use { "nvim-telescope/telescope-frecency.nvim" }
+  use { "nvim-telescope/telescope-frecency.nvim" }
 
   use { "windwp/nvim-autopairs" }
 

@@ -7,6 +7,7 @@ require("nvim-treesitter.configs").setup({
     max_file_lines = nil,
   },
   indent = { enabled = true, },
+  markid = { enable = true },
   playground = { enable = true },
   incremental_selection = {
       enable = true,
@@ -25,6 +26,12 @@ require("nvim-treesitter.configs").setup({
               ["if"] = "@function.inner",
               ["ap"] = "@parameter.outer",
               ["ip"] = "@parameter.inner",
+              ["iC"] = "@class.inner",
+              ["aC"] = "@class.outer",
+              ["il"] = "@loop.inner",
+              ["al"] = "@loop.outer",
+              ["ar"] = "@call.outer",
+              ["ir"] = "@call.inner",
           },
       },
       move = {
@@ -33,16 +40,25 @@ require("nvim-treesitter.configs").setup({
           goto_next_start = {
               ["]f"] = "@function.outer",
               ["]p"] = "@parameter.outer",
+              ["]C"] = "@class.outer",
+              ["]l"] = "@loop.outer",
           },
           goto_previous_start = {
-              ["]f"] = "@function.outer",
+              ["[f"] = "@function.outer",
+              ["[p"] = "@parameter.outer",
+              ["[C"] = "@class.outer",
+              ["[l"] = "@loop.outer",
           },
           goto_next_end = {
-              ["[f"] = "@function.outer",
-              ["[a"] = "@paramter.inner",
+              ["]F"] = "@function.inner",
+              ["]P"] = "@parameter.inner",
+              ["[L"] = "@loop.outer",
+              ["]L"] = "@loop.outer",
           },
           goto_previous_end = {
-              ["[f"] = "@function.outer",
+              ["[F"] = "@function.inner",
+              ["[P"] = "@parameter.inner",
+              ["[L"] = "@loop.outer",
           },
       },
       swap = {

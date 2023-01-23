@@ -107,6 +107,8 @@ return require('packer').startup(function(use)
     "nvim-treesitter/nvim-treesitter-context",
     config = function () require("treesitter-context").setup() end,
   }
+  use { "nvim-treesitter/playground" }
+  use { "David-Kunz/markid" }
   use { "mrjones2014/nvim-ts-rainbow" }
 
   -- Folding
@@ -177,7 +179,11 @@ return require('packer').startup(function(use)
   use { "windwp/nvim-autopairs" }
 
   -- Darcula theme
-  use { "doums/darcula" }
+  -- use { "doums/darcula" }
+  use {
+    "briones-gabriel/darcula-solid.nvim",
+    requires = "rktjmp/lush.nvim",
+  }
 
   -- Smooth scrolling
   use { "karb94/neoscroll.nvim" }
@@ -216,18 +222,17 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- use {
-  --   "folke/which-key.nvim",
-  --   config = function()
-  --     vim.o.timeout = true
-  --     vim.o.timeoutlen = 300
-  --     require("which-key").setup {
-  --       -- your configuration comes here
-  --       -- or leave it empty to use the default settings
-  --       -- refer to the configuration section below
-  --     }
-  --   end
-  -- }
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+      }
+    end
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -109,7 +109,8 @@ vim.diagnostic.config({
   }
 })
 
-vim.cmd "colorscheme darcula"
+-- vim.cmd "colorscheme darcula"
+vim.cmd "colorscheme darcula-solid"
 
 -- Smooth scrolling
 require('neoscroll').setup()

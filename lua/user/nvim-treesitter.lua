@@ -39,7 +39,7 @@ require("nvim-treesitter.configs").setup({
           },
           goto_next_end = {
               ["[f"] = "@function.outer",
-              ["[a"] = "@paramter.inner",
+              ["[a"] = "@parameter.inner",
           },
           goto_previous_end = {
               ["[f"] = "@function.outer",

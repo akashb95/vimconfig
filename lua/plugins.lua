@@ -81,6 +81,19 @@ return require('packer').startup(function(use)
   use { "lewis6991/gitsigns.nvim" }
   use { "f-person/git-blame.nvim" }
 
+  -- Scrollbar
+  use {
+    "petertriho/nvim-scrollbar",
+  }
+  use {
+    "kevinhwang91/nvim-hlslens",
+    config = function()
+      require("scrollbar.handlers.search").setup({
+        calm_down=true,
+      })
+    end,
+  }
+
   -- statusline - lualine
   use {
     "nvim-lualine/lualine.nvim",
@@ -92,7 +105,7 @@ return require('packer').startup(function(use)
   use { "nvim-treesitter/nvim-treesitter-textobjects" }
   use {
     "nvim-treesitter/nvim-treesitter-context",
-    config = function () require("treesitter-context").setup({}) end,
+    config = function () require("treesitter-context").setup() end,
   }
   use { "mrjones2014/nvim-ts-rainbow" }
 
@@ -127,6 +140,21 @@ return require('packer').startup(function(use)
       bind = true,
       hint_enable = false,
     }) end,
+  }
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup({})
+    end
+  }
+  use {
+    "RRethy/vim-illuminate",
+    config = function ()
+      require("illuminate").configure({
+        providers = {"lsp", "treesitter", "regex"},
+        delay = 50,
+      })
+    end
   }
 
   -- Telescope
@@ -176,7 +204,7 @@ return require('packer').startup(function(use)
   use {
     "ojroques/nvim-osc52",
     config = function()
-      osc52 = require("osc52")
+      local osc52 = require("osc52")
       osc52.setup({trim = true}) -- Trim text before copy
 
       local function copy()

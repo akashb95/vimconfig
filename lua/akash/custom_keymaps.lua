@@ -1,6 +1,6 @@
 -- Linebreaks
-vim.keymap.set('n', '<C-CR>', 'i<CR><ESC>', {})
-vim.keymap.set('n', '<S-CR>', 'O<ESC>', {})
+vim.keymap.set('n', '<C-CR>', 'i<cr><esc>', {})
+vim.keymap.set('n', '<S-CR>', 'O<esc>', {})
 
 -- Insert-mode navigation
 vim.keymap.set("i", "jj", "<esc>")

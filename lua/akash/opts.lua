@@ -46,6 +46,9 @@ vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 
 require("file_types").setup({
@@ -108,10 +111,3 @@ vim.diagnostic.config({
     prefix = "",
   }
 })
-
--- vim.cmd "colorscheme darcula"
-vim.cmd "colorscheme darcula-solid"
-
--- Smooth scrolling
-require('neoscroll').setup()
-

@@ -53,11 +53,14 @@ return packer.startup(
         { "kkharji/sqlite.lua" } -- Ensure SQLite also installed on OS.
       }
     }
-    use {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      run =
-      "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-    }
+    -- use {
+    --   "nvim-telescope/telescope-fzf-native.nvim",
+    --   run =
+    --   "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+    -- }
+    use { "junegunn/fzf", run = ":call fzf#install()" }
+    use { "junegunn/fzf.vim" }
+    use { "fspv/sourcegraph.nvim" }
 
     -- Theme
     use {
@@ -73,7 +76,13 @@ return packer.startup(
     use { "nvim-tree/nvim-web-devicons" }
 
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-    use { "nvim-treesitter/nvim-treesitter-textobjects" }
+    use {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      after = "nvim-treesitter",
+      requires = {
+        { "nvim-treesitter/nvim-treesitter" },
+      }
+    }
     use {
       "nvim-treesitter/nvim-treesitter-context",
       config = function() require("treesitter-context").setup() end,
@@ -111,13 +120,13 @@ return packer.startup(
         -- LSP Support
         { "neovim/nvim-lspconfig" }, -- Required
 
-        {
-          "williamboman/mason.nvim",
-          run = function()
-            pcall(vim.cmd, 'MasonUpdate')
-          end,
-        },                                       -- Optional
-        { "williamboman/mason-lspconfig.nvim" }, -- Optional
+        -- {
+        -- "williamboman/mason.nvim",
+        -- run = function()
+        --   pcall(vim.cmd, 'MasonUpdate')
+        -- end,
+        -- },                                       -- Optional
+        -- { "williamboman/mason-lspconfig.nvim" }, -- Optional
 
         -- Autocompletion
         { "hrsh7th/nvim-cmp" },     -- Required
@@ -129,6 +138,8 @@ return packer.startup(
         { "lukas-reineke/cmp-rg" },
       }
     }
+
+    -- use { "stevearc/conform.nvim" }
 
     use {
       "folke/which-key.nvim",
@@ -154,6 +165,7 @@ return packer.startup(
       "marcuscaisey/please.nvim",
       requires = { "mfussenegger/nvim-dap" },
     }
+    use { "yorickpeterse/nvim-pqf" }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

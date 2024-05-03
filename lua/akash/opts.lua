@@ -1,5 +1,5 @@
 vim.o.swapfile = false
-vim.o.clipboard = 'unnamedplus'
+vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
 vim.o.spell = false
 

@@ -111,3 +111,5 @@ vim.diagnostic.config({
     prefix = "",
   }
 })
+
+vim.opt.runtimepath:append(',~/.config/nvim/lua')

@@ -4,6 +4,32 @@ local wk = require("which-key")
 
 telescope.setup({
   defaults = {
+    cache_picker = {
+      num_pickers = 2,
+      limit_entries = 500,
+    },
+    layout_config = {
+      bottom_pane = {
+        height = 25,
+        preview_cutoff = 120,
+        prompt_position = "top"
+      },
+      horizontal = {
+        height = 0.9,
+        preview_cutoff = 120,
+        prompt_position = "bottom",
+        width = 0.9
+      },
+      vertical = {
+        height = 0.9,
+        preview_cutoff = 40,
+        prompt_position = "bottom",
+        width = 0.9
+      }
+    },
+    preview = {
+      timeout = 500,
+    },
     vimgrep_arguments = {
       "rg",
       "--color=never",
@@ -14,6 +40,7 @@ telescope.setup({
       "--smart-case",
       "--trim",
     },
+    wrap_results = true,
   },
   extensions = {
     frecency = {
@@ -47,11 +74,11 @@ wk.register({
     f = {
       "+find",
       f = {
-        builtin.find_files,
+        function() builtin.find_files({ layout_strategy = "vertical" }) end,
         "Files",
       },
       g = {
-        builtin.git_files,
+        function() builtin.git_files({ layout_strategy = "vertical" }) end,
         "Git files",
       },
       r = {
@@ -65,6 +92,10 @@ wk.register({
         end,
         "Recent files"
       },
+    },
+    h = {
+      function() builtin.search_history({ layout_strategy = "vertical" }) end,
+      "Search history",
     },
     s = { search, "Search for string (grep)" },
   },

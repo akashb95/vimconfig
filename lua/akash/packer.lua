@@ -58,6 +58,9 @@ return packer.startup(
       run =
       "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     }
+    use { "junegunn/fzf", run = ":call fzf#install()" }
+    use { "junegunn/fzf.vim" }
+    use { "fspv/sourcegraph.nvim" }
 
     -- Theme
     use {
@@ -72,8 +75,21 @@ return packer.startup(
     use { "nvim-tree/nvim-tree.lua", tag = "nightly" }
     use { "nvim-tree/nvim-web-devicons" }
 
-    use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-    use { "nvim-treesitter/nvim-treesitter-textobjects" }
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      run = ":TSUpdate",
+      requires = {
+        { "nvim-treesitter/nvim-treesitter-context" },
+        { "nvim-treesitter/nvim-treesitter-textobjects" },
+      },
+    }
+    use {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      -- after = "nvim-treesitter",
+      -- requires = {
+      --   { "nvim-treesitter/nvim-treesitter" },
+      -- }
+    }
     use {
       "nvim-treesitter/nvim-treesitter-context",
       config = function() require("treesitter-context").setup() end,
@@ -130,6 +146,8 @@ return packer.startup(
       }
     }
 
+    -- use { "stevearc/conform.nvim" }
+
     use {
       "folke/which-key.nvim",
       config = function()
@@ -154,6 +172,7 @@ return packer.startup(
       "marcuscaisey/please.nvim",
       requires = { "mfussenegger/nvim-dap" },
     }
+    use { "yorickpeterse/nvim-pqf" }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

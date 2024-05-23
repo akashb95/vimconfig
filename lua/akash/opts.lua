@@ -1,5 +1,5 @@
 vim.o.swapfile = false
-vim.o.clipboard = 'unnamedplus'
+vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
 vim.o.spell = false
 
@@ -111,3 +111,5 @@ vim.diagnostic.config({
     prefix = "",
   }
 })
+
+vim.opt.runtimepath:append(',~/.config/nvim/lua')

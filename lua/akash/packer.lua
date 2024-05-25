@@ -19,7 +19,7 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost packer.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -168,9 +168,19 @@ return packer.startup(
 
     -- Workflow particulars.
     use { "iamcco/markdown-preview.nvim", cmd = "MarkdownPreview" }
+    use { "rcarriga/nvim-dap-ui",
+      requires = {
+        "mfussenegger/nvim-dap",
+        "nvim-neotest/nvim-nio",
+      }
+    }
     use {
       "marcuscaisey/please.nvim",
-      requires = { "mfussenegger/nvim-dap" },
+      requires = {
+        "mfussenegger/nvim-dap",
+        "stevearc/dressing.nvim",
+        "rcarriga/nvim-dap-ui",
+      },
     }
     use { "yorickpeterse/nvim-pqf" }
 

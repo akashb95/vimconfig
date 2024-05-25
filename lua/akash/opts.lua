@@ -1,4 +1,9 @@
-vim.o.swapfile = false
+vim.g.mapleader = '\\'
+vim.g.maplocalleader = '\\'
+
+-- Set to true if you have a Nerd Font installed
+vim.g.have_nerd_font = os.getenv('NERD_FONT') ~= vim.o.swapfile == false
+
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
 vim.o.spell = false
@@ -52,64 +57,68 @@ vim.g.loaded_netrwPlugin = 1
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 
 require("file_types").setup({
-  lua = {
-    tab_size = 2,
-    text_width = 120,
-  },
-  javascript = {
-    tab_size = 2,
-  },
-  typescript = {
-    tab_size = 2,
-  },
-  json = {
-    tab_size = 2,
-  },
-  jsonc = {
-    tab_size = 2,
-  },
-  python = {
-    text_width = 120,
-  },
-  go = {
-    text_width = 120,
-    indent_with_tabs = false,
-  },
-  proto = {
-    text_width = 120,
-  },
-  query = {
-    tab_size = 2,
-  },
-  zsh = {
-    tab_size = 2,
-  },
-  markdown = {
-    text_width = 120,
-    auto_wrap = true,
-  },
-  html = {
-    tab_size = 2,
-  },
-  sql = {
-    tab_size = 2,
-    text_width = 120,
-  },
-  please = {
-    text_width = 120,
-  },
+	lua = {
+		tab_size = 2,
+		text_width = 120,
+	},
+	javascript = {
+		tab_size = 2,
+	},
+	typescript = {
+		tab_size = 2,
+	},
+	json = {
+		tab_size = 2,
+	},
+	jsonc = {
+		tab_size = 2,
+	},
+	python = {
+		text_width = 120,
+	},
+	go = {
+		text_width = 120,
+		indent_with_tabs = false,
+	},
+	proto = {
+		text_width = 120,
+	},
+	query = {
+		tab_size = 2,
+	},
+	zsh = {
+		tab_size = 2,
+	},
+	markdown = {
+		text_width = 120,
+		auto_wrap = true,
+	},
+	html = {
+		tab_size = 2,
+	},
+	sql = {
+		tab_size = 2,
+		text_width = 120,
+	},
+	please = {
+		text_width = 120,
+	},
 })
 
 vim.diagnostic.config({
-  severity_sort = true,
-  update_in_insert = true,
-  virtual_text = true,
-  float = {
-    border = "rounded",
-    source = "always",
-    header = "",
-    prefix = "",
-  }
+	severity_sort = true,
+	update_in_insert = true,
+	virtual_text = true,
+	float = {
+		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
+	}
 })
 
-vim.opt.runtimepath:append(',~/.config/nvim/lua')
+vim.filetype.add({
+	filename = {
+		['new-commit'] = 'arcdiff',
+	},
+})

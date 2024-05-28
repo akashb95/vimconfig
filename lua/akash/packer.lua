@@ -85,10 +85,6 @@ return packer.startup(
     }
     use {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      -- after = "nvim-treesitter",
-      -- requires = {
-      --   { "nvim-treesitter/nvim-treesitter" },
-      -- }
     }
     use {
       "nvim-treesitter/nvim-treesitter-context",
@@ -113,7 +109,6 @@ return packer.startup(
       "kevinhwang91/nvim-ufo",
       requires = { "kevinhwang91/promise-async" },
     }                               -- folding
-    use { "RRethy/vim-illuminate" } -- Highlight other occurrences of identifier under cursor
     use { "kevinhwang91/nvim-hlslens" }
     use { "karb94/neoscroll.nvim" } -- Smooth-scrolling
     use { "petertriho/nvim-scrollbar" }
@@ -172,6 +167,7 @@ return packer.startup(
       requires = {
         "mfussenegger/nvim-dap",
         "nvim-neotest/nvim-nio",
+        "theHamsta/nvim-dap-virtual-text",
       }
     }
     use {

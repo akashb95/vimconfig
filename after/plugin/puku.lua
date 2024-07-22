@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       end
     end
 
-    vim.fn.jobstart({ 'puku', 'fmt', args.file }, {
+    vim.fn.jobstart({ 'plz', 'puku', 'fmt', args.file }, {
       on_stdout = on_event,
       on_stderr = on_event,
       stdout_buffered = true,

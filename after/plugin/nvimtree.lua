@@ -13,7 +13,7 @@ nvim_tree.setup({
   },
   respect_buf_cwd = true,
   sort_by = "case_sensitive",
-  sync_root_with_cwd = true,
+  -- sync_root_with_cwd = true,
   view = {
     adaptive_size = true,
     mappings = {

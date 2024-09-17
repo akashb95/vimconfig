@@ -3,10 +3,8 @@ local wk = require("which-key")
 
 ufo.setup()
 
-wk.register({
-  z = {
-    name = "Fold",
-    R = { ufo.openAllFolds(), "Open all folds" },
-    M = { ufo.closeAllFolds(), "Close all folds" },
-  }
+wk.add({
+  { "z",  group = "Fold" },
+  { "zR", ufo.openAllFolds,  desc = "[R]eset (open all folds)" },
+  { "zM", ufo.closeAllFolds, desc = "[M]inimize (close all folds)" },
 })

@@ -79,7 +79,7 @@ local on_attach_lsp = function(_, bufnr)
 
   vim.keymap.set(
     { "n", "x" },
-    "gf",
+    "<leader>fmt",
     function() vim.lsp.buf.format({ async = false, timeout_ms = _lsp_format_timeout }) end,
     opts
   )
@@ -91,19 +91,30 @@ local on_attach_lsp = function(_, bufnr)
     opts
   )
 
-  wk.register({
-    g = {
-      name = "LSP actions",
-      d = { "Go to definition" },
-      D = { "Go to declaration" },
-      f = { "Format buffer" },
-      i = { "List all implementations for symbol under cursor in quickfix" },
-      l = { "Diagnostic float" },
-      o = { "Go to type definition " },
-      r = { "Go to references" },
-    },
-    K = { name = "Display hover info about symbol under the cursor in a float." },
+  wk.add({
+    g = { group = "[g]o to..." },
+    gd = { desc = "[g]o to [d]efinition" },
+    gD = { desc = "[g]o to [D]eclaration" },
+    gi = { desc = "[g]o to all [i]mplementations for symbol under cursor in quickfix" },
+    gl = { desc = "[g]o to diagnostic f[l]oat" },
+    go = { desc = "[g]o to type definition for [o]bject" },
+    gr = { desc = "[g]o to references" },
+    K = { desc = "Do[K]umentation float" }
   })
+
+  -- wk.register({
+  --   g = {
+  --     name = "LSP actions",
+  --     d = { "Go to definition" },
+  --     D = { "Go to declaration" },
+  --     f = { "Format buffer" },
+  --     i = { "List all implementations for symbol under cursor in quickfix" },
+  --     l = { "Diagnostic float" },
+  --     o = { "Go to type definition " },
+  --     r = { "Go to references" },
+  --   },
+  --   K = { name = "Display hover info about symbol under the cursor in a float." },
+  -- })
 end
 
 lspzero.on_attach(on_attach_lsp)

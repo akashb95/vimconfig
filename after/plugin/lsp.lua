@@ -1,6 +1,8 @@
 local lspzero = require("lsp-zero")
 local telescope_builtin = require("telescope.builtin")
 local wk = require("which-key")
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 
 local _lsp_format_timeout = 2000 -- Milliseconds
 
@@ -19,7 +21,6 @@ lspzero.ensure_installed({
 })
 
 -- Autocomplete
-local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lspzero.defaults.cmp_mappings({
   -- Navigate suggestions.
@@ -30,27 +31,69 @@ local cmp_mappings = lspzero.defaults.cmp_mappings({
     behavior = cmp.ConfirmBehavior.Insert,
     select = true
   }),
-  ["<Tab>"] = cmp.mapping.confirm({
-    behavior = cmp.ConfirmBehavior.Replace,
-    select = true
-  }),
+  ["<Tab>"] = cmp.mapping(
+    function(fallback)
+      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+      if cmp.visible() then
+        local entry = cmp.get_selected_entry()
+        if not entry then
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        end
+        cmp.confirm()
+      else
+        fallback()
+      end
+    end,
+    { "i", "s", "c", }
+  ),
 })
 
 lspzero.setup_nvim_cmp({ mapping = cmp_mappings })
+
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
 
 cmp.setup({
   completion = {
     completeopt = "menu,menuone,noinsert"
   },
   preselect = "item",
+
   sources = {
     { name = "nvim_lsp" },
+    { name = "luasnip" },
     { name = "nvim_lua" },
-    { name = "rg",      keyword_length = 2 },
-    { name = "path",    option = { trailing_slash = true, label_trailing_slash = true } },
     { name = "buffer",  keyword_length = 3 },
-    { name = "luasnip", keyword_length = 2 },
+    { name = "path",    option = { trailing_slash = true, label_trailing_slash = true } },
+    { name = "rg",      keyword_length = 2 },
   },
+
+  ["<CR>"] = cmp.mapping.confirm { select = true },
+  ["<Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif luasnip.expand_or_jumpable() then
+      luasnip.expand_or_jump()
+    elseif has_words_before() then
+      cmp.complete()
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+  ["<S-Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    elseif luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+
+  snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
 })
 
 cmp.setup.cmdline(":", {
@@ -101,20 +144,6 @@ local on_attach_lsp = function(_, bufnr)
     gr = { desc = "[g]o to references" },
     K = { desc = "Do[K]umentation float" }
   })
-
-  -- wk.register({
-  --   g = {
-  --     name = "LSP actions",
-  --     d = { "Go to definition" },
-  --     D = { "Go to declaration" },
-  --     f = { "Format buffer" },
-  --     i = { "List all implementations for symbol under cursor in quickfix" },
-  --     l = { "Diagnostic float" },
-  --     o = { "Go to type definition " },
-  --     r = { "Go to references" },
-  --   },
-  --   K = { name = "Display hover info about symbol under the cursor in a float." },
-  -- })
 end
 
 lspzero.on_attach(on_attach_lsp)

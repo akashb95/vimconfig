@@ -115,6 +115,8 @@ return packer.startup(
     use { "ojroques/nvim-osc52" }
     use { "folke/todo-comments.nvim" }
 
+    use { 'saadparwaiz1/cmp_luasnip' }
+
     use {
       "VonHeikemen/lsp-zero.nvim",
       branch = 'v2.x',

@@ -92,7 +92,10 @@ return packer.startup(
     }
 
     use { "tpope/vim-fugitive" }
-    use { "lewis6991/gitsigns.nvim" }
+    use {
+      "lewis6991/gitsigns.nvim",
+      requires = { "echasnovski/mini.icons" },
+    }
     use { "f-person/git-blame.nvim" }
 
     -- Editor essentials.

@@ -1,8 +1,8 @@
 local gitsigns = require("gitsigns")
 local wk = require("which-key")
 
--- Reduce nesting because of WhichKey.
 local function on_attach(bufnr)
+  -- Navigation shortcuts
   vim.keymap.set(
     "n",
     "]c",
@@ -11,7 +11,7 @@ local function on_attach(bufnr)
       vim.schedule(function() gitsigns.next_hunk() end)
       return "<Ignore>"
     end,
-    { expr = true, buffer = bufnr }
+    { expr = true, buffer = bufnr, desc = "jump to next hunk" }
   )
   vim.keymap.set(
     "n",
@@ -21,18 +21,17 @@ local function on_attach(bufnr)
       vim.schedule(function() gitsigns.prev_hunk() end)
       return "<Ignore>"
     end,
-    { expr = true, buffer = bufnr }
+    { expr = true, buffer = bufnr, desc = "jump to prev hunk" }
   )
 
-  wk.register({
-    ["<leader>h"] = {
-      "Gitsigns",
-      d = { gitsigns.diffthis, "diff" },
-      D = { function() gitsigns.diffthis("~") end, "Diff against head" },
-      r = { gitsigns.reset_hunk, "reset hunk" },
-      R = { gitsigns.reset_buffer, "reset buffer" },
-      s = { gitsigns.stage_hunk, "stage hunk" },
-    }
+  wk.add({
+    { "<leader>g",   group = "[G]it" },
+    { "<leader>gd",  gitsigns.diffthis,                     desc = "[d]iff" },
+    { "<leader>gD",  function() gitsigns.diffthis("~") end, desc = "[D]iff against head" },
+    { "<leader>gr",  gitsigns.reset_hunk,                   desc = "[r]eset hunk" },
+    { "<leader>gr",  gitsigns.reset_buffer,                 desc = "[R]eset buffer" },
+    { "<leader>gsb", gitsigns.stage_buffer,                 desc = "[s]tage [b]uffer" },
+    { "<leader>gsh", gitsigns.stage_hunk,                   desc = "[s]tage [h]unk" },
   })
 end
 

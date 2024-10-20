@@ -112,14 +112,6 @@ local on_attach_lsp = function(_, bufnr)
   lspzero.buffer_autoformat()
 
   -- Set keybindings
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-
-  vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, opts)
-
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-
-  vim.keymap.set("n", "gr", function() telescope_builtin.lsp_references() end, opts)
-
   vim.keymap.set(
     { "n", "x" },
     "<leader>fmt",
@@ -134,16 +126,16 @@ local on_attach_lsp = function(_, bufnr)
     opts
   )
 
-  wk.add({
-    g = { group = "[g]o to..." },
-    gd = { desc = "[g]o to [d]efinition" },
-    gD = { desc = "[g]o to [D]eclaration" },
-    gi = { desc = "[g]o to all [i]mplementations for symbol under cursor in quickfix" },
-    gl = { desc = "[g]o to diagnostic f[l]oat" },
-    go = { desc = "[g]o to type definition for [o]bject" },
-    gr = { desc = "[g]o to references" },
-    K = { desc = "Do[K]umentation float" }
-  })
+  wk.add {
+    { "g",  group = "[g]o to..." },
+    { "gd", vim.lsp.buf.definition,                                            desc = "[d]efinition" },
+    { "gD", desc = "[D]eclaration" },
+    { "gi", desc = "all [i]mplementations for symbol under cursor in quickfix" },
+    { "gl", vim.diagnostic.open_float,                                         desc = "diagnostic f[l]oat" },
+    { "go", desc = "type definition for [o]bject" },
+    { "gr", telescope_builtin.lsp_references,                                  desc = "[g]o to references" },
+    { "K",  vim.lsp.buf.hover,                                                 desc = "Do[K]umentation float" },
+  }
 end
 
 lspzero.on_attach(on_attach_lsp)

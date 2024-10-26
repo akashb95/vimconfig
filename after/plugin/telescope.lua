@@ -54,50 +54,41 @@ telescope.setup({
         ["nvimconf"] = "$HOME/.config/nvim"
       },
     },
-  },
-  fzf = {
-    fuzzy = true,
-    override_generic_sorter = true,
-    override_file_sorter = true,
-    case_mode = "smart_case",
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    },
   },
 })
 
-local function search()
-  builtin.grep_string({ search = vim.fn.input("Grep > ") })
-end
-
-wk.register({
-  ["<leader>t"] = {
-    name = "+telescope",
-    b = { builtin.buffers, "Buffers" },
-    f = {
-      "+find",
-      f = {
-        function() builtin.find_files({ layout_strategy = "vertical" }) end,
-        "Files",
-      },
-      g = {
-        function() builtin.git_files({ layout_strategy = "vertical" }) end,
-        "Git files",
-      },
-      r = {
-        function()
-          local workspace = "CWD"
-          local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
-          if reporoot_ok then workspace = reporoot end
-          telescope.extensions.frecency.frecency(
-            { workspace = workspace }
-          )
-        end,
-        "Recent files"
-      },
-    },
-    h = {
-      function() builtin.search_history({ layout_strategy = "vertical" }) end,
-      "Search history",
-    },
-    s = { search, "Search for string (grep)" },
+wk.add({
+  { "<leader>t",   group = "telescope" },
+  { "<leader>tb",  builtin.buffers,                                                    desc = "Buffers" },
+  { "<leader>tf",  group = "find",                                                     desc = "find" },
+  { "<leader>tfg", function() builtin.git_files({ layout_strategy = "vertical" }) end, desc = "Git files" },
+  {
+    "<leader>tfr",
+    function()
+      local workspace = "CWD"
+      local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
+      if reporoot_ok then workspace = reporoot end
+      telescope.extensions.frecency.frecency(
+        { workspace = workspace }
+      )
+    end,
+    desc = "Recent files"
+  },
+  {
+    "<leader>th",
+    function() builtin.search_history({ layout_strategy = "vertical" }) end,
+    desc = "Search history"
+  },
+  {
+    "<leader>ts",
+    function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
+    desc = "Search for string (grep)"
   },
 })
 

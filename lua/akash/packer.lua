@@ -146,6 +146,10 @@ return packer.startup(
       }
     }
 
+    use {
+      "rust-lang/rust.vim",
+    }
+
     -- use { "stevearc/conform.nvim" }
 
     use {

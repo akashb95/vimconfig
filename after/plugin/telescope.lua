@@ -76,7 +76,7 @@ vim.keymap.set(
     -- Call Telescope live_grep with the escaped visual selection
     vim.cmd('Telescope live_grep default_text=' .. visual_selection)
   end,
-  { noremap = true, silent = true },
+  { noremap = true, silent = true }
 )
 
 wk.add({

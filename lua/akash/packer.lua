@@ -146,6 +146,11 @@ return packer.startup(
       }
     }
 
+    use {
+      "Wansmer/treesj",
+      requires = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
+    }
+
     -- use { "stevearc/conform.nvim" }
 
     use {

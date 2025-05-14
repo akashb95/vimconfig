@@ -46,12 +46,14 @@ require("nvim-treesitter.configs").setup({
         ["]P"] = "@parameter.outer",
         ["]C"] = "@class.outer",
         ["]l"] = "@loop.outer",
+        ["]s"] = "@call.outer",
       },
       goto_previous_start = {
         ["[f"] = "@function.outer",
         ["[P"] = "@parameter.outer",
         ["[C"] = "@class.outer",
         ["[l"] = "@loop.outer",
+        ["[s"] = "@call.outer",
       },
       goto_next_end = {
         [")f"] = "@function.outer",

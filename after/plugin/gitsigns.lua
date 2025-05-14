@@ -29,7 +29,7 @@ local function on_attach(bufnr)
     { "<leader>gd",  gitsigns.diffthis,                     desc = "[d]iff" },
     { "<leader>gD",  function() gitsigns.diffthis("~") end, desc = "[D]iff against head" },
     { "<leader>gr",  gitsigns.reset_hunk,                   desc = "[r]eset hunk" },
-    { "<leader>gr",  gitsigns.reset_buffer,                 desc = "[R]eset buffer" },
+    { "<leader>gR",  gitsigns.reset_buffer,                 desc = "[R]eset buffer" },
     { "<leader>gsb", gitsigns.stage_buffer,                 desc = "[s]tage [b]uffer" },
     { "<leader>gsh", gitsigns.stage_hunk,                   desc = "[s]tage [h]unk" },
   })

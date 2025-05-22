@@ -121,11 +121,29 @@ return packer.startup(
     use { 'saadparwaiz1/cmp_luasnip' }
 
     use {
+      "williamboman/mason.nvim",
+      run = function()
+        pcall(vim.cmd, 'MasonUpdate')
+      end,
+      requires = {
+        { "williamboman/mason-lspconfig.nvim" }, -- Optional
+        { "neovim/nvim-lspconfig" },             -- Required
+        -- Autocompletion
+        { "hrsh7th/nvim-cmp" },                  -- Required
+        { "hrsh7th/cmp-nvim-lsp" },              -- Required
+        { "L3MON4D3/LuaSnip" },                  -- Required
+        { "hrsh7th/cmp-path" },
+        { "hrsh7th/cmp-cmdline" },
+        { "hrsh7th/cmp-nvim-lua" },
+        { "lukas-reineke/cmp-rg" },
+      },
+    }
+
+    use {
       "VonHeikemen/lsp-zero.nvim",
       branch = 'v2.x',
       requires = {
         -- LSP Support
-        { "neovim/nvim-lspconfig" }, -- Required
 
         {
           "williamboman/mason.nvim",
@@ -134,15 +152,6 @@ return packer.startup(
           end,
         },                                       -- Optional
         { "williamboman/mason-lspconfig.nvim" }, -- Optional
-
-        -- Autocompletion
-        { "hrsh7th/nvim-cmp" },     -- Required
-        { "hrsh7th/cmp-nvim-lsp" }, -- Required
-        { "L3MON4D3/LuaSnip" },     -- Required
-        { "hrsh7th/cmp-path" },
-        { "hrsh7th/cmp-cmdline" },
-        { "hrsh7th/cmp-nvim-lua" },
-        { "lukas-reineke/cmp-rg" },
       }
     }
 

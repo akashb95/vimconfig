@@ -104,55 +104,6 @@ cmp.setup.cmdline(":", {
   ),
 })
 
--- LSP setup
-local on_attach_lsp = function(_, bufnr)
-  local opts = { buffer = bufnr, remap = false }
-
-  -- Use attached LSPs to format buffer on save. Ordering not guaranteed.
-  lspzero.buffer_autoformat()
-
-  -- Set keybindings
-  vim.keymap.set(
-    { "n", "x" },
-    "<leader>fmt",
-    function() vim.lsp.buf.format({ async = false, timeout_ms = _lsp_format_timeout }) end,
-    opts
-  )
-
-  vim.keymap.set(
-    { "n", "x" },
-    "<F6>",
-    function() vim.lsp.buf.rename() end,
-    opts
-  )
-
-  wk.add {
-    { "g",  group = "[g]o to..." },
-    { "gd", vim.lsp.buf.definition,                                            desc = "[d]efinition" },
-    { "gD", desc = "[D]eclaration" },
-    { "gi", desc = "all [i]mplementations for symbol under cursor in quickfix" },
-    { "gl", vim.diagnostic.open_float,                                         desc = "diagnostic f[l]oat" },
-    { "go", desc = "type definition for [o]bject" },
-    { "gr", telescope_builtin.lsp_references,                                  desc = "[g]o to references" },
-    { "K",  vim.lsp.buf.hover,                                                 desc = "Do[K]umentation float" },
-  }
-end
-
-lspzero.on_attach(on_attach_lsp)
-
--- Integrate with ufo for LSP-based folding.
-
-lspzero.set_server_config({
-  capabilities = {
-    textDocument = {
-      foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true
-      }
-    }
-  }
-})
-
 local lspconfig = require("lspconfig")
 local lspconfig_configs = require("lspconfig.configs")
 local lspconfig_util = require("lspconfig.util")
@@ -255,15 +206,21 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       end
     end
     vim.lsp.buf.format({ async = false })
+
+  -- Use attached LSPs to format buffer on save. Ordering not guaranteed.
+  lspzero.buffer_autoformat()
   end
 })
-
--- vim.lsp.set_log_level(vim.log.levels.OFF)
 
 --  This function gets run when an LSP attaches to a particular buffer.
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('options-lsp-attach', { clear = true }),
   callback = function(event)
+    -- Unset 'formatexpr'
+    -- vim.bo[event.buf].formatexpr = nil
+    -- Unset 'omnifunc'
+    -- vim.bo[event.buf].omnifunc = nil
+
     -- The following two autocommands are used to highlight references of the
     -- word under your cursor when your cursor rests there for a little while.
     --    See `:help CursorHold` for information about when this is executed
@@ -280,6 +237,37 @@ vim.api.nvim_create_autocmd('LspAttach', {
         buffer = event.buf,
         callback = vim.lsp.buf.clear_references,
       })
+
+    local opts = { buffer = event.bufnr, remap = false }
+
+    -- Set keybindings
+    vim.keymap.set(
+      { "n", "x" },
+      "<leader>fmt",
+      function() vim.lsp.buf.format({ async = false, timeout_ms = _lsp_format_timeout }) end,
+      opts
+    )
+
+    vim.keymap.set(
+      { "n", "x" },
+      "<F6>",
+      function() vim.lsp.buf.rename() end,
+      opts
+    )
+
+    local function on_list(options)
+      vim.fn.setqflist({}, ' ', options)
+      vim.cmd.cfirst()
+    end
+
+    wk.add {
+      { "g",  group = "[g]o to...", mode = {"n"} },
+      { "gd", function() vim.lsp.buf.definition({ on_list = on_list, loclist = true }) end, desc = "[d]efinition", mode = {"n"} },
+      { "gl", vim.diagnostic.open_float,                                         desc = "diagnostic f[l]oat", mode = {"n"} },
+      { "go", desc = "type definition for [o]bject" },
+      { "gr", telescope_builtin.lsp_references,                                  desc = "[g]o to references in telescope", mode = {"n"} },
+      { "K",  vim.lsp.buf.hover,                                                 desc = "Do[K]umentation float", mode = {"n"} },
+    }
     end
   end,
 })

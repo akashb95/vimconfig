@@ -63,11 +63,28 @@ telescope.setup({
   },
 })
 
+vim.keymap.set(
+  'v',
+  '<leader>tfs',
+  function()
+    -- Yank the current visual selection into to register
+    vim.cmd('normal! "py')
+
+    -- Get the content of register and escape spaces
+    local visual_selection = vim.fn.escape(vim.fn.getreg('p'), ' ')
+
+    -- Call Telescope live_grep with the escaped visual selection
+    vim.cmd('Telescope live_grep default_text=' .. visual_selection)
+  end,
+  { noremap = true, silent = true }
+)
+
 wk.add({
   { "<leader>t",   group = "telescope" },
   { "<leader>tb",  builtin.buffers,                                                    desc = "Buffers" },
   { "<leader>tf",  group = "find",                                                     desc = "find" },
   { "<leader>tfg", function() builtin.git_files({ layout_strategy = "vertical" }) end, desc = "Git files" },
+  { "<leader>tfs", desc = "Visual Selection" },
   {
     "<leader>tfr",
     function()

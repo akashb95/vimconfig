@@ -59,7 +59,7 @@ return packer.startup(
       "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     }
     use { "junegunn/fzf", run = ":call fzf#install()" }
-    use { "junegunn/fzf.vim" }
+    -- use { "junegunn/fzf.vim" }
     use { "fspv/sourcegraph.nvim" }
 
     -- Theme
@@ -114,7 +114,6 @@ return packer.startup(
     }                               -- folding
     use { "kevinhwang91/nvim-hlslens" }
     use { "karb94/neoscroll.nvim" } -- Smooth-scrolling
-    use { "petertriho/nvim-scrollbar" }
     use { "ojroques/nvim-osc52" }
     use { "folke/todo-comments.nvim" }
 
@@ -122,9 +121,6 @@ return packer.startup(
 
     use {
       "williamboman/mason.nvim",
-      run = function()
-        pcall(vim.cmd, 'MasonUpdate')
-      end,
       requires = {
         { "williamboman/mason-lspconfig.nvim" }, -- Optional
         { "neovim/nvim-lspconfig" },             -- Required
@@ -139,21 +135,8 @@ return packer.startup(
       },
     }
 
-    use {
-      "VonHeikemen/lsp-zero.nvim",
-      branch = 'v2.x',
-      requires = {
-        -- LSP Support
-
-        {
-          "williamboman/mason.nvim",
-          run = function()
-            pcall(vim.cmd, 'MasonUpdate')
-          end,
-        },                                       -- Optional
-        { "williamboman/mason-lspconfig.nvim" }, -- Optional
-      }
-    }
+    -- Specify LSPs and formatters to use within nvim config
+    use { "WhoIsSethDaniel/mason-tool-installer.nvim" }
 
     use {
       "Wansmer/treesj",

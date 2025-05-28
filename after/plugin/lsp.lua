@@ -1,120 +1,12 @@
-local lspzero = require("lsp-zero")
+-- local lspzero = require("lsp-zero")
 local telescope_builtin = require("telescope.builtin")
 local wk = require("which-key")
-local cmp = require("cmp")
-local luasnip = require("luasnip")
 
 local _lsp_format_timeout = 2000 -- Milliseconds
 
-lspzero.preset("recommended")
-
-lspzero.ensure_installed({
-  "lua_ls",
-  "rust_analyzer",
-  "gopls",
-  "pylsp",
-  "bufls",
-  "sqlls",
-  "jsonls",
-  "bashls",
-  "yamlls",
-})
-
--- Autocomplete
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lspzero.defaults.cmp_mappings({
-  -- Navigate suggestions.
-  ["<Up>"] = cmp.mapping.select_prev_item(cmp_select),
-  ["<Down>"] = cmp.mapping.select_next_item(cmp_select),
-  -- Autocomplete - behaviour configured to emulate IntelliJ.
-  ["<CR>"] = cmp.mapping.confirm({
-    behavior = cmp.ConfirmBehavior.Insert,
-    select = true
-  }),
-  ["<Tab>"] = cmp.mapping(
-    function(fallback)
-      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-      if cmp.visible() then
-        local entry = cmp.get_selected_entry()
-        if not entry then
-          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-        end
-        cmp.confirm()
-      else
-        fallback()
-      end
-    end,
-    { "i", "s", "c", }
-  ),
-})
-
-lspzero.setup_nvim_cmp({ mapping = cmp_mappings })
-
-local has_words_before = function()
-  unpack = unpack or table.unpack
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-end
-
-cmp.setup({
-  completion = {
-    completeopt = "menu,menuone,noinsert"
-  },
-  preselect = "item",
-
-  sources = {
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "nvim_lua" },
-    { name = "buffer",  keyword_length = 3 },
-    { name = "path",    option = { trailing_slash = true, label_trailing_slash = true } },
-    { name = "rg",      keyword_length = 2 },
-  },
-
-  ["<CR>"] = cmp.mapping.confirm { select = true },
-  ["<Tab>"] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.select_next_item()
-    elseif luasnip.expand_or_jumpable() then
-      luasnip.expand_or_jump()
-    elseif has_words_before() then
-      cmp.complete()
-    else
-      fallback()
-    end
-  end, { "i", "s" }),
-  ["<S-Tab>"] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.select_prev_item()
-    elseif luasnip.jumpable(-1) then
-      luasnip.jump(-1)
-    else
-      fallback()
-    end
-  end, { "i", "s" }),
-
-  snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
-})
-
-cmp.setup.cmdline(":", {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources(
-    { { name = "path" } },
-    { { name = "cmdline" } }
-  ),
-})
-
-local lspconfig = require("lspconfig")
-local lspconfig_configs = require("lspconfig.configs")
 local lspconfig_util = require("lspconfig.util")
 
--- Configure lua language server for Neovim
-local lua_opts = lspzero.nvim_lua_ls()
-lspconfig.lua_ls.setup(lua_opts)
-
-
 -- Add configuration for the Please language server (it is not included in lspconfigs by default)
-
 vim.filetype.add({
   extension = {
     build_defs = "please",
@@ -127,69 +19,21 @@ vim.filetype.add({
   },
 })
 
-lspconfig_configs.please = {
+require('lspconfig.configs').please = {
   default_config = {
-    cmd = { "plz", "tool", "lps" },
-    filetypes = { "please" },
-    root_dir = lspconfig.util.root_pattern(".plzconfig"),
+    cmd = { 'plz', 'tool', 'lps' },
+    filetypes = { 'please' },
+    root_dir = lspconfig_util.root_pattern('.plzconfig'),
   },
 }
-
-lspconfig.gopls.setup({
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      directoryFilters = {
-        "-" .. vim.fn.getcwd() .. "/plz-out",
-        "+" .. vim.fn.getcwd() .. "/plz-out/go",
-      },
-      linksInHover = false,
-      staticcheck = true,
-      -- gofumpt = true,  -- a stricter gofmt
-    },
-  },
-  root_dir = function(fname)
-    local go_mod_root = lspconfig_util.root_pattern("go.mod")(fname)
-    if go_mod_root then
-      return go_mod_root
-    end
-    local plz_root = lspconfig_util.root_pattern(".plzconfig")(fname)
-    local gopath_root = lspconfig_util.root_pattern("src")(fname)
-    if plz_root and gopath_root then
-      vim.env.GOPATH = string.format("%s:%s/plz-out/go", gopath_root, plz_root)
-      vim.env.GO111MODULE = "off"
-    end
-    return vim.fn.getcwd()
-  end
-})
-
-lspconfig.pylsp.setup({
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          hangClosing = false,
-          maxLineLength = 100,
-        },
-      }
-    }
-  },
-  root_dir = function(fname)
-    local plz_root = lspconfig_util.root_pattern(".plzconfig")(fname)
-    return plz_root
-  end,
-  single_file_support = false,
-})
-
-lspzero.setup()
+require('lspconfig').please.setup({})
 
 -- Organise Go imports on save.
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
   callback = function()
-    local params = vim.lsp.util.make_range_params()
+    local enc = (vim.lsp.get_client_by_id(0) or {}).offset_encoding or "utf-16"
+    local params = vim.lsp.util.make_range_params(0, enc)
     params.context = { only = { "source.organizeImports" } }
     -- buf_request_sync defaults to a 1000ms timeout. Depending on your
     -- machine and codebase, you may want longer. Add an additional
@@ -200,7 +44,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     for cid, res in pairs(result or {}) do
       for _, r in pairs(res.result or {}) do
         if r.edit then
-          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
           vim.lsp.util.apply_workspace_edit(r.edit, enc)
         end
       end
@@ -208,7 +51,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.lsp.buf.format({ async = false })
 
   -- Use attached LSPs to format buffer on save. Ordering not guaranteed.
-  lspzero.buffer_autoformat()
+  -- lspzero.buffer_autoformat()
   end
 })
 
@@ -238,7 +81,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         callback = vim.lsp.buf.clear_references,
       })
 
-    local opts = { buffer = event.bufnr, remap = false }
+    local opts = { buffer = event.buf, remap = false }
 
     -- Set keybindings
     vim.keymap.set(
@@ -255,19 +98,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
       opts
     )
 
-    local function on_list(options)
-      vim.fn.setqflist({}, ' ', options)
-      vim.cmd.cfirst()
-    end
+    -- local function on_list(options)
+    --   vim.fn.setqflist({}, ' ', options)
+    --   -- vim.cmd.cfirst()
+    -- end
 
-    wk.add {
-      { "g",  group = "[g]o to...", mode = {"n"} },
-      { "gd", function() vim.lsp.buf.definition({ on_list = on_list, loclist = true }) end, desc = "[d]efinition", mode = {"n"} },
-      { "gl", vim.diagnostic.open_float,                                         desc = "diagnostic f[l]oat", mode = {"n"} },
-      { "go", desc = "type definition for [o]bject" },
-      { "gr", telescope_builtin.lsp_references,                                  desc = "[g]o to references in telescope", mode = {"n"} },
-      { "K",  vim.lsp.buf.hover,                                                 desc = "Do[K]umentation float", mode = {"n"} },
-    }
+    -- wk.add {
+    --   { "g",  group = "[g]o to...", mode = {"n"} },
+    --   { "gd", function() vim.lsp.buf.definition({ on_list = on_list, loclist = true }) end, desc = "[d]efinition", mode = {"n"} },
+    --   { "gl", vim.diagnostic.open_float,                                         desc = "diagnostic f[l]oat", mode = {"n"} },
+    --   { "go", desc = "type definition for [o]bject" },
+    --   { "gr", telescope_builtin.lsp_references,                                  desc = "[g]o to references in telescope", mode = {"n"} },
+    --   { "K",  vim.lsp.buf.hover,                                                 desc = "Do[K]umentation float", mode = {"n"} },
+    -- }
     end
   end,
 })

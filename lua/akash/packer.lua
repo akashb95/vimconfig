@@ -59,7 +59,7 @@ return packer.startup(
       "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     }
     use { "junegunn/fzf", run = ":call fzf#install()" }
-    use { "junegunn/fzf.vim" }
+    -- use { "junegunn/fzf.vim" }
     use { "fspv/sourcegraph.nvim" }
 
     -- Theme

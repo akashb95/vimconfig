@@ -1,28 +1,4 @@
-local nvim_tree = require("nvim-tree")
 local api = require("nvim-tree.api")
-
-nvim_tree.setup({
-  actions = {
-    open_file = {
-      quit_on_open = true,
-    },
-  },
-  renderer = {
-    add_trailing = true,
-    group_empty = true,
-  },
-  respect_buf_cwd = true,
-  sort_by = "case_sensitive",
-  -- sync_root_with_cwd = true,
-  view = {
-    adaptive_size = true,
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
-  },
-})
 
 local function open_nvim_tree(data)
   -- buffer is a directory

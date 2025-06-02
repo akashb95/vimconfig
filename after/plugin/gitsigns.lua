@@ -1,5 +1,4 @@
 local gitsigns = require("gitsigns")
-local wk = require("which-key")
 
 local function on_attach(bufnr)
   -- Navigation shortcuts
@@ -13,6 +12,7 @@ local function on_attach(bufnr)
     end,
     { expr = true, buffer = bufnr, desc = "jump to next hunk" }
   )
+
   vim.keymap.set(
     "n",
     "[c",
@@ -24,15 +24,48 @@ local function on_attach(bufnr)
     { expr = true, buffer = bufnr, desc = "jump to prev hunk" }
   )
 
-  wk.add({
-    { "<leader>g",   group = "[G]it" },
-    { "<leader>gd",  gitsigns.diffthis,                     desc = "[d]iff" },
-    { "<leader>gD",  function() gitsigns.diffthis("~") end, desc = "[D]iff against head" },
-    { "<leader>gr",  gitsigns.reset_hunk,                   desc = "[r]eset hunk" },
-    { "<leader>gR",  gitsigns.reset_buffer,                 desc = "[R]eset buffer" },
-    { "<leader>gsb", gitsigns.stage_buffer,                 desc = "[s]tage [b]uffer" },
-    { "<leader>gsh", gitsigns.stage_hunk,                   desc = "[s]tage [h]unk" },
-  })
+  vim.keymap.set(
+    'n',
+    '<leader>gd',
+    gitsigns.diffthis,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [d]iff' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>gD',
+    function() gitsigns.diffthis('~') end,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [D]iff against head' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>grh',
+    gitsigns.reset_hunk,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [r]eset [h]unk' }
+    )
+
+  vim.keymap.set(
+    'n',
+    '<leader>gR',
+    gitsigns.reset_hunk,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [R]eset buffer' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>gsb',
+    gitsigns.reset_buffer,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [s]tage [b]uffer' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>gsh',
+    gitsigns.stage_hunk,
+    { noremap = true, buffer = bufnr, silent = true, desc = '[g]it [s]tage [h]unk' }
+  )
+
 end
 
 gitsigns.setup({

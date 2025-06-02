@@ -1,14 +1,5 @@
 local hlslens = require("hlslens")
 
-hlslens.setup()
-
-local ok, scrollbar_search = pcall(require, "scrollbar.handlers.search")
-if ok then
-  scrollbar_search.setup({
-    calm_down = true,
-  })
-end
-
 -- Peek in folds with n and N.
 local function nN(char)
   local winid_ok, winid = hlslens.nNPeekWithUFO(char)
@@ -25,3 +16,5 @@ end
 
 vim.keymap.set({ 'n', 'x' }, 'n', function() nN('n') end)
 vim.keymap.set({ 'n', 'x' }, 'N', function() nN('N') end)
+
+

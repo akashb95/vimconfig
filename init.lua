@@ -1,9 +1,12 @@
-require("akash")
+require("opts")
+require("custom_keymaps")
+
+require("lazyconfig")
 
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('rust_analyzer')
-vim.lsp.enable('gopls')
 vim.lsp.enable('pylsp')
+vim.lsp.enable('gopls')
 
 vim.lsp.config(
   "*", {
@@ -16,4 +19,3 @@ vim.lsp.config(
     }
   },
 })
-

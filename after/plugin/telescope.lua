@@ -1,6 +1,5 @@
 local telescope = require("telescope")
 local builtin = require('telescope.builtin')
-local wk = require("which-key")
 
 telescope.setup({
   defaults = {
@@ -79,35 +78,22 @@ vim.keymap.set(
   { noremap = true, silent = true }
 )
 
-wk.add({
-  { "<leader>t",   group = "telescope" },
-  { "<leader>tb",  builtin.buffers,                                                    desc = "Buffers" },
-  { "<leader>tf",  group = "find",                                                     desc = "find" },
-  { "<leader>tfg", function() builtin.git_files({ layout_strategy = "vertical" }) end, desc = "Git files" },
-  { "<leader>tfs", desc = "Visual Selection" },
-  {
-    "<leader>tfr",
-    function()
-      local workspace = "CWD"
-      local reporoot_ok, reporoot = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
-      if reporoot_ok then workspace = reporoot end
-      telescope.extensions.frecency.frecency(
-        { workspace = workspace }
-      )
-    end,
-    desc = "Recent files"
-  },
-  {
-    "<leader>th",
-    function() builtin.search_history({ layout_strategy = "vertical" }) end,
-    desc = "Search history"
-  },
-  {
-    "<leader>ts",
-    function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
-    desc = "Search for string (grep)"
-  },
-})
-
-telescope.load_extension("fzf")
-telescope.load_extension("frecency")
+vim.keymap.set('n', '<leader>tb', builtin.buffers, { noremap = true, silent = true, desc = "[t]elescope [b]uffers" })
+vim.keymap.set(
+  'n',
+  '<leader>tfg',
+  function() builtin.git_files({ layout_strategy = "vertical" }) end,
+  { noremap = true, silent = true, desc = '[t]elescope find [f]iles added to [g]it' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>tsh',
+  function() builtin.git_files({ layout_strategy = "vertical" }) end,
+  { noremap = true, silent = true, desc = '[t]elescope [s]earch [h]istory' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>tgs',
+  function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
+  { noremap = true, silent = true, desc = '[t]elescope [g]rep [s]tring' }
+)

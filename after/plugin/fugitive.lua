@@ -1,8 +1,13 @@
-local wk = require("which-key")
+vim.keymap.set(
+  'n',
+  '<leader>gst',
+  vim.cmd.Git,
+  { noremap = true, silent = true, desc = '[g]it [st]atus' }
+)
 
-wk.add({
-  { "<leader>gs",  group = "Git" },
-  { "<leader>gst", vim.cmd.Git,  desc = "Show status in new pane" },
-  { "<leader>gb", "<CMD>Git blame<CR>", desc = "Blame" }
-})
-
+vim.keymap.set(
+  'n',
+  '<leader>gb',
+  '<CMD>Git blame<CR>',
+  { noremap = true, silent = true, desc = '[g]it [b]lame' }
+)

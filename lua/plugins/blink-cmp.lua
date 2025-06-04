@@ -69,7 +69,7 @@ return {
     completion = {
       documentation = { auto_show = false },
 
-      ghost_text = { enabled = true },
+      -- ghost_text = { enabled = true },
     },
 
     -- Default list of enabled providers defined so that you can extend it
@@ -77,8 +77,8 @@ return {
     sources = {
       default = {
         'lsp',
-        'path',
         'snippets',
+        'path',
         'buffer',
         'ripgrep',
       },
@@ -193,9 +193,9 @@ return {
         },
 
         signature = {
-          name = 'sig',
+          name = 'signature',
           module = 'blink.cmp.signature',
-          enabled = false,
+          enabled = true,
           transform_items = function (_, items)
             for _, item in ipairs(items) do
               item.kind_icon = '✍️'
@@ -203,36 +203,6 @@ return {
             end
             return items
           end,
-          trigger = {
-            -- Show the signature help automatically
-            enabled = true,
-            -- Show the signature help window after typing any of alphanumerics, `-` or `_`
-            show_on_keyword = true,
-            blocked_trigger_characters = {},
-            blocked_retrigger_characters = {},
-            -- Show the signature help window after typing a trigger character
-            show_on_trigger_character = true,
-            -- Show the signature help window when entering insert mode
-            show_on_insert = true,
-            -- Show the signature help window when the cursor comes after a trigger character when entering insert mode
-            show_on_insert_on_trigger_character = true,
-          },
-          window = {
-            min_width = 20,
-            max_width = 100,
-            max_height = 10,
-            border = nil, -- Defaults to `vim.o.winborder` on nvim 0.11+ or 'padded' when not defined/<=0.10
-            winblend = 0,
-            winhighlight = 'Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder',
-            scrollbar = false, -- Note that the gutter will be disabled when border ~= 'none'
-            -- Which directions to show the window,
-            -- falling back to the next direction when there's not enough space,
-            -- or another window is in the way
-            direction_priority = { 'n', 's' },
-            -- Disable if you run into performance issues
-            treesitter_highlighting = true,
-            show_documentation = true,
-          },
         },
 
         snippets = {
@@ -241,12 +211,38 @@ return {
           max_items = 15,
           min_keyword_length = 2,
           module = 'blink.cmp.sources.snippets',
-          score_offset = 85, -- the higher the number, the higher the priority
+          score_offset = 60, -- the higher the number, the higher the priority
 
           transform_items = function(_, items)
             for _, item in ipairs(items) do
               item.kind_icon = '✂️'
               item.kind_name = 'snippet'
+            end
+
+            -- NOTE: After the transformation, I have to reload the snippets source
+            vim.schedule(function() require("blink.cmp").reload("snippets") end)
+            return items
+          end,
+        },
+
+        buffer = {
+          transform_items = function(_, items)
+            for _, item in ipairs(items) do
+              item.kind_icon = '⬛'
+              item.kind_name = 'buffer'
+            end
+
+            -- NOTE: After the transformation, I have to reload the snippets source
+            vim.schedule(function() require("blink.cmp").reload("snippets") end)
+            return items
+          end,
+        },
+
+        path = {
+          transform_items = function(_, items)
+            for _, item in ipairs(items) do
+              item.kind_icon = '📂'
+              item.kind_name = 'path'
             end
 
             -- NOTE: After the transformation, I have to reload the snippets source

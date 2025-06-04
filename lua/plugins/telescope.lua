@@ -10,8 +10,11 @@ return {
       build = 'make',
     },
     {
-      'nvim-tree/nvim-web-devicons', -- Useful for getting pretty icons, but requires a Nerd Font.
-      enabled = vim.g.have_nerd_font,
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      version = '1.1.0',
+    },
+    {
+      'nvim-tree/nvim-web-devicons',
     },
   },
 }

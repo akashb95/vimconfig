@@ -1,4 +1,6 @@
 local telescope = require("telescope")
+local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+local lga_actions = require("telescope-live-grep-args.actions")
 local builtin = require('telescope.builtin')
 
 telescope.setup({
@@ -42,40 +44,35 @@ telescope.setup({
     wrap_results = true,
   },
   extensions = {
-    frecency = {
-      default_workspace = "CWD",
-      ignore_patterns = { "*.git/*", "*/tmp/*", "*/plz-out/*" },
-      workspaces = {
-        ["src"] = "$HOME/core3/src",
-        ["vault"] = "$HOME/core3/src/vault",
-        ["accounts"] = "$HOME/core3/src/vault/kernel/accounts",
-        ["accounts2"] = "$HOME/core3/src/vault/core/accounts",
-        ["nvimconf"] = "$HOME/.config/nvim"
-      },
-    },
     fzf = {
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
       case_mode = "smart_case",
     },
+    live_grep_args = { auto_quoting = true },
   },
 })
 
+telescope.load_extension("live_grep_args")
+
 vim.keymap.set(
-  'v',
-  '<leader>tfs',
-  function()
-    -- Yank the current visual selection into to register
-    vim.cmd('normal! "py')
-
-    -- Get the content of register and escape spaces
-    local visual_selection = vim.fn.escape(vim.fn.getreg('p'), ' ')
-
-    -- Call Telescope live_grep with the escaped visual selection
-    vim.cmd('Telescope live_grep default_text=' .. visual_selection)
-  end,
-  { noremap = true, silent = true }
+  "n",
+  "<leader>tgs",
+  lga_actions.quote_prompt,
+  { noremap=true, desc = "[t]elescope live [g]rep [s]earch" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>tguc",
+  live_grep_args_shortcuts.grep_word_under_cursor,
+  { noremap=true, silent = true, desc = "[t]elescope live [g]rep word [u]nder [cursor]" }
+)
+vim.keymap.set(
+  "v",
+  "<leader>tgvs",
+  live_grep_args_shortcuts.grep_visual_selection,
+  { noremap=true, silent = true, desc = "[t]elescope live [g]rep [v]isual [s]election" }
 )
 
 vim.keymap.set('n', '<leader>tb', builtin.buffers, { noremap = true, silent = true, desc = "[t]elescope [b]uffers" })
@@ -90,10 +87,4 @@ vim.keymap.set(
   '<leader>tsh',
   function() builtin.git_files({ layout_strategy = "vertical" }) end,
   { noremap = true, silent = true, desc = '[t]elescope [s]earch [h]istory' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>tgs',
-  function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
-  { noremap = true, silent = true, desc = '[t]elescope [g]rep [s]tring' }
 )

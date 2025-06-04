@@ -1,6 +1,6 @@
 {
   "tests": {
     "prefix": "testcases",
-    "body": "testcases := []struct{\n name string\n skip bool\n}{\n} \n for _, tc := range testcases {\n ${1:t}.Run(tc.name, func(t *testing.T)) {\n   if tc.skip {\n     ${1:t}.Skip()\n   }\n }\n}" 
+    "body": "testcases := []struct{\n name string\n skip bool\n}{\n} \n for _, tc := range testcases {\n ${1:t}.Run(tc.name, func(t *testing.T) {\n   if tc.skip {\n     ${1:t}.Skip()\n   }\n })\n}" 
   }
 }

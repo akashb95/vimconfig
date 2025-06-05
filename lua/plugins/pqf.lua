@@ -1,3 +1,3 @@
 return {
-  'yorickpeterse/nvim-pqf',
+	"yorickpeterse/nvim-pqf",
 }

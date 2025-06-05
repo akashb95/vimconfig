@@ -1,8 +1,8 @@
-vim.g.mapleader = '\\'
-vim.g.maplocalleader = '\\'
+vim.g.mapleader = "\\"
+vim.g.maplocalleader = "\\"
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = os.getenv('NERD_FONT') ~= vim.o.swapfile == false
+vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= vim.o.swapfile == false
 
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
@@ -46,7 +46,7 @@ vim.o.updatetime = 80
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Folding
-vim.o.foldcolumn = '1'
+vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -54,7 +54,7 @@ vim.o.foldenable = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.cmd "set whichwrap+=<,>,[,],h,l"
+vim.cmd("set whichwrap+=<,>,[,],h,l")
 
 require("file_types").setup({
 	lua = {
@@ -114,11 +114,11 @@ vim.diagnostic.config({
 		source = "always",
 		header = "",
 		prefix = "",
-	}
+	},
 })
 
 vim.filetype.add({
 	filename = {
-		['new-commit'] = 'arcdiff',
+		["new-commit"] = "arcdiff",
 	},
 })

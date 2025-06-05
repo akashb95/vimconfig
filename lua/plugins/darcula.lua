@@ -7,17 +7,17 @@ function ColourMyPencils(colour)
 end
 
 return {
-  'briones-gabriel/darcula-solid.nvim',
-  dependencies = { 'rktjmp/lush.nvim' },
+	"briones-gabriel/darcula-solid.nvim",
+	dependencies = { "rktjmp/lush.nvim" },
 
-  lazy = false,
-  priority = 100,
+	lazy = false,
+	priority = 100,
 
-  config = function ()
-    vim.cmd("colorscheme darcula-solid")
-    vim.cmd("set termguicolors")
-    ColourMyPencils("darcula-solid")
-  end,
+	config = function()
+		vim.cmd("colorscheme darcula-solid")
+		vim.cmd("set termguicolors")
+		ColourMyPencils("darcula-solid")
+	end,
 
-  opts = {},
+	opts = {},
 }

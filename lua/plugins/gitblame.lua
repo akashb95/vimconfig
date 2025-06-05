@@ -1,14 +1,14 @@
 return {
-    "f-person/git-blame.nvim",
+	"f-person/git-blame.nvim",
 
-    lazy = false,
+	lazy = false,
 
-    opts = {
-        enabled = true,
-        message_template = " <summary> • <date> • <author>", -- template for the blame message
+	opts = {
+		enabled = true,
+		message_template = " <summary> • <date> • <author>", -- template for the blame message
 
-        date_format = "%d-%m-%Y %H:%M", -- template for the date
+		date_format = "%d-%m-%Y %H:%M", -- template for the date
 
-        virtual_text_column = 1,
-    },
+		virtual_text_column = 1,
+	},
 }

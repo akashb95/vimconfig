@@ -66,7 +66,7 @@ vim.keymap.set(
   "n",
   "<leader>tguc",
   live_grep_args_shortcuts.grep_word_under_cursor,
-  { noremap=true, silent = true, desc = "[t]elescope live [g]rep word [u]nder [cursor]" }
+  { noremap=true, silent = true, desc = "[t]elescope live [g]rep word [u]nder [c]ursor" }
 )
 vim.keymap.set(
   "v",
@@ -84,7 +84,41 @@ vim.keymap.set(
 )
 vim.keymap.set(
   'n',
+  '<leader>tgb',
+  builtin.git_branches,
+  { noremap = true, silent = true, desc = '[t]elescope find [f]iles added to [g]it' }
+)
+vim.keymap.set(
+  'n',
   '<leader>tsh',
-  function() builtin.git_files({ layout_strategy = "vertical" }) end,
+  function() builtin.search_history({ layout_strategy = "vertical" }) end,
   { noremap = true, silent = true, desc = '[t]elescope [s]earch [h]istory' }
+)
+
+vim.keymap.set(
+  {"n", "v"},
+  "gd",
+  builtin.lsp_definitions,
+  { noremap = true, desc = '[g]o to [d]efinition' }
+)
+
+vim.keymap.set(
+  {"n", "v"},
+  "gds",
+  builtin.lsp_document_symbols,
+  { noremap = true, desc = '[g]o to [d]ocument [s]ymbols' }
+)
+
+vim.keymap.set(
+  {"n", "v"},
+  "gtd",
+  builtin.lsp_definitions,
+  { noremap = true, desc = '[g]o to [t]ype [d]efinition' }
+)
+
+vim.keymap.set(
+  {"n", "v"},
+  "gr",
+  builtin.lsp_references,
+  { noremap = true, desc = '[g]o to [r]eferences' }
 )

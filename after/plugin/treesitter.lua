@@ -88,7 +88,6 @@ require("nvim-treesitter.configs").setup({
 		swap = {
 			enable = true,
 			swap_next = {
-				["<leader>nab"] = "@block.outer",
 				["<leader>nic"] = "@call.inner",
 				["<leader>nac"] = "@call.outer",
 				["<leader>naC"] = "@class.outer",
@@ -97,7 +96,6 @@ require("nvim-treesitter.configs").setup({
 				["<leader>nip"] = "@parameter.inner",
 			},
 			swap_previous = {
-				["<leader>Nab"] = "@block.outer",
 				["<leader>Nic"] = "@call.inner",
 				["<leader>Nac"] = "@call.outer",
 				["<leader>NaC"] = "@class.outer",

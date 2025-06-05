@@ -99,9 +99,9 @@ vim.keymap.set({ "n", "v" }, "gd", builtin.lsp_definitions, { noremap = true, de
 
 vim.keymap.set(
 	{ "n", "v" },
-	"gds",
+	"gDs",
 	builtin.lsp_document_symbols,
-	{ noremap = true, desc = "[g]o to [d]ocument [s]ymbols" }
+	{ noremap = true, desc = "[g]o to [D]ocument [s]ymbols" }
 )
 
 vim.keymap.set({ "n", "v" }, "gtd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [t]ype [d]efinition" })

@@ -86,7 +86,13 @@ vim.keymap.set(
   'n',
   '<leader>tgb',
   builtin.git_branches,
-  { noremap = true, silent = true, desc = '[t]elescope find [f]iles added to [g]it' }
+  { noremap = true, silent = true, desc = '[t]elescope [g]it [b]ranches' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>tgc',
+  builtin.git_commits,
+  { noremap = true, silent = true, desc = '[t]elescope [g]it [c]ommits' }
 )
 vim.keymap.set(
   'n',

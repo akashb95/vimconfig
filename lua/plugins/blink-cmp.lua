@@ -57,6 +57,10 @@ return {
 				end,
 				"fallback",
 			},
+			["<BS>"] = {
+				function() end,
+				"fallback",
+			},
 
 			["K"] = { "show_signature", "hide_signature", "fallback" },
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
@@ -74,6 +78,23 @@ return {
 			documentation = { auto_show = false },
 
 			-- ghost_text = { enabled = true },
+
+			draw = {
+				components = {
+					kind_icon = {
+						ellipsis = false,
+						text = function(ctx)
+							local icon = ctx.kind_icon
+							local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+							if dev_icon then
+								icon = dev_icon
+							end
+
+							return icon .. ctx.icon_gap
+						end,
+					},
+				},
+			},
 		},
 
 		-- Default list of enabled providers defined so that you can extend it
@@ -95,7 +116,7 @@ return {
 
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
-							item.kind_icon = "🇱"
+							item.kind_icon = "L"
 							item.kind_name = "LSP"
 						end
 						return items
@@ -215,7 +236,7 @@ return {
 					max_items = 15,
 					min_keyword_length = 2,
 					module = "blink.cmp.sources.snippets",
-					score_offset = 60, -- the higher the number, the higher the priority
+					score_offset = 50, -- the higher the number, the higher the priority
 
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
@@ -271,23 +292,6 @@ return {
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 	},
 	opts_extend = { "sources.default" },
-
-	draw = {
-		components = {
-			kind_icon = {
-				ellipsis = false,
-				text = function(ctx)
-					local icon = ctx.kind_icon
-					local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-					if dev_icon then
-						icon = dev_icon
-					end
-
-					return icon .. ctx.icon_gap
-				end,
-			},
-		},
-	},
 
 	cmdline = {
 		keymap = { preset = "inherit" },

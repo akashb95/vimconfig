@@ -104,6 +104,6 @@ vim.keymap.set(
 	{ noremap = true, desc = "[g]o to [D]ocument [s]ymbols" }
 )
 
-vim.keymap.set({ "n", "v" }, "gtd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [t]ype [d]efinition" })
+vim.keymap.set({ "n", "v" }, "gTd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [T]ype [d]efinition" })
 
 vim.keymap.set({ "n", "v" }, "gr", builtin.lsp_references, { noremap = true, desc = "[g]o to [r]eferences" })

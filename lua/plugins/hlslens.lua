@@ -1,9 +1,3 @@
-vim.keymap.set({ "n", "x" }, "n", function()
-	nN("n")
-end)
-vim.keymap.set({ "n", "x" }, "N", function()
-	nN("N")
-end)
 return {
 	"kevinhwang91/nvim-hlslens",
 	config = function()

@@ -45,7 +45,7 @@ end
 
 local go_formatters = { "goimports" }
 if vim.fn.executable("gci") == 1 then
-	go_formatters = { "goimports", "gci" }
+	go_formatters = { "goimports", "gofmt", "gci" }
 end
 
 require("conform").setup({

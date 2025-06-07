@@ -5,7 +5,7 @@ return {
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"mikavilpas/blink-ripgrep.nvim",
-		"neovim/nvim-lspconfig",
+		"neovim/nvim-lspconfig", -- Provides useful utility function
 		"folke/snacks.nvim",
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{ "echasnovski/mini.nvim" },
@@ -70,10 +70,42 @@ return {
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
-			nerd_font_variant = "mono",
+			nerd_font_variant = "normal",
+
+			kind_icons = {
+				Text = "T",
+				Method = "𝓂",
+				Function = "ƒ",
+				Constructor = "🏗️",
+
+				Field = "𝐅",
+				Variable = "🔡",
+				Property = "𝐏",
+
+				Class = "𝒞",
+				Interface = "🧩",
+				Struct = "{}",
+				Module = "📦",
+
+				Unit = "u",
+				Value = "v",
+				Enum = "🔢",
+				EnumMember = "▫",
+
+				Keyword = "🔑",
+				Constant = "с",
+
+				Snippet = "✂️",
+				Color = "🎨",
+				File = "📄",
+				Reference = "જ⁀➴",
+				Folder = "📁",
+				Event = "📣",
+				Operator = "⦻",
+				TypeParameter = "𝐓",
+			},
 		},
 
-		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
 			documentation = { auto_show = false },
 
@@ -82,15 +114,21 @@ return {
 			draw = {
 				components = {
 					kind_icon = {
-						ellipsis = false,
 						text = function(ctx)
-							local icon = ctx.kind_icon
-							local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-							if dev_icon then
-								icon = dev_icon
-							end
-
-							return icon .. ctx.icon_gap
+							local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+							return kind_icon
+						end,
+						-- (optional) use highlights from mini.icons
+						highlight = function(ctx)
+							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+							return hl
+						end,
+					},
+					kind = {
+						-- (optional) use highlights from mini.icons
+						highlight = function(ctx)
+							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+							return hl
 						end,
 					},
 				},
@@ -113,14 +151,6 @@ return {
 					enabled = true,
 					module = "blink.cmp.sources.lsp",
 					score_offset = 90,
-
-					transform_items = function(_, items)
-						for _, item in ipairs(items) do
-							item.kind_icon = "L"
-							item.kind_name = "LSP"
-						end
-						return items
-					end,
 				},
 
 				ripgrep = {

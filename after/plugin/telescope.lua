@@ -59,7 +59,7 @@ telescope.load_extension("live_grep_args")
 vim.keymap.set(
 	"n",
 	"<leader>tgs",
-	lga_actions.quote_prompt,
+	"<CMD>Telescope live_grep_args<CR>",
 	{ noremap = true, desc = "[t]elescope live [g]rep [s]earch" }
 )
 vim.keymap.set(

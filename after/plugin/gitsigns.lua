@@ -43,7 +43,7 @@ local function on_attach(bufnr)
 	vim.keymap.set(
 		"n",
 		"<leader>gR",
-		gitsigns.reset_hunk,
+		gitsigns.reset_buffer,
 		{ noremap = true, buffer = bufnr, silent = true, desc = "[g]it [R]eset buffer" }
 	)
 

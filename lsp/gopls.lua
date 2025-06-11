@@ -95,7 +95,7 @@ return {
 			analyses = {
 				unusedparams = true,
 			},
-			directoryFilters = { "-plz-out" },
+			directoryFilters = { "-**/plz-out", "-**/node_modules" },
 			linksInHover = false,
 			staticcheck = true,
 			-- gofumpt = true,  -- a stricter gofmt

@@ -95,7 +95,7 @@ vim.keymap.set("n", "<leader>tsh", function()
 	builtin.search_history({ layout_strategy = "vertical" })
 end, { noremap = true, silent = true, desc = "[t]elescope [s]earch [h]istory" })
 
-vim.keymap.set({ "n", "v" }, "gd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [d]efinition" })
+-- vim.keymap.set({ "n", "v" }, "gd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [d]efinition" })
 
 vim.keymap.set(
 	{ "n", "v" },

@@ -79,19 +79,21 @@ return {
 
 			-- ghost_text = { enabled = true },
 
-			draw = {
-				components = {
-					kind_icon = {
-						ellipsis = false,
-						text = function(ctx)
-							local icon = ctx.kind_icon
-							local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-							if dev_icon then
-								icon = dev_icon
-							end
+			menu = {
+				draw = {
+					components = {
+						kind_icon = {
+							ellipsis = false,
+							text = function(ctx)
+								local icon = ctx.kind_icon
+								local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+								if dev_icon then
+									icon = dev_icon
+								end
 
-							return icon .. ctx.icon_gap
-						end,
+								return icon .. ctx.icon_gap
+							end,
+						},
 					},
 				},
 			},
@@ -132,7 +134,7 @@ return {
 					opts = {
 						-- For many options, see `rg --help` for an exact description of
 						-- the values that ripgrep expects.
-						prefix_min_len = 3,
+						prefix_min_len = 4,
 
 						-- The number of lines to show before and after each match in the preview
 						context_size = 3,
@@ -236,7 +238,7 @@ return {
 					max_items = 15,
 					min_keyword_length = 2,
 					module = "blink.cmp.sources.snippets",
-					score_offset = 50, -- the higher the number, the higher the priority
+					score_offset = 70, -- the higher the number, the higher the priority
 
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
@@ -258,11 +260,6 @@ return {
 							item.kind_icon = "⬛"
 							item.kind_name = "buffer"
 						end
-
-						-- NOTE: After the transformation, I have to reload the snippets source
-						vim.schedule(function()
-							require("blink.cmp").reload("snippets")
-						end)
 						return items
 					end,
 				},
@@ -273,11 +270,6 @@ return {
 							item.kind_icon = "📂"
 							item.kind_name = "path"
 						end
-
-						-- NOTE: After the transformation, I have to reload the snippets source
-						vim.schedule(function()
-							require("blink.cmp").reload("snippets")
-						end)
 						return items
 					end,
 				},

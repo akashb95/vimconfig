@@ -70,13 +70,14 @@ local servers = {
 	bashls = {},
 	intelephense = {},
 	buf_ls = {},
+	curlylint = {},
 	gopls = {
 		settings = {
 			gopls = {
 				directoryFilters = { "-**/plz-out" },
 				linksInHover = false,
-				usePlaceholders = false,
-				semanticTokens = true,
+				-- usePlaceholders = false,
+				-- semanticTokens = true,
 				codelenses = {
 					gc_details = true,
 				},

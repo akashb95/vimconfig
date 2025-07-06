@@ -43,14 +43,14 @@ local function on_attach(bufnr)
 	vim.keymap.set(
 		"n",
 		"<leader>gR",
-		gitsigns.reset_hunk,
+		gitsigns.reset_buffer,
 		{ noremap = true, buffer = bufnr, silent = true, desc = "[g]it [R]eset buffer" }
 	)
 
 	vim.keymap.set(
 		"n",
 		"<leader>gsb",
-		gitsigns.reset_buffer,
+		gitsigns.stage_buffer,
 		{ noremap = true, buffer = bufnr, silent = true, desc = "[g]it [s]tage [b]uffer" }
 	)
 

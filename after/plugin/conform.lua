@@ -10,11 +10,14 @@ vim.keymap.set("n", "<leader>ft", function()
 end, { desc = "[F]ormat on save [T]oggle" })
 
 local function capture_shell(command)
-	local cmd_out = vim.api.nvim_exec(":! " .. command, true)
+	print("command to execute: " .. command)
+	local cmd_out = vim.fn.execute(":!" .. command, "")
 	local lines = {}
 	for line in cmd_out:gmatch("[^\n]+") do
 		table.insert(lines, line)
 	end
+	print("lines: ")
+	print(table.concat(lines, "\n"))
 	table.remove(lines, 1)
 
 	return table.concat(lines, "\n")
@@ -28,7 +31,7 @@ local function parse_gci_args()
 		return args
 	end
 
-	local out = capture_shell("yq '.linters-settings.gci' -o json " .. config_file)
+	local out = capture_shell("echo $(yq '.linters-settings.gci' -o json < " .. config_file .. ")")
 	local gci_config = vim.json.decode(out)
 
 	for _, section in ipairs(gci_config.sections) do
@@ -43,16 +46,16 @@ local function parse_gci_args()
 	return args
 end
 
-local go_formatters = { "goimports" }
+local go_formatters = { "gofmt", "goimports" }
 if vim.fn.executable("gci") == 1 then
 	go_formatters = { "goimports", "gofmt", "gci" }
 end
 
 require("conform").setup({
 	formatters = {
-		gci = {
-			args = parse_gci_args(),
-		},
+		-- gci = {
+		-- 	args = parse_gci_args(),
+		-- },
 	},
 	formatters_by_ft = {
 		lua = { "stylua" },

@@ -1,6 +1,5 @@
 return {
 	"saghen/blink.cmp",
-	enable = false,
 	-- optional: provides snippets for the snippet source
 	dependencies = {
 		"rafamadriz/friendly-snippets",
@@ -21,6 +20,24 @@ return {
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
+		enabled = function()
+			-- Disable in comments
+			local row, column = unpack(vim.api.nvim_win_get_cursor(0))
+			local success, node = pcall(vim.treesitter.get_node, {
+				pos = { row - 1, math.max(0, column - 1) },
+				ignore_injections = false,
+			})
+			local reject =
+				{ "comment", "line_comment", "block_comment", "string_start", "string_content", "string_end" }
+			if success and node and vim.tbl_contains(reject, node:type()) then
+				return false
+			end
+
+			-- Disable in rename, NerdTree and prompts in general.
+			return not vim.list_contains({ "DressingInput" }, vim.bo.filetype)
+				and vim.bo.buftype ~= "prompt"
+				and vim.b.completion ~= false
+		end,
 		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
 		-- 'super-tab' for mappings similar to vscode (tab to accept)
 		-- 'enter' for enter to accept
@@ -133,6 +150,24 @@ return {
 					},
 				},
 			},
+			menu = {
+				draw = {
+					components = {
+						kind_icon = {
+							ellipsis = false,
+							text = function(ctx)
+								local icon = ctx.kind_icon
+								local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+								if dev_icon then
+									icon = dev_icon
+								end
+
+								return icon .. ctx.icon_gap
+							end,
+						},
+					},
+				},
+			},
 		},
 
 		-- Default list of enabled providers defined so that you can extend it
@@ -148,6 +183,7 @@ return {
 			providers = {
 				lsp = {
 					name = "lsp",
+					max_items = 25,
 					enabled = true,
 					module = "blink.cmp.sources.lsp",
 					score_offset = 90,
@@ -155,6 +191,7 @@ return {
 
 				ripgrep = {
 					module = "blink-ripgrep",
+					max_items = 3,
 					name = "Ripgrep",
 					-- the options below are optional, some default values are shown
 					---@module "blink-ripgrep"
@@ -162,7 +199,7 @@ return {
 					opts = {
 						-- For many options, see `rg --help` for an exact description of
 						-- the values that ripgrep expects.
-						prefix_min_len = 3,
+						prefix_min_len = 4,
 
 						-- The number of lines to show before and after each match in the preview
 						context_size = 3,
@@ -173,7 +210,7 @@ return {
 						-- Examples:
 						-- "1024" (bytes by default), "200K", "1M", "1G", which will
 						-- exclude files larger than that size.
-						max_filesize = "1M",
+						max_filesize = "500K",
 
 						-- Specifies how to find the root of the project where the ripgrep
 						-- search will start from. Accepts the same options as the marker
@@ -183,7 +220,7 @@ return {
 						-- Examples:
 						-- - ".git" (default)
 						-- - { ".git", "package.json", ".root" }
-						project_root_marker = { ".git", ".plzconfig" },
+						project_root_marker = { ".git", ".plzconfig", "go.mod", "requirements.txt" },
 
 						-- Enable fallback to neovim cwd if project_root_marker is not
 						-- found. Default: `true`, which means to use the cwd.
@@ -207,7 +244,7 @@ return {
 						-- to use ripgrep for those paths on the command line. If you need
 						-- to find out where the searches are executed, enable `debug` and
 						-- look at `:messages`.
-						ignore_paths = {},
+						ignore_paths = { "**/plz-out" },
 
 						-- Requires folke/snacks.nvim.
 						toggles = {
@@ -226,7 +263,7 @@ return {
 								-- - "gitgrep", always use git grep
 								-- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
 								--   ripgrep
-								use = "gitgrep-or-ripgrep",
+								use = "ripgrep",
 							},
 						},
 
@@ -247,26 +284,13 @@ return {
 					end,
 				},
 
-				signature = {
-					name = "signature",
-					module = "blink.cmp.signature",
-					enabled = true,
-					transform_items = function(_, items)
-						for _, item in ipairs(items) do
-							item.kind_icon = "✍️"
-							item.kind_name = "signature"
-						end
-						return items
-					end,
-				},
-
 				snippets = {
 					name = "snippets",
 					enabled = true,
-					max_items = 15,
+					max_items = 5,
 					min_keyword_length = 2,
 					module = "blink.cmp.sources.snippets",
-					score_offset = 50, -- the higher the number, the higher the priority
+					score_offset = 70, -- the higher the number, the higher the priority
 
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
@@ -283,31 +307,23 @@ return {
 				},
 
 				buffer = {
+					max_items = 3,
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
 							item.kind_icon = "⬛"
 							item.kind_name = "buffer"
 						end
-
-						-- NOTE: After the transformation, I have to reload the snippets source
-						vim.schedule(function()
-							require("blink.cmp").reload("snippets")
-						end)
 						return items
 					end,
 				},
 
 				path = {
+					max_items = 2,
 					transform_items = function(_, items)
 						for _, item in ipairs(items) do
 							item.kind_icon = "📂"
 							item.kind_name = "path"
 						end
-
-						-- NOTE: After the transformation, I have to reload the snippets source
-						vim.schedule(function()
-							require("blink.cmp").reload("snippets")
-						end)
 						return items
 					end,
 				},

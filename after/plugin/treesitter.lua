@@ -15,6 +15,7 @@ require("nvim-treesitter.configs").setup({
 		"yaml",
 		"json",
 		"query",
+		"jinja",
 	},
 	-- Install parsers synchronously (only applied to `ensure_installed`)
 	sync_install = false,

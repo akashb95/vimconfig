@@ -17,6 +17,9 @@ return {
 				".DS_Store$",
 			},
 		},
+		git = {
+			timeout = 1000,
+		},
 		modified = { enable = true },
 		renderer = {
 			add_trailing = true,

@@ -18,7 +18,7 @@ return {
 			},
 		},
 		git = {
-			timeout = 1000,
+			timeout = 10000,
 		},
 		modified = { enable = true },
 		renderer = {
@@ -35,6 +35,16 @@ return {
 		update_focused_file = { enable = true },
 		view = {
 			adaptive_size = true,
+		},
+		filesystem_watchers = {
+			ignore_dirs = {
+				"/node_modules",
+				"/plz-out",
+				"/.ccls-cache",
+				"/build",
+				"/node_modules",
+				"/target",
+			},
 		},
 	},
 }

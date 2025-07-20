@@ -11,6 +11,7 @@ return {
 			"comment",
 			"git_rebase",
 			"gitcommit",
+			"git_config",
 			"gitignore",
 			"go",
 			"gomod",

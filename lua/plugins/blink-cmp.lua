@@ -87,7 +87,7 @@ return {
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
-			nerd_font_variant = "normal",
+			nerd_font_variant = "mono",
 
 			kind_icons = {
 				Text = "T",
@@ -95,8 +95,8 @@ return {
 				Function = "ƒ",
 				Constructor = "🏗️",
 
-				Field = "𝐅",
-				Variable = "🔡",
+				Field = ".f",
+				Variable = "var",
 				Property = "𝐏",
 
 				Class = "𝒞",
@@ -106,7 +106,7 @@ return {
 
 				Unit = "u",
 				Value = "v",
-				Enum = "🔢",
+				Enum = "enum",
 				EnumMember = "▫",
 
 				Keyword = "🔑",
@@ -127,29 +127,6 @@ return {
 			documentation = { auto_show = false },
 
 			-- ghost_text = { enabled = true },
-
-			draw = {
-				components = {
-					kind_icon = {
-						text = function(ctx)
-							local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-							return kind_icon
-						end,
-						-- (optional) use highlights from mini.icons
-						highlight = function(ctx)
-							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-							return hl
-						end,
-					},
-					kind = {
-						-- (optional) use highlights from mini.icons
-						highlight = function(ctx)
-							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-							return hl
-						end,
-					},
-				},
-			},
 			menu = {
 				draw = {
 					components = {
@@ -297,11 +274,6 @@ return {
 							item.kind_icon = "✂️"
 							item.kind_name = "snippet"
 						end
-
-						-- NOTE: After the transformation, I have to reload the snippets source
-						vim.schedule(function()
-							require("blink.cmp").reload("snippets")
-						end)
 						return items
 					end,
 				},

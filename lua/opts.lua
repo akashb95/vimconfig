@@ -45,12 +45,6 @@ vim.o.updatetime = 80
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
--- Folding
-vim.o.foldcolumn = "1"
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 

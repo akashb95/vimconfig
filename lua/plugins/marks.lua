@@ -33,13 +33,11 @@ return {
 	},
 	keys = {
 		{
-			"n",
 			"<leader>mgqf",
 			"<CMD>MarksQFListAll<CR>",
 			{ desc = "List all [m]arks [g]lobally in [q]uick[f]ix list" },
 		},
 		{
-			"n",
 			"<leader>mbqf",
 			"<CMD>MarksQFListBuf<CR>",
 			{ desc = "List all [m]arks in [b]uffer in [q]uick[f]ix list" },

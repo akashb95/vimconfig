@@ -1,3 +1,5 @@
+local min_width = 40
+
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = {
@@ -34,7 +36,10 @@ return {
 		-- sync_root_with_cwd = true,
 		update_focused_file = { enable = true },
 		view = {
-			adaptive_size = true,
+			-- adaptive_size = true,
+			width = function()
+				return math.max(math.floor(vim.fn.winwidth(0) / 5), min_width)
+			end,
 		},
 		filesystem_watchers = {
 			ignore_dirs = {

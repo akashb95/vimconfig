@@ -12,7 +12,7 @@ end
 vim.keymap.set("n", "<leader>dc", function()
 	require("dap").continue()
 end, { desc = "[d]ebug [c]ontinue" })
-vim.keymap.set("n", "<leader>dso", function()
+vim.keymap.set("n", "<leader>dsov", function()
 	require("dap").step_over()
 end, { desc = "[d]ebug [s]tep [ov]er" })
 vim.keymap.set("n", "<leader>dsi", function()

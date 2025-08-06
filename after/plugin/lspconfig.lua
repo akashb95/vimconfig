@@ -74,43 +74,38 @@ local servers = {
 	gopls = {
 		settings = {
 			gopls = {
+				diagnosticsDelay = "2s",
 				directoryFilters = { "-**/plz-out" },
 				linksInHover = false,
 				-- usePlaceholders = false,
 				-- semanticTokens = true,
 				codelenses = {
 					gc_details = true,
+					test = true,
+					tidy = true,
+					vendor = true,
+					regenerate_cgo = true,
+					upgrade_dependency = true,
 				},
 			},
 		},
-		root_dir = function(fname)
-			local gowork_or_gomod_dir = util.root_pattern("go.work", "go.mod")(fname)
-			if gowork_or_gomod_dir then
-				return gowork_or_gomod_dir
+		-- Must be set explicitly. Otherwise breaks on :LspRestart
+		single_file = false,
+		---@param startpath string
+		root_dir = function(startpath)
+			if string.find(startpath, "plz%-out") then
+				-- Separate branch, because otherwise it defaults to the repo root and becomes too slow
+				return require("lspconfig/util").root_pattern("go.mod", "go.work")(startpath)
+			else
+				return require("lspconfig/util").root_pattern(
+					-- Order here matters
+					"core", -- Workaround to make packages load faster
+					"BUILD",
+					"go.work",
+					"go.mod",
+					".git"
+				)(startpath)
 			end
-
-			local plz_root = util.root_pattern(".plzconfig")(fname)
-			if plz_root and vim.fs.basename(plz_root) == "src" then
-				vim.fn.setenv("GOPATH", string.format("%s:%s/plz-out/go", vim.fs.dirname(plz_root), plz_root))
-				vim.fn.setenv("GO111MODULE", "off")
-				local goroot, err = plz_goroot(plz_root)
-				if not goroot then
-					vim.notify(
-						string.format("Determining GOROOT for plz repo %s: %s", plz_root, err),
-						vim.log.levels.WARN
-					)
-				elseif not vim.uv.fs_stat(goroot) then
-					vim.notify(
-						string.format("GOROOT for plz repo %s does not exist: %s", plz_root, goroot),
-						vim.log.levels.WARN
-					)
-				else
-					vim.env.GOROOT = goroot
-				end
-				return plz_root .. "/vault" -- hack to work around slow monorepo
-			end
-
-			return vim.fn.getcwd()
 		end,
 	},
 	pyright = {

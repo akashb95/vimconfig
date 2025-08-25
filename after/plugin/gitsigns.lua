@@ -2,9 +2,9 @@ local gitsigns = require("gitsigns")
 
 local function on_attach(bufnr)
 	-- Navigation shortcuts
-	vim.keymap.set("n", "]c", function()
+	vim.keymap.set("n", "]h", function()
 		if vim.wo.diff then
-			return "]c"
+			return "]h"
 		end
 		vim.schedule(function()
 			gitsigns.next_hunk()
@@ -12,9 +12,9 @@ local function on_attach(bufnr)
 		return "<Ignore>"
 	end, { expr = true, buffer = bufnr, desc = "jump to next hunk" })
 
-	vim.keymap.set("n", "[c", function()
+	vim.keymap.set("n", "[h", function()
 		if vim.wo.diff then
-			return "[c"
+			return "[h"
 		end
 		vim.schedule(function()
 			gitsigns.prev_hunk()

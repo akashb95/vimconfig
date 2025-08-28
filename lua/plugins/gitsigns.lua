@@ -1,5 +1,5 @@
 return {
 	"lewis6991/gitsigns.nvim",
-	dependencies = { "echasnovski/mini.icons" },
+	-- dependencies = { "echasnovski/mini.icons" },
 	lazy = false,
 }

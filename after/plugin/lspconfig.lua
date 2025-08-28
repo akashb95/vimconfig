@@ -7,63 +7,6 @@ local util = require("lspconfig.util")
 --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 --  - settings (table): Override the default settings passed when initializing the server.
 --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-
----@param plz_root string
----@return string? goroot
----@return string? errmsg
-local function plz_goroot(plz_root)
-	local gotool_res = vim.system({ "plz", "--repo_root", plz_root, "query", "config", "plugin.go.gotool" }):wait()
-	local gotool = "go"
-	if gotool_res.code == 0 then
-		gotool = vim.trim(gotool_res.stdout)
-	elseif not gotool_res.stderr:match("Settable field not defined") then
-		return nil, string.format("querying value of plugin.go.gotool: %s", gotool_res.stderr)
-	end
-
-	if vim.startswith(gotool, ":") or vim.startswith(gotool, "//") then
-		gotool = gotool:gsub("|go$", "")
-		local gotool_output_res = vim.system({ "plz", "--repo_root", plz_root, "query", "output", gotool }):wait()
-		if gotool_output_res.code > 0 then
-			return nil,
-				string.format("querying output of plugin.go.gotool target %s: %s", gotool, gotool_output_res.stderr)
-		end
-		return vim.fs.joinpath(plz_root, vim.trim(gotool_output_res.stdout))
-	end
-
-	if vim.startswith(gotool, "/") then
-		if not vim.uv.fs_stat(gotool) then
-			return nil, string.format("plugin.go.gotool %s does not exist", gotool)
-		end
-		local goroot_res = vim.system({ gotool, "env", "GOROOT" }):wait()
-		if goroot_res.code == 0 then
-			return vim.trim(goroot_res.stdout)
-		else
-			return nil, string.format("%s env GOROOT: %s", gotool, goroot_res.stderr)
-		end
-	end
-
-	local build_paths_res = vim.system({ "plz", "--repo_root", plz_root, "query", "config", "build.path" }):wait()
-	if build_paths_res.code > 0 then
-		return nil, string.format("querying value of build.path: %s", build_paths_res.stderr)
-	end
-	local build_paths = vim.trim(build_paths_res.stdout)
-	for build_path in vim.gsplit(build_paths, "\n") do
-		for build_path_part in vim.gsplit(build_path, ":") do
-			local go = vim.fs.joinpath(build_path_part, gotool)
-			if vim.uv.fs_stat(go) then
-				local goroot_res = vim.system({ go, "env", "GOROOT" }):wait()
-				if goroot_res.code == 0 then
-					return vim.trim(goroot_res.stdout)
-				else
-					return nil, string.format("%s env GOROOT: %s", go, goroot_res.stderr)
-				end
-			end
-		end
-	end
-
-	return nil, string.format("plugin.go.gotool %s not found in build.path %s", gotool, build_paths:gsub("\n", ":"))
-end
-
 local servers = {
 	yamlls = {},
 	vimls = {},
@@ -75,7 +18,7 @@ local servers = {
 		settings = {
 			gopls = {
 				diagnosticsDelay = "2s",
-				directoryFilters = { "-**/plz-out" },
+				directoryFilters = { "-plz-out" },
 				linksInHover = false,
 				-- usePlaceholders = false,
 				-- semanticTokens = true,
@@ -99,7 +42,6 @@ local servers = {
 			else
 				return require("lspconfig/util").root_pattern(
 					-- Order here matters
-					"core", -- Workaround to make packages load faster
 					"BUILD",
 					"go.work",
 					"go.mod",

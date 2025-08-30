@@ -4,7 +4,7 @@ vim.keymap.set("n", "gd", function()
 end, { desc = "[g]o to [d]eclaration", noremap = true })
 -- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 -- vim.keymap.set("n", "go", vim.lsp.buf.type_definition, {})
--- vim.keymap.set("n", "gca", vim.lsp.buf.code_action, {})
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 -- vim.keymap.set("n", "<leader>ge", vim.diagnostic.goto_next, {})
 -- vim.keymap.set("n", "<leader>gp", vim.diagnostic.goto_prev, {})
 -- -- Map find references to telescope picker

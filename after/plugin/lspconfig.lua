@@ -84,20 +84,6 @@ local servers = {
 			return vim.fn.getcwd()
 		end,
 	},
-	pylsp = {
-		settings = {
-			plugins = {
-				pycodestyle = {
-					ignore = { "W391" },
-					maxLineLength = 120,
-					indentSize = 4,
-				},
-				pydocstyle = {
-					convention = "numpy",
-				},
-			},
-		},
-	},
 	lua_ls = {
 		settings = {
 			Lua = {

@@ -1,3 +1,4 @@
+local lspconfig = require("lspconfig")
 local util = require("lspconfig.util")
 
 -- Enable the following language servers
@@ -50,6 +51,17 @@ local servers = {
 			end
 		end,
 	},
+	lua_ls = {
+		settings = {
+			Lua = {
+				completion = {
+					callSnippet = "Replace",
+				},
+				-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+				-- diagnostics = { disable = { 'missing-fields' } },
+			},
+		},
+	},
 	pyright = {
 		settings = {
 			python = {
@@ -84,17 +96,8 @@ local servers = {
 			return vim.fn.getcwd()
 		end,
 	},
-	lua_ls = {
-		settings = {
-			Lua = {
-				completion = {
-					callSnippet = "Replace",
-				},
-				-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-				-- diagnostics = { disable = { 'missing-fields' } },
-			},
-		},
-	},
+	rust_analyzer = {},
+	sqlls = {},
 }
 
 -- Ensure the servers and tools above are installed
@@ -111,37 +114,45 @@ local ensure_installed = vim.tbl_keys(servers or {})
 vim.list_extend(ensure_installed, {
 	"stylua", -- Used to format lua code
 	{ "black", version = "23.7.0" },
+	"pylint",
 	-- "goimports",
 	"prettier",
+	"rustfmt",
 })
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
--- LSP servers and clients are able to communicate to each other what features they support.
---  By default, Neovim doesn't support everything that is in the LSP Specification.
---  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
---  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend("force", capabilities, vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = vim.tbl_deep_extend("force", capabilities, vim.lsp.protocol.make_client_capabilities())
 
-local function extend_capabilities(server_name)
+local function extend_capabilities_and_setup(server_name)
 	local server = servers[server_name] or {}
-	-- This handles overriding only values explicitly passed
+	-- LSP servers and clients are able to communicate to each other what features they support.
+	--  By default, Neovim doesn't support everything that is in the LSP Specification.
+	--  When you add blink-cmp, luasnip, etc. Neovim now has *more* capabilities.
+	--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+	-- This also handles overriding only values explicitly passed
 	-- by the server configuration above. Useful when disabling
 	-- certain features of an LSP (for example, turning off formatting for tsserver)
-	server.capabilities = require("blink.cmp").get_lsp_capabilities(server.capabilities)
-	server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-	require("lspconfig")[server_name].setup(server)
+	server.capabilities = vim.tbl_deep_extend(
+		"force",
+		{},
+		require("blink.cmp").get_lsp_capabilities(server.capabilities),
+		server.capabilities or {}
+	)
+	lspconfig[server_name].setup(server)
 end
 
 -- mason-lspconfig.nvim will automatically enable (vim.lsp.enable()) installed servers for you by default.
 require("mason-lspconfig").setup({
 	automatic_enable = {
 		exclude = {
+			-- For some reason, setting gopls up via mason-lspconfig doesn't work. Setup gopls manually.
 			"gopls",
 		},
 	},
-	handlers = { extend_capabilities },
+	handlers = { extend_capabilities_and_setup },
 })
+extend_capabilities_and_setup("gopls")
 
 -- Defines and sets up the the please language server (this is the only one that is not inlcuded in lspconfig.configs by
 -- default, and is also not included in mason)
@@ -153,7 +164,3 @@ require("lspconfig.configs").please = {
 	},
 }
 require("lspconfig").please.setup({})
-
--- For some reason, setting this up via mason-lspconfig doesn't work. Setup gopls manually.
-extend_capabilities("gopls")
-require("lspconfig").gopls.setup(servers.gopls)

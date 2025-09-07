@@ -13,3 +13,4 @@ vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 -- 		show_line = true,
 -- 	})
 -- end, {})
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "[g]o to diagnostic f[l]oat" })

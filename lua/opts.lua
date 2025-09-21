@@ -50,29 +50,43 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 
+vim.filetype.add({
+	filename = {
+		["new-commit"] = "arcdiff",
+	},
+})
+
 require("file_types").setup({
-	lua = {
-		tab_size = 2,
+	go = {
 		text_width = 120,
+		indent_with_tabs = false,
+	},
+	html = {
+		tab_size = 2,
 	},
 	javascript = {
 		tab_size = 2,
 	},
-	typescript = {
-		tab_size = 2,
-	},
 	json = {
 		tab_size = 2,
+		indent_with_tabs = false,
 	},
 	jsonc = {
 		tab_size = 2,
 	},
-	python = {
+	lua = {
+		tab_size = 2,
 		text_width = 120,
 	},
-	go = {
+	markdown = {
 		text_width = 120,
-		indent_with_tabs = false,
+		auto_wrap = true,
+	},
+	python = {
+		text_width = 100,
+	},
+	please = {
+		text_width = 120,
 	},
 	proto = {
 		text_width = 120,
@@ -80,39 +94,34 @@ require("file_types").setup({
 	query = {
 		tab_size = 2,
 	},
-	zsh = {
-		tab_size = 2,
-	},
-	markdown = {
+	rust = {
+		indent_with_tabs = false,
 		text_width = 120,
-		auto_wrap = true,
-	},
-	html = {
-		tab_size = 2,
 	},
 	sql = {
 		tab_size = 2,
 		text_width = 120,
 	},
-	please = {
-		text_width = 120,
+	typescript = {
+		tab_size = 2,
+	},
+	yaml = {
+		tab_size = 2,
+		indent_with_tabs = false,
+	},
+	zsh = {
+		tab_size = 2,
 	},
 })
 
 vim.diagnostic.config({
 	severity_sort = true,
-	update_in_insert = true,
+	update_in_insert = false,
 	virtual_text = true,
 	float = {
 		border = "rounded",
 		source = "always",
 		header = "",
 		prefix = "",
-	},
-})
-
-vim.filetype.add({
-	filename = {
-		["new-commit"] = "arcdiff",
 	},
 })

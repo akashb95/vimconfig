@@ -29,6 +29,14 @@ require("lazy").setup({
 		enabled = true,
 		notify = false,
 	},
+	git = {
+		timeout = 60,
+		throttle = {
+			enabled = true,
+			rate = 2,
+			duration = 10 * 1000, -- in ms
+		},
+	},
 	ui = {
 		icons = {
 			cmd = "⌘",

@@ -1,10 +1,15 @@
 vim.g.mapleader = "\\"
 vim.g.maplocalleader = "\\"
 
+vim.opt.syntax = "off"
+
+-- Disable parens matching because it causes too much lag.
+vim.g.loaded_matchparen = 1
+
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= vim.o.swapfile == false
 
-vim.opt.clipboard = { "unnamed", "unnamedplus" }
+vim.opt.clipboard = "unnamedplus"
 
 vim.o.spell = false
 

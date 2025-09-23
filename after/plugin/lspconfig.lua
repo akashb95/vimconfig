@@ -125,6 +125,13 @@ local function extend_capabilities_and_setup(server_name, server_config)
 	-- This also handles overriding only values explicitly passed
 	-- by the server configuration above. Useful when disabling
 	-- certain features of an LSP (for example, turning off formatting for tsserver)
+
+	local blink_cmp_capabilities = {}
+	local blink_cmp_import_success, blink_cmp = pcall(require, "blink.cmp")
+	if blink_cmp_import_success then
+		blink_cmp_capabilities = blink_cmp.get_lsp_capabilities(server_config.capabilities)
+	end
+
 	server_config.capabilities = vim.tbl_deep_extend("force", {
 		-- Some LSPs need to be told line-folding is allowed (e.g. yamlls).
 		-- No harm in letting all LSPs know.
@@ -136,7 +143,7 @@ local function extend_capabilities_and_setup(server_name, server_config)
 				},
 			},
 		},
-	}, require("blink.cmp").get_lsp_capabilities(server_config.capabilities), server_config.capabilities or {})
+	}, blink_cmp_capabilities, server_config.capabilities or {})
 
 	vim.lsp.enable(server_name, vim.lsp.config(server_name, server_config))
 end

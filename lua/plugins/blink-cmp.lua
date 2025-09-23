@@ -1,10 +1,9 @@
 return {
 	"saghen/blink.cmp",
-	-- optional: provides snippets for the snippet source
 	dependencies = {
+		-- optional: provides snippets for the snippet source
 		"rafamadriz/friendly-snippets",
 		"mikavilpas/blink-ripgrep.nvim",
-		"neovim/nvim-lspconfig", -- Provides useful utility function
 		"folke/snacks.nvim",
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{ "echasnovski/mini.nvim" },

@@ -1,10 +1,9 @@
 return {
-	"neovim/nvim-lspconfig", -- LSP Configuration & Plugins
+	"WhoIsSethDaniel/mason-tool-installer.nvim", -- ensures that LSPs and formatters are installed when opening neovim for the first time.
 	dependencies = {
-		-- Automatically install LSPs and related tools to stdpath for neovim
+		"neovim/nvim-lspconfig", -- LSP Configuration & Plugins
 		"williamboman/mason.nvim", -- installing LSPs and code formatters
 		"williamboman/mason-lspconfig.nvim", -- provides mappings between lspconfig and mason
-		"WhoIsSethDaniel/mason-tool-installer.nvim", -- ensures that LSPs and formatters are installed when opening neovim for the first time.
 		"saghen/blink.cmp",
 
 		-- Useful status updates for LSP.

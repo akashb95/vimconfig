@@ -17,8 +17,27 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
 require("lazy").setup({
+	performance = {
+		-- runtime path optimisations
+		rtp = {
+			disabled_plugins = {
+				-- Built-in matchparen plugin causes performance issues.
+				"matchparen",
+				-- Legacy file explorer
+				"netrw",
+				"netrwPlugin",
+				"netrwSettings",
+				"netrwFileHandlers",
+				-- Other unused plugins
+				"rplugin",
+				"tarPlugin",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
 	spec = {
-		-- import your plugins
+		-- Plugins directory relative to lua/ dir.
 		{ import = "plugins" },
 	},
 	-- Configure any other settings here. See the documentation for more details.

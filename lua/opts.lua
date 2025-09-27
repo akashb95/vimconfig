@@ -3,9 +3,6 @@ vim.g.maplocalleader = "\\"
 
 vim.opt.syntax = "off"
 
--- Disable parens matching because it causes too much lag.
-vim.g.loaded_matchparen = 1
-
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= vim.o.swapfile == false
 
@@ -49,9 +46,6 @@ vim.o.termguicolors = true
 vim.o.updatetime = 80
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 

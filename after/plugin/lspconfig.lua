@@ -165,15 +165,3 @@ vim.lsp.enable(
 		end,
 	})
 )
-
--- TODO: delete after confirming vim.lsp config works
--- Defines and sets up the the please language server (this is the only one that is not inlcuded in lspconfig.configs by
--- default, and is also not included in mason)
--- require("lspconfig.configs").please = {
--- 	default_config = {
--- 		cmd = { "plz", "tool", "lps" },
--- 		filetypes = { "please" },
--- 		root_dir = util.root_pattern(".plzconfig"),
--- 	},
--- }
--- require("lspconfig").please.setup({})

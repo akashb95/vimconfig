@@ -38,7 +38,7 @@ require("nvim-treesitter.configs").setup({
 			node_decremental = "N",
 		},
 	},
-	indent = { enable = false },
+	indent = { enable = true },
 	-- All identifiers with the same name are highlighted in the same colour.
 	markid = {
 		enable = true,

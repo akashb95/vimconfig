@@ -173,20 +173,49 @@ return {
 					---@module "blink-ripgrep"
 					---@type blink-ripgrep.Options
 					opts = {
+						backend = {
+							-- The number of lines to show before and after each match in the preview
+							context_size = 3,
+
+							-- Enable fallback to neovim cwd if project_root_marker is not
+							-- found. Default: `true`, which means to use the cwd.
+							project_root_fallback = true,
+
+							ripgrep = {
+								-- Absolute root paths where the rg command will not be executed.
+								-- Usually you want to exclude paths using gitignore files or
+								-- ripgrep specific ignore files, but this can be used to only
+								-- ignore the paths in blink-ripgrep.nvim, maintaining the ability
+								-- to use ripgrep for those paths on the command line. If you need
+								-- to find out where the searches are executed, enable `debug` and
+								-- look at `:messages`.
+								ignore_paths = { "**/plz-out" },
+
+								-- The maximum file size of a file that ripgrep should include in
+								-- its search. Useful when your project contains large files that
+								-- might cause performance issues.
+								-- Examples:
+								-- "1024" (bytes by default), "200K", "1M", "1G", which will
+								-- exclude files larger than that size.
+								max_filesize = "500K",
+
+								-- The casing to use for the search in a format that ripgrep
+								-- accepts. Defaults to "--ignore-case". See `rg --help` for all the
+								-- available options ripgrep supports, but you can try
+								-- "--case-sensitive" or "--smart-case".
+								search_casing = "--smart-case",
+
+								-- Available options:
+								-- - "ripgrep", always use ripgrep
+								-- - "gitgrep", always use git grep
+								-- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
+								--   ripgrep
+								use = "ripgrep",
+							},
+						},
 						-- For many options, see `rg --help` for an exact description of
 						-- the values that ripgrep expects.
 						prefix_min_len = 4,
-
-						-- The number of lines to show before and after each match in the preview
-						context_size = 3,
-
-						-- The maximum file size of a file that ripgrep should include in
-						-- its search. Useful when your project contains large files that
-						-- might cause performance issues.
-						-- Examples:
-						-- "1024" (bytes by default), "200K", "1M", "1G", which will
-						-- exclude files larger than that size.
-						max_filesize = "500K",
 
 						-- Specifies how to find the root of the project where the ripgrep
 						-- search will start from. Accepts the same options as the marker
@@ -198,49 +227,16 @@ return {
 						-- - { ".git", "package.json", ".root" }
 						project_root_marker = { ".git", ".plzconfig", "go.mod", "requirements.txt" },
 
-						-- Enable fallback to neovim cwd if project_root_marker is not
-						-- found. Default: `true`, which means to use the cwd.
-						project_root_fallback = true,
-
-						-- The casing to use for the search in a format that ripgrep
-						-- accepts. Defaults to "--ignore-case". See `rg --help` for all the
-						-- available options ripgrep supports, but you can try
-						-- "--case-sensitive" or "--smart-case".
-						search_casing = "--smart-case",
-
 						-- When a result is found for a file whose filetype does not have a
 						-- treesitter parser installed, fall back to regex based highlighting
 						-- that is bundled in Neovim.
 						fallback_to_regex_highlighting = true,
-
-						-- Absolute root paths where the rg command will not be executed.
-						-- Usually you want to exclude paths using gitignore files or
-						-- ripgrep specific ignore files, but this can be used to only
-						-- ignore the paths in blink-ripgrep.nvim, maintaining the ability
-						-- to use ripgrep for those paths on the command line. If you need
-						-- to find out where the searches are executed, enable `debug` and
-						-- look at `:messages`.
-						ignore_paths = { "**/plz-out" },
 
 						-- Requires folke/snacks.nvim.
 						toggles = {
 							-- The keymap to toggle the plugin on and off from blink
 							-- completion results. Example: "<leader>tg"
 							on_off = "<leader>cmprg",
-						},
-
-						-- Features that are not yet stable and might change in the future.
-						-- You can enable these to try them out beforehand, but be aware
-						-- that they might change. Nothing is enabled by default.
-						future_features = {
-							backend = {
-								-- Available options:
-								-- - "ripgrep", always use ripgrep
-								-- - "gitgrep", always use git grep
-								-- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
-								--   ripgrep
-								use = "ripgrep",
-							},
 						},
 
 						-- Show debug information in `:messages` that can help in

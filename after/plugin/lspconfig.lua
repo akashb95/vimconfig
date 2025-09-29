@@ -17,15 +17,24 @@ local servers = {
 		cmd = { "gopls" },
 		settings = {
 			gopls = {
+				analyses = {
+					-- Disable the analyzer that detects and removes unused imports
+					unusedimports = false,
+				},
+				diagnosticsDelay = "2s",
+				-- Gopls publishes diagnostics for all files within root_dir.
+				-- One of the diagnostics steps is `go mod tidy`. This takes a long time in large repos.
+				-- By default, it is done on edit, causing stop-the-world pauses very frequently.
+				-- Instead, we set this to trigger on Save only. Saving takes longer, but editing will be much smoother.
+				diagnosticsTrigger = "Save",
 				codelenses = {
 					gc_details = true,
 					test = true,
-					tidy = true,
+					tidy = false,
 					vendor = true,
 					regenerate_cgo = true,
 					upgrade_dependency = true,
 				},
-				diagnosticsDelay = "2s",
 				directoryFilters = { "-plz-out" },
 				linksInHover = false,
 			},
@@ -37,26 +46,28 @@ local servers = {
 		root_dir = function(buffer, on_dir)
 			local buffer_name = vim.api.nvim_buf_get_name(buffer)
 
-			local root
+			local buffer_directory = vim.fs.dirname(buffer_name)
+
+			-- Default root
+			local root = buffer_directory
 
 			-- plz-out is where Please stores its artifacts.
 			if string.find(buffer_name, "plz%-out") then
 				-- Separate branch, because otherwise it defaults to the repo root and becomes too slow
-				root = vim.fs.dirname(vim.fs.find({ "go.mod", "go.work" }, { upward = true, type = "file" })[1])
+				root = vim.fs.dirname(
+					vim.fs.find({ "go.mod", "go.work" }, { upward = true, path = buffer_directory, type = "file" })[1]
+				)
 			end
 
+			-- Keep the root as close to the current buffer as possible to avoid publishing diagnostics for all files in a
+			-- certain root directory.
 			root = vim.fs.dirname(vim.fs.find({
 				-- Order here matters
 				"BUILD",
 				"go.work",
 				"go.mod",
 				".git",
-			}, { upward = true, type = "file" })[1])
-
-			if not root then
-				-- Default to cwd.
-				root = vim.fs.dirname(buffer_name)
-			end
+			}, { upward = true, path = buffer_directory, type = "file" })[1])
 
 			on_dir(root)
 		end,

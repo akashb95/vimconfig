@@ -95,7 +95,22 @@ vim.keymap.set("n", "<leader>tsh", function()
 	builtin.search_history({ layout_strategy = "vertical" })
 end, { noremap = true, silent = true, desc = "[t]elescope [s]earch [h]istory" })
 
--- vim.keymap.set({ "n", "v" }, "gd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [d]efinition" })
+vim.keymap.set("n", "<leader>gst", function()
+	builtin.git_status({
+		use_file_path = true,
+		use_git_root = true,
+		git_icons = {
+			added = "+",
+			changed = "~",
+			copied = ">",
+			deleted = "-",
+			renamed = "R",
+			unmerged = "‡",
+			untracked = "?",
+		},
+		prompt_title = "Git status",
+	})
+end, { desc = "[g]it [st]atus", noremap = true, silent = true })
 
 vim.keymap.set(
 	{ "n", "v" },

@@ -31,9 +31,12 @@ return {
 	"okuuva/auto-save.nvim",
 	version = "*", -- alternatively use '*' to use the latest tagged release
 	cmd = "ASToggle", -- optional for lazy loading on command
-	event = { "InsertLeave", "TextChanged" }, -- optional for lazy loading on trigger events
+	event = { "BufLeave" }, -- optional for lazy loading on trigger events
 	opts = {
 		condition = save_condition,
 		debounce_delay = 5000,
+		-- Autocmds like formatting can take a long time to execute.
+		-- This can cause lag across the whole nvim instance.
+		noautocmd = true,
 	},
 }

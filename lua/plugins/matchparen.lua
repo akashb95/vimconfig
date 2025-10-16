@@ -5,7 +5,7 @@ return {
 		require("matchparen").setup({
 			enabled = true,
 			hl_group = "MatchParen",
-			debounce_time = 25,
+			debounce_time = 30,
 		})
 	end,
 }

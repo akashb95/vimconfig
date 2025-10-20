@@ -7,4 +7,9 @@ vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "[g]o to diagnostic f[l]oat" })
 vim.keymap.set("n", "gtl", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+	if vim.diagnostic.is_enabled() then
+		vim.notify("Showing inline diagnostics")
+	else
+		vim.notify("Hiding inline diagnostics")
+	end
 end, { desc = "[g]o [t]oggle diagnostic f[l]oat" })

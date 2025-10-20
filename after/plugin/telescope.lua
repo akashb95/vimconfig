@@ -1,6 +1,5 @@
 local telescope = require("telescope")
 local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
-local lga_actions = require("telescope-live-grep-args.actions")
 local builtin = require("telescope.builtin")
 
 telescope.setup({

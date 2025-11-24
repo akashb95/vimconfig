@@ -1,5 +1,4 @@
 -- gc keymaps for commenting
-require("mini.comment").setup()
 
 -- Better Around/Inside textobjects
 --

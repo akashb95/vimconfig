@@ -38,6 +38,7 @@ return {
 			"typescript",
 			"vim",
 			"vimdoc",
+      "xml",
 			"yaml",
 		},
 		highlight = { enable = true },

@@ -12,7 +12,6 @@ local servers = {
 	bashls = {},
 	intelephense = {},
 	buf_ls = {},
-	curlylint = {},
 	gopls = {
 		cmd = { "gopls" },
 		settings = {
@@ -83,6 +82,8 @@ local servers = {
 			},
 		},
 	},
+  rust_analyzer = {},
+  postgres_lsp = {},
 	pyright = {
 		settings = {
 			python = {
@@ -105,7 +106,6 @@ local servers = {
 			on_dir(vim.fs.dirname(vim.api.nvim_buf_get_name(buffer)))
 		end,
 	},
-	sqlls = {},
 }
 
 -- Ensure the servers and tools above are installed
@@ -124,6 +124,7 @@ vim.list_extend(vim.tbl_keys(servers or {}), {
 	"pylint",
 	-- "goimports",
 	"prettier",
+  "stylua",
 })
 require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers or {}) })
 
@@ -159,7 +160,9 @@ local function extend_capabilities_and_setup(server_name, server_config)
 end
 
 for server_name, server_config in pairs(servers) do
-	extend_capabilities_and_setup(server_name, server_config)
+  if server_name ~= "rust_analyzer" then -- Rust Analyzer will be managed by rustaceanvim. Enabling this starts multiple instances.
+    extend_capabilities_and_setup(server_name, server_config)
+  end
 end
 
 -- Configure Please LSP separately so that Mason doesn't try to install it.
@@ -169,7 +172,7 @@ vim.lsp.enable(
 		cmd = { "plz", "tool", "lps" },
 		filetypes = { "please" },
 		---@param buffer integer
-		-- @param on_dir function(root_dir?:string)
+		---@param on_dir function(root_dir?:string)
 		root_dir = function(_, on_dir)
 			on_dir(vim.fs.dirname(vim.fs.find({ ".plzconfig" }, { upward = true, type = "file" })[1]))
 		end,

@@ -36,12 +36,14 @@ vim.keymap.set(
   "<leader>ftr",
   function ()
     vim.cmd.RustLsp {"flyCheck", "run"}
-  end
+  end,
+  { silent = true, buffer=bufnr, desc = "[f]orma[t]ter [r]un (cargo check)" }
 )
 vim.keymap.set(
   "n",
   "<leader>ftc",
   function ()
     vim.cmd.RustLsp {"flyCheck", "clear"}
-  end
+  end,
+  { silent = true, buffer=bufnr, desc = "[f]orma[t]ter [c]lear" }
 )

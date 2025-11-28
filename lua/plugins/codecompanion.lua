@@ -29,5 +29,17 @@ return {
 				},
 			},
 		})
+    vim.keymap.set(
+      "n",
+      "<Leader>cco",
+      "<cmd>CodeCompanionChat<cr>",
+      { desc = "[c]odecompanion [c]hat [o]pen", noremap = true, silent = true }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "<Leader>cct",
+      "<cmd>CodeCompanionChat Toggle<cr>",
+      { desc = "[c]odecompanion [c]hat [t]oggle", noremap = true, silent = true }
+    )
 	end,
 }

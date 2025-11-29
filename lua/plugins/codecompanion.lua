@@ -15,6 +15,11 @@ return {
 				http = {
 					gemini = function()
 						return require("codecompanion.adapters").extend("gemini", {
+							-- schema = {
+							-- 	model = {
+							-- 		default = "gemini-3-pro-preview",
+							-- 	},
+							-- },
 							env = {
 								-- 1. Execute the 1Password CLI command
 								-- 2. vim.trim() removes the trailing newline character
@@ -29,17 +34,17 @@ return {
 				},
 			},
 		})
-    vim.keymap.set(
-      "n",
-      "<Leader>cco",
-      "<cmd>CodeCompanionChat<cr>",
-      { desc = "[c]odecompanion [c]hat [o]pen", noremap = true, silent = true }
-    )
-    vim.keymap.set(
-      { "n", "v" },
-      "<Leader>cct",
-      "<cmd>CodeCompanionChat Toggle<cr>",
-      { desc = "[c]odecompanion [c]hat [t]oggle", noremap = true, silent = true }
-    )
+		vim.keymap.set(
+			"n",
+			"<Leader>cco",
+			"<cmd>CodeCompanionChat<cr>",
+			{ desc = "[c]odecompanion [c]hat [o]pen", noremap = true, silent = true }
+		)
+		vim.keymap.set(
+			{ "n", "v" },
+			"<Leader>cct",
+			"<cmd>CodeCompanionChat Toggle<cr>",
+			{ desc = "[c]odecompanion [c]hat [t]oggle", noremap = true, silent = true }
+		)
 	end,
 }

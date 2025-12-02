@@ -25,6 +25,13 @@ return {
 
 					end
 				end,
+        auto_attach = function(bufnr)
+          if vim.bo[bufnr].filetype ~= 'rust' and not vim.fn.bufname(bufnr):match('Cargo%.toml$') then
+            return false
+          end
+
+          return true
+        end,
 			},
       tools = {
         enable_clippy=false,

@@ -26,7 +26,7 @@ return {
 								api_key = vim.trim(vim.fn.system({
 									"op",
 									"read",
-									"op://Tech/v3siwxry32kg75jrmmewwy34ye/credential",
+									"op://Employee/ukafu5czkq37oo7thictjenh4e/credential",
 								})),
 							},
 						})

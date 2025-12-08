@@ -13,19 +13,12 @@ return {
 			strategies = {
 				chat = {
 					adapter = "gemini",
-					tools = {
-						["editor"] = {
-							callback = "strategies.chat.tools.editor",
-							description = "Edit the current buffer",
-						},
-						["files"] = {
-							callback = "strategies.chat.tools.files",
-							description = "Read files",
-						},
+					opts = {
+						completion_provider = "blink",
 					},
 				},
 				inline = {
-					adapter = "gemini",
+					adapter = "gemini_cli",
 					keymaps = {
 						accept_change = {
 							modes = { n = "ga" },
@@ -44,7 +37,6 @@ return {
 						},
 					},
 				},
-				agent = { adapter = "gemini" },
 			},
 			adapters = {
 				http = {
@@ -56,17 +48,28 @@ return {
 								},
 							},
 							env = {
-								-- 1. Execute the 1Password CLI command
-								-- 2. vim.trim() removes the trailing newline character
-								api_key = vim.trim(vim.fn.system({
-									"op",
-									"read",
-									"op://Employee/ukafu5czkq37oo7thictjenh4e/credential",
-								})),
+								api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
 							},
 						})
 					end,
 				},
+
+				-- ACP allows agentic mode, including inline edits.
+				acp = {
+					gemini_cli = function()
+						return require("codecompanion.adapters").extend("gemini_cli", {
+							defaults = {
+								auth_method = "gemini-api-key", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
+							},
+							env = {
+								GEMINI_API_KEY = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
+							},
+						})
+					end,
+				},
+			},
+			opts = {
+				log_level = "DEBUG",
 			},
 		})
 

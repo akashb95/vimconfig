@@ -106,6 +106,7 @@ local servers = {
 			on_dir(vim.fs.dirname(vim.api.nvim_buf_get_name(buffer)))
 		end,
 	},
+  vtsls = {},
 }
 
 -- Ensure the servers and tools above are installed

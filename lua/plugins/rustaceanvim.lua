@@ -6,12 +6,6 @@ return {
 	init = function()
 		vim.g.rustaceanvim = {
 			server = {
-				checkOnSave = {
-					enable = false,
-				},
-				diagnostics = {
-					enable = false,
-				},
 				-- Configure the root_dir to find the nearest Cargo.toml or .git directory
 				root_dir = function(filename, default_root_dir_func)
 					local current_buffer_dir = vim.fs.dirname(filename)
@@ -30,12 +24,27 @@ return {
 					end
 				end,
 				auto_attach = function(bufnr)
+					if #vim.bo[bufnr].buftype > 0 then
+						return false
+					end
 					if vim.bo[bufnr].filetype ~= "rust" and not vim.fn.bufname(bufnr):match("Cargo%.toml$") then
 						return false
 					end
 
 					return true
 				end,
+			},
+			default_settings = {
+				--- options to send to rust-analyzer
+				--- See: https://rust-analyzer.github.io/book/configuration
+				["rust-analyzer"] = {
+					checkOnSave = {
+						enable = false,
+					},
+					diagnostics = {
+						enable = false, -- Do not double-up with Bacon LS
+					},
+				},
 			},
 			tools = {
 				enable_clippy = false,

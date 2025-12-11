@@ -13,6 +13,9 @@ return {
 			strategies = {
 				chat = {
 					adapter = "gemini",
+					keymaps = {
+						close = false,
+					},
 					opts = {
 						completion_provider = "blink",
 					},
@@ -48,7 +51,7 @@ return {
 								},
 							},
 							env = {
-                api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
+								api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
 							},
 						})
 					end,
@@ -62,7 +65,7 @@ return {
 								auth_method = "gemini-api-key", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
 							},
 							env = {
-                api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
+								api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
 							},
 						})
 					end,

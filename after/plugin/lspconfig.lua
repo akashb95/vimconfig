@@ -10,8 +10,8 @@ local servers = {
 	yamlls = {},
 	vimls = {},
 	bashls = {},
-	intelephense = {},
 	buf_ls = {},
+	intelephense = {},
 	gopls = {
 		cmd = { "gopls" },
 		settings = {
@@ -82,8 +82,15 @@ local servers = {
 			},
 		},
 	},
-  rust_analyzer = {},
-  postgres_lsp = {},
+	rust_analyzer = {},
+	bacon = {},
+	bacon_ls = {
+		init_options = {
+			updateOnSave = true,
+			updateOnSaveWaitMillis = 1000,
+		},
+	},
+	postgres_lsp = {},
 	pyright = {
 		settings = {
 			python = {
@@ -106,7 +113,7 @@ local servers = {
 			on_dir(vim.fs.dirname(vim.api.nvim_buf_get_name(buffer)))
 		end,
 	},
-  vtsls = {},
+	vtsls = {},
 }
 
 -- Ensure the servers and tools above are installed
@@ -125,7 +132,7 @@ vim.list_extend(vim.tbl_keys(servers or {}), {
 	"pylint",
 	-- "goimports",
 	"prettier",
-  "stylua",
+	"stylua",
 })
 require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers or {}) })
 
@@ -161,9 +168,9 @@ local function extend_capabilities_and_setup(server_name, server_config)
 end
 
 for server_name, server_config in pairs(servers) do
-  if server_name ~= "rust_analyzer" then -- Rust Analyzer will be managed by rustaceanvim. Enabling this starts multiple instances.
-    extend_capabilities_and_setup(server_name, server_config)
-  end
+	if server_name ~= "rust_analyzer" then -- Rust Analyzer will be managed by rustaceanvim. Enabling this starts multiple instances.
+		extend_capabilities_and_setup(server_name, server_config)
+	end
 end
 
 -- Configure Please LSP separately so that Mason doesn't try to install it.

@@ -21,6 +21,7 @@ local function save_condition(buf)
 	if
 		vim.tbl_contains(excluded_filetypes, vim.fn.getbufvar(buf, "&filetype"))
 		or vim.tbl_contains(excluded_filenames, vim.fn.expand("%:t"))
+		or vim.bo.filetype == "codecompanion"
 	then
 		return false
 	end
@@ -34,7 +35,7 @@ return {
 	event = { "BufLeave" }, -- optional for lazy loading on trigger events
 	opts = {
 		condition = save_condition,
-		debounce_delay = 5000,
+		debounce_delay = 20000,
 		-- Autocmds like formatting can take a long time to execute.
 		-- This can cause lag across the whole nvim instance.
 		noautocmd = true,

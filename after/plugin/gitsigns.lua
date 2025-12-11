@@ -60,6 +60,10 @@ local function on_attach(bufnr)
 		gitsigns.stage_hunk,
 		{ noremap = true, buffer = bufnr, silent = true, desc = "[g]it [s]tage [h]unk" }
 	)
+
+	vim.keymap.set("n", "<leader>gbfw", function()
+		gitsigns.blame_line({ full = true })
+	end, { noremap = true, buffer = bufnr, silent = true, desc = "[g]it [b]lame [f]loating [w]indow" })
 end
 
 gitsigns.setup({

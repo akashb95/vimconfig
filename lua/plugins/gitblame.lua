@@ -4,7 +4,10 @@ return {
 	lazy = false,
 
 	keys = {
-		{ "<leader>gburl", "<CMD>GitBlameOpenCommitUrl<CR>", desc = "[g]it [b]lame open commit [url]" },
+		{ "<leader>gburl", "<CMD>GitBlameOpenCommitURL<CR>", desc = "[g]it [b]lame open commit [url]" },
+	},
+	keys = {
+		{ "<leader>gbcurl", "<CMD>GitBlameCopyCommitURL<CR>", desc = "[g]it [b]lame [c]opy commit [url]" },
 	},
 
 	opts = {

@@ -2,7 +2,7 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
 	dependencies = {
-		{ "nvim-treesitter/nvim-treesitter-context", opts = {} },
+		{ "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 3 } },
 		"nvim-treesitter/nvim-treesitter-textobjects",
 	},
 	opts = {

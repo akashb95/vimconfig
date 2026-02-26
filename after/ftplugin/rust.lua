@@ -47,6 +47,7 @@ end, { silent = true, buffer = bufnr, desc = "[J]oin lines" })
 vim.keymap.set("n", "<leader>ftr", function()
 	vim.cmd.RustLsp({ "flyCheck", "run" })
 end, { silent = true, buffer = bufnr, desc = "[f]orma[t]ter [r]un (cargo check)" })
+
 vim.keymap.set("n", "<leader>ftc", function()
 	vim.cmd.RustLsp({ "flyCheck", "clear" })
 end, { silent = true, buffer = bufnr, desc = "[f]orma[t]ter [c]lear" })

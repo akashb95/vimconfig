@@ -56,43 +56,31 @@ return {
 						})
 					end,
 				},
-
-				-- ACP allows agentic mode, including inline edits.
-				acp = {
-					gemini_cli = function()
-						return require("codecompanion.adapters").extend("gemini_cli", {
-							defaults = {
-								auth_method = "gemini-api-key", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
-							},
-							env = {
-								api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
-							},
-						})
-					end,
-				},
-			},
-			opts = {
-				log_level = "DEBUG",
-			},
 		})
 
 		vim.keymap.set(
 			{ "n" },
+			"<Leader>cci",
+			"<cmd>CodeCompanion<cr>",
+			{ desc = "[c]ode[c]ompanion [c]hat [i]nline", noremap = true, silent = true }
+		)
+		vim.keymap.set(
+			{ "n" },
 			"<Leader>cco",
 			"<cmd>CodeCompanionChat<cr>",
-			{ desc = "[c]odecompanion [c]hat [o]pen", noremap = true, silent = true }
+			{ desc = "[c]ode[c]ompanion [c]hat [o]pen", noremap = true, silent = true }
 		)
 		vim.keymap.set(
 			{ "n" },
 			"<Leader>cct",
 			"<cmd>CodeCompanionChat Toggle<cr>",
-			{ desc = "[c]odecompanion [c]hat [t]oggle", noremap = true, silent = true }
+			{ desc = "[c]ode[c]ompanion [c]hat [t]oggle", noremap = true, silent = true }
 		)
 		vim.keymap.set(
-			{ "v" },
-			"<Leader>ca",
+			{ "n", "v" },
+			"<Leader>cca",
 			"<CMD>CodeCompanionActions<CR>",
-			{ desc = "[c]odecompanion [a]ctions", noremap = true, silent = true }
+			{ desc = "[c]ode[c]ompanion [a]ctions", noremap = true, silent = true }
 		)
 	end,
 }

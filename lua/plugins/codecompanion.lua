@@ -94,12 +94,29 @@ return {
 										end
 									end
 
-									-- If it's not in our safe list, require approval.
-									return true
-								end,
-							},
-						},
-					},
+                  -- If it's not in our safe list, require approval.
+                  return true
+                end,
+              },
+            },
+          },
+          groups = {
+            ["code_reviewer"] = {
+              description = "An agent specialised in reviewing code changes.",
+              system_prompt = "You are an senior engineer who is reviewing code. Your goal is to analyze the user's code changes and provide candid and constructive feedback. Use the provided tools to understand the context of the changes, find related code, and read relevant files.",
+              tools = {
+                "get_changed_files", -- To see what has changed in the git worktree
+                "read_file",         -- To read the full content of specific files
+                "grep_search",       -- To find occurrences of functions or variables
+                "list_code_usages",  -- To understand symbol usages via LSP
+                "file_search",       -- To find other relevant files in the project
+                "cmd_runner",        -- To run any commands needed to get more context
+              },
+              opts = {
+                collapse_tools = false,
+              },
+            },
+          }
 				},
 				inline = {
 					adapter = "gemini",

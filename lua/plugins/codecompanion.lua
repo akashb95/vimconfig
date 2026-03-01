@@ -62,6 +62,13 @@ return {
 								collapse_tools = false,
 							},
 						},
+						["find_usages"] = {
+							tools = {
+								"read_file",
+								"list_code_usages",
+								"cmd_runner",
+							},
+						},
 					},
 					keymaps = {
 						send = {
@@ -98,6 +105,7 @@ return {
 										"grep",
 										"ls",
 										"rg",
+										"tree",
 									}
 
 									local command_to_run = tool.args and tool.args.cmd

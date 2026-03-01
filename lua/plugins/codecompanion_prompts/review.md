@@ -21,22 +21,22 @@ ${review.diff_trunk_against_head}
 
 AGENTS.md:
 ```markdown
-${review.read_agents_md}
+${common.read_agents_md}
 ```
 
 [STRATEGY]
 When using the cmd_runner_tool, register the following preferences:
 * `eza` over `ls` and `tree`
   ```
-  ${review.eza_help}
+  ${common.eza_help}
   ```
 * `fd` over `find`
   ```
-  ${review.fd_help}
+  ${common.fd_help}
   ```
 * `rg` over `grep`
   ```
-  ${review.rg_help}
+  ${common.rg_help}
   ```
 
 If you are having trouble using these tools, fall back to the legacy implementations.

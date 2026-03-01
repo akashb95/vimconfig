@@ -13,11 +13,6 @@ local quit_from_buftypes = {
 	quickfix = true,
 }
 vim.keymap.set("n", "<C-c>", function()
-	if vim.bo.filetype == "codecompanion" then
-		-- In CodeCompanionChat, use <C-c> to submit the message.
-		local keys = vim.api.nvim_replace_termcodes("<C-s>", true, true, true)
-		return vim.api.nvim_feedkeys(keys, "m", true)
-	end
 	local buftype = vim.api.nvim_get_option_value("buftype", {})
 	if rawget(quit_from_buftypes, buftype) ~= nil then
 		return vim.cmd("quit")

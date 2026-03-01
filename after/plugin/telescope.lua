@@ -1,6 +1,7 @@
 local telescope = require("telescope")
 local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
 local builtin = require("telescope.builtin")
+local actions = require("telescope.actions")
 
 telescope.setup({
 	defaults = {
@@ -25,6 +26,16 @@ telescope.setup({
 				preview_cutoff = 40,
 				prompt_position = "bottom",
 				width = 0.9,
+			},
+		},
+		mappings = {
+			i = {
+				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+				["<M-q>"] = actions.send_to_qflist + actions.open_qflist,
+			},
+			n = {
+				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+				["<M-q>"] = actions.send_to_qflist + actions.open_qflist,
 			},
 		},
 		preview = {
@@ -61,18 +72,10 @@ vim.keymap.set(
 	"<CMD>Telescope live_grep_args<CR>",
 	{ noremap = true, desc = "[t]elescope live [g]rep [s]earch" }
 )
-vim.keymap.set(
-	"n",
-	"<leader>tguc",
-	live_grep_args_shortcuts.grep_word_under_cursor,
-	{ noremap = true, silent = true, desc = "[t]elescope live [g]rep word [u]nder [c]ursor" }
-)
-vim.keymap.set(
-	"v",
-	"<leader>tgvs",
-	live_grep_args_shortcuts.grep_visual_selection,
-	{ noremap = true, silent = true, desc = "[t]elescope live [g]rep [v]isual [s]election" }
-)
+
+vim.keymap.set({ "n", "v" }, "<leader>tguc", function()
+	live_grep_args_shortcuts.grep_visual_selection({ postfix = " --iglob **/*" })
+end, { noremap = true, silent = true, desc = "Telescope live grep visual selection" })
 
 vim.keymap.set("n", "<leader>tb", builtin.buffers, { noremap = true, silent = true, desc = "[t]elescope [b]uffers" })
 vim.keymap.set("n", "<leader>tfg", function()

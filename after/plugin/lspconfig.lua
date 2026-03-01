@@ -53,20 +53,25 @@ local servers = {
 			-- plz-out is where Please stores its artifacts.
 			if string.find(buffer_name, "plz%-out") then
 				-- Separate branch, because otherwise it defaults to the repo root and becomes too slow
-				root = vim.fs.dirname(
-					vim.fs.find({ "go.mod", "go.work" }, { upward = true, path = buffer_directory, type = "file" })[1]
-				)
+				local root_marker_path =
+					vim.fs.find({ "go.mod", "go.work" }, { upward = true, path = buffer_directory })[1]
+				if root_marker_path then
+					return on_dir(vim.fs.dirname(root_marker_path))
+				end
 			end
 
 			-- Keep the root as close to the current buffer as possible to avoid publishing diagnostics for all files in a
 			-- certain root directory.
-			root = vim.fs.dirname(vim.fs.find({
+			local root_marker_path = vim.fs.find({
 				-- Order here matters
 				"BUILD",
 				"go.work",
 				"go.mod",
 				".git",
-			}, { upward = true, path = buffer_directory, type = "file" })[1])
+			}, { upward = true, path = buffer_directory })[1]
+			if root_marker_path then
+				root = vim.fs.dirname(root_marker_path)
+			end
 
 			on_dir(root)
 		end,
@@ -92,13 +97,33 @@ local servers = {
 	},
 	postgres_lsp = {},
 	pyright = {
+		on_init = function(client)
+			local python_path
+			if vim.env.VIRTUAL_ENV then
+				python_path = vim.fs.joinpath(vim.env.VIRTUAL_ENV, "bin", "python")
+			else
+				local root_dir = (
+					client.workspace_folders
+					and client.workspace_folders[1]
+					and client.workspace_folders[1].name
+				) or vim.fn.getcwd()
+				python_path = vim.fs.joinpath(root_dir, ".venv", "bin", "python")
+			end
+
+			if vim.fn.executable(python_path) == 1 then
+				client.config.settings.python.pythonPath = python_path
+			else
+				client.config.settings.python.pythonPath = vim.fn.exepath("python3") or "python"
+			end
+
+			client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+			return true
+		end,
 		settings = {
 			python = {
 				analysis = {
 					autoSearchPaths = true,
 					typeCheckingMode = "standard",
-					verboseOutput = true,
-					logLevel = "Trace",
 					extraPaths = {
 						"plz-out/gen",
 						"plz-out/python/venv",
@@ -110,7 +135,22 @@ local servers = {
 		---@param buffer integer
 		-- @param on_dir function(root_dir?:string)
 		root_dir = function(buffer, on_dir)
-			on_dir(vim.fs.dirname(vim.api.nvim_buf_get_name(buffer)))
+			local buffer_name = vim.api.nvim_buf_get_name(buffer)
+
+			local buffer_directory = vim.fs.dirname(buffer_name)
+
+			local root_marker_path = vim.fs.find({
+				-- Order here matters
+				"requirements.txt",
+				".git",
+			}, { upward = true, path = buffer_directory })[1]
+
+			local root = buffer_directory
+			if root_marker_path then
+				root = vim.fs.dirname(root_marker_path)
+			end
+
+			on_dir(root)
 		end,
 	},
 	vtsls = {},

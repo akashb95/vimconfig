@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	version = "v18.7.0",
+	version = "v19.0.0",
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -54,7 +54,6 @@ return {
 								"get_changed_files", -- To see what has changed in the git worktree
 								"read_file", -- To read the full content of specific files
 								"grep_search", -- To find occurrences of functions or variables
-								"list_code_usages", -- To understand symbol usages via LSP
 								"file_search", -- To find other relevant files in the project
 								"cmd_runner", -- To run any commands needed to get more context
 							},
@@ -65,7 +64,6 @@ return {
 						["find_usages"] = {
 							tools = {
 								"read_file",
-								"list_code_usages",
 								"cmd_runner",
 							},
 						},

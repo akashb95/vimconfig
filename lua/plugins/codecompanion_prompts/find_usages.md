@@ -67,3 +67,9 @@ Another convention specific to Rust is that an rpc declared in a protobuf is imp
 somewhere in the codebase. Typically there is a `fn perform` in this file which implements the handler.
 In these cases, you may want to cross-check you have found the correct occurrences by looking at the types or
 signatures of the functions.
+
+### user
+
+[TASK]
+
+Please find usages of 

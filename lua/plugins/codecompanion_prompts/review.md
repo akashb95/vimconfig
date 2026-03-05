@@ -24,23 +24,6 @@ AGENTS.md:
 ${common.read_agents_md}
 ```
 
-[STRATEGY]
-When using the cmd_runner_tool, register the following preferences:
-* `eza` over `ls` and `tree`
-  ```
-  ${common.eza_help}
-  ```
-* `fd` over `find`
-  ```
-  ${common.fd_help}
-  ```
-* `rg` over `grep`
-  ```
-  ${common.rg_help}
-  ```
-
-If you are having trouble using these tools, fall back to the legacy implementations.
-
 [OUTPUT]
 
 When using filepaths, always use the filepath relative to the Git root.
@@ -59,10 +42,7 @@ summary_of_what_is_wrong
 short_suggestion_on_how_to_fix_it
 ```
 
-Order by decreasing severity.
-
-Please be terse.
-
+Order by decreasing severity. Be terse.
 
 ## user
 
@@ -81,3 +61,14 @@ Please critique the changes according to the following criteria:
 * Taste (as Linus Torvalds would put it)
 * How idiomatic the code is in the language it is written in
 * Ease of review
+
+Also find any TODO or FIXME comments which have been added in this change but 
+have not got a ticket referenced. 
+All TRACE comments should be removed. Below are some examples. This is fine:
+* TODO(XYZ): todo 
+* FIXME(ABC): fixme
+
+This is not fine:
+* TODO: todo
+* FIXME: oh no 
+* TRACE: look here

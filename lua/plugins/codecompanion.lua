@@ -79,6 +79,25 @@ return {
 			opts = {
 				log_level = "INFO",
 			},
+			rules = {
+				default = {
+					description = "Collection of common files for all projects",
+					files = {
+						".clinerules",
+						".cursorrules",
+            ".cursor/rules",
+						".goosehints",
+						".rules",
+						".windsurfrules",
+						".github/copilot-instructions.md",
+						"AGENT.md",
+						"AGENTS.md",
+						{ path = "CLAUDE.md", parser = "claude" },
+						{ path = "CLAUDE.local.md", parser = "claude" },
+						{ path = "~/.claude/CLAUDE.md", parser = "claude" },
+					},
+				},
+			},
 			prompt_library = {
 				markdown = {
 					dirs = {

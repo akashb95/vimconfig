@@ -73,9 +73,13 @@ vim.keymap.set(
 	{ noremap = true, desc = "[t]elescope live [g]rep [s]earch" }
 )
 
-vim.keymap.set({ "n", "v" }, "<leader>tguc", function()
-	live_grep_args_shortcuts.grep_visual_selection({ postfix = " --iglob **/*" })
-end, { noremap = true, silent = true, desc = "Telescope live grep visual selection" })
+vim.keymap.set({ "v" }, "<leader>tguc", function()
+	live_grep_args_shortcuts.grep_visual_selection({ postfix = " --iglob **/*.*" })
+end, { noremap = true, silent = true, desc = "[t]elescope [g]rep selection [u]nder [c]ursor" })
+
+vim.keymap.set({ "n" }, "<leader>tguc", function()
+	live_grep_args_shortcuts.grep_word_under_cursor({ postfix = " --iglob **/*.*" })
+end, { noremap = true, silent = true, desc = "[t]elescope [g]rep word [u]nder [c]ursor" })
 
 vim.keymap.set("n", "<leader>tb", builtin.buffers, { noremap = true, silent = true, desc = "[t]elescope [b]uffers" })
 vim.keymap.set("n", "<leader>tfg", function()

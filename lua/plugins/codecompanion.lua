@@ -72,9 +72,11 @@ return {
 						},
 					},
 				},
+				opts = {
+					default_servers = { "sequential-thinking", "filesystem", "memory" },
+				},
 			},
 			opts = {
-				default_servers = { "sequential-thinking", "filesystem", "memory" },
 				log_level = "INFO",
 			},
 			prompt_library = {

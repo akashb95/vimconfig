@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	version = "v19.0.0",
+	version = "v19.1.0",
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -33,7 +33,48 @@ return {
 					provider = require("codecompanion.providers").diff,
 				},
 			},
+			mcp = {
+				servers = {
+					["filesystem"] = {
+						cmd = {
+							"npx",
+							"-y",
+							"@modelcontextprotocol/server-filesystem",
+						},
+						roots = {
+							function()
+								-- Allow access to files from the current Git root if available.
+								return vim.fs.root(0, ".git") or vim.fn.getcwd()
+							end,
+						},
+						tool_overrides = {
+							directory_tree = { opts = { require_approval_before = false } },
+							get_file_info = { opts = { require_approval_before = false } },
+							list_allowed_directories = { opts = { require_approval_before = false } },
+							list_directory = { opts = { require_approval_before = false } },
+							list_directory_with_sizes = { opts = { require_approval_before = false } },
+							read_text_file = { opts = { require_approval_before = false } },
+							read_multiple_files = { opts = { require_approval_before = false } },
+							search_files = { opts = { require_approval_before = false } },
+						},
+					},
+					["memory"] = {
+						cmd = { "npx", "-y", "@modelcontextprotocol/server-memory" },
+					},
+					["sequential-thinking"] = {
+						cmd = { "npx", "-y", "@modelcontextprotocol/server-sequential-thinking" },
+						tool_overrides = {
+							sequential_thinking = {
+								opts = {
+									require_approval_before = false,
+								},
+							},
+						},
+					},
+				},
+			},
 			opts = {
+				default_servers = { "sequential-thinking", "filesystem", "memory" },
 				log_level = "INFO",
 			},
 			prompt_library = {

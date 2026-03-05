@@ -7,6 +7,7 @@ opts:
   is_slash_cmd: true
 mcp_servers:
   - filesystem
+  - github
 tools:
   - code_reviewer
 ---

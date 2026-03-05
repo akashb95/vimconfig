@@ -10,6 +10,18 @@ return {
 	config = function()
 		local codecompanion = require("codecompanion")
 
+    -- TODO: tidy up and make less hacky
+		-- Load environment variables from ~/.envrc if it exists
+		local envrc_path = vim.fn.expand("~/.envrc")
+		if vim.fn.filereadable(envrc_path) == 1 then
+			for line in io.lines(envrc_path) do
+				local key, value = string.match(line, "^export%s+([%w_]+)%s*=%s*['\"]?(.-)['\"]?$")
+				if key and value then
+					vim.env[key] = value
+				end
+			end
+		end
+
 		local function get_git_root_or_cwd()
 			return vim.fs.root(0, ".git") or vim.fn.getcwd()
 		end
@@ -60,6 +72,55 @@ return {
 							search_files = { opts = { require_approval_before = false } },
 						},
 					},
+					["github"] = {
+						cmd = { "npx", "-y", "@modelcontextprotocol/server-github" },
+						env = {
+							GITHUB_PERSONAL_ACCESS_TOKEN = "cmd:echo $GITHUB_PERSONAL_ACCESS_TOKEN",
+						},
+						tool_overrides = {
+							actions_get = { opts = { require_approval_before = false } },
+							actions_list = { opts = { require_approval_before = false } },
+							get_commit = { opts = { require_approval_before = false } },
+							get_dependabot_alert = { opts = { require_approval_before = false } },
+							get_discussion = { opts = { require_approval_before = false } },
+							get_discussion_comments = { opts = { require_approval_before = false } },
+							get_file_contents = { opts = { require_approval_before = false } },
+							get_gist = { opts = { require_approval_before = false } },
+							get_global_security_advisory = { opts = { require_approval_before = false } },
+							get_job_logs = { opts = { require_approval_before = false } },
+							get_label = { opts = { require_approval_before = false } },
+							get_latest_release = { opts = { require_approval_before = false } },
+							get_me = { opts = { require_approval_before = false } },
+							get_notification_details = { opts = { require_approval_before = false } },
+							get_release_by_tag = { opts = { require_approval_before = false } },
+							get_repository_tree = { opts = { require_approval_before = false } },
+							get_tag = { opts = { require_approval_before = false } },
+							get_team_members = { opts = { require_approval_before = false } },
+							get_teams = { opts = { require_approval_before = false } },
+							issue_read = { opts = { require_approval_before = false } },
+							list_branches = { opts = { require_approval_before = false } },
+							list_commits = { opts = { require_approval_before = false } },
+							list_dependabot_alerts = { opts = { require_approval_before = false } },
+							list_discussion_categories = { opts = { require_approval_before = false } },
+							list_discussions = { opts = { require_approval_before = false } },
+							list_gists = { opts = { require_approval_before = false } },
+							list_global_security_advisories = { opts = { require_approval_before = false } },
+							list_issue_types = { opts = { require_approval_before = false } },
+							list_issues = { opts = { require_approval_before = false } },
+							list_label = { opts = { require_approval_before = false } },
+							list_notifications = { opts = { require_approval_before = false } },
+							list_org_repository_security_advisories = { opts = { require_approval_before = false } },
+							list_pull_requests = { opts = { require_approval_before = false } },
+							list_releases = { opts = { require_approval_before = false } },
+							list_repository_security_advisories = { opts = { require_approval_before = false } },
+							list_starred_repositories = { opts = { require_approval_before = false } },
+							list_tags = { opts = { require_approval_before = false } },
+							projects_get = { opts = { require_approval_before = false } },
+							projects_list = { opts = { require_approval_before = false } },
+							pull_request_read = { opts = { require_approval_before = false } },
+							search_code = { opts = { require_approval_before = false } },
+						},
+					},
 					["memory"] = {
 						cmd = { "npx", "-y", "@modelcontextprotocol/server-memory" },
 					},
@@ -75,7 +136,7 @@ return {
 					},
 				},
 				opts = {
-					default_servers = { "sequential-thinking", "filesystem", "memory" },
+					default_servers = { "sequential-thinking", "filesystem", "memory", "github" },
 				},
 			},
 			opts = {
@@ -202,6 +263,7 @@ return {
 										"git diff",
 										"git status",
 										"git log",
+										"git show",
 										"grep",
 										"ls",
 										"rg",

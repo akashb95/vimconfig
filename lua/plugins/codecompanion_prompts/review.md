@@ -5,9 +5,10 @@ description: Review changes made in this feature branch
 opts:
   alias: review
   is_slash_cmd: true
-context:
-  - type: "tool"
-    name: "code_reviewer"
+mcp_servers:
+  - filesystem
+tools:
+  - code_reviewer
 ---
 
 ## system

@@ -5,13 +5,8 @@ description: Review changes made in this feature branch
 opts:
   alias: review
   is_slash_cmd: true
-context:
-  - type: "tool"
-    name: "find_usages"
-  - type: "tool"
-    name: "fetch_webpage"
-  - type: "tool"
-    name: "web_search"
+tools:
+  - find_usages
 ---
 
 ## system

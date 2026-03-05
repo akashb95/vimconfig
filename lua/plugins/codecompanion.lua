@@ -10,6 +10,10 @@ return {
 	config = function()
 		local codecompanion = require("codecompanion")
 
+		local function get_git_root_or_cwd()
+			return vim.fs.root(0, ".git") or vim.fn.getcwd()
+		end
+
 		codecompanion.setup({
 			adapters = {
 				http = {
@@ -40,12 +44,10 @@ return {
 							"npx",
 							"-y",
 							"@modelcontextprotocol/server-filesystem",
+							get_git_root_or_cwd(),
 						},
 						roots = {
-							function()
-								-- Allow access to files from the current Git root if available.
-								return vim.fs.root(0, ".git") or vim.fn.getcwd()
-							end,
+							get_git_root_or_cwd,
 						},
 						tool_overrides = {
 							directory_tree = { opts = { require_approval_before = false } },
@@ -117,7 +119,9 @@ return {
 								"read_file", -- To read the full content of specific files
 								"grep_search", -- To find occurrences of functions or variables
 								"file_search", -- To find other relevant files in the project
-								"cmd_runner", -- To run any commands needed to get more context
+								"run_command", -- To run any commands needed to get more context
+								"get_diagnostics", -- To check for any LSP errors or warnings
+								"mcp",
 							},
 							opts = {
 								collapse_tools = false,
@@ -126,23 +130,59 @@ return {
 						["find_usages"] = {
 							tools = {
 								"read_file",
-								"cmd_runner",
+								"run_command",
+								"get_diagnostics",
 							},
 						},
 					},
 					keymaps = {
 						send = {
-							modes = { n = "<C-c>", i = "<C-s>" },
+							modes = { n = { "<C-c>", "<C-s>" }, i = "<C-s>" },
 						},
 						close = {
 							modes = { n = "<C-q>", i = "<C-q>" },
 						},
 					},
 					tools = {
-						-- Extend the built-in cmd_runner tool
-						["cmd_runner"] = {
+						["file_search"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.file_search",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["get_changed_files"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.get_changed_files",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["get_diagnostics"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.get_diagnostics",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["grep_search"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.grep_search",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["memory"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.memory",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["read_file"] = {
+							callback = "codecompanion.interactions.chat.tools.builtin.read_file",
+							opts = {
+								require_approval_before = false,
+							},
+						},
+						["run_command"] = {
 							-- We must re-declare the callback to extend it
-							callback = "codecompanion.interactions.chat.tools.builtin.cmd_runner",
+							callback = "codecompanion.interactions.chat.tools.builtin.run_command",
 							description = "Run shell commands on the user's system",
 							opts = {
 								---

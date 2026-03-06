@@ -22,20 +22,15 @@ return {
 	},
 	---@type YaziConfig | {}
 	opts = {
-		-- if you want to open yazi instead of netrw, see below for more info
 		open_for_directories = true,
+		change_neovim_cwd_on_close = false,
+		open_multiple_tabs = true,
+		yazi_floating_window_winblend = 20,
 		keymaps = {
-			show_help = "<f1>",
+			show_help = "?",
 		},
 		future_features = {
-			-- use a file to store the last directory that yazi was in before it was
-			-- closed. Defaults to `true`.
 			use_cwd_file = true,
-
-			-- use a new shell escaping implementation that is more robust and works
-			-- on more platforms. Defaults to `true`. If set to `false`, the old
-			-- shell escaping implementation will be used, which is less robust and
-			-- may not work on all platforms.
 			new_shell_escaping = true,
 		},
 	},

@@ -10,7 +10,7 @@ return {
 	config = function()
 		local codecompanion = require("codecompanion")
 
-    -- TODO: tidy up and make less hacky
+		-- TODO: tidy up and make less hacky
 		-- Load environment variables from ~/.envrc if it exists
 		local envrc_path = vim.fn.expand("~/.envrc")
 		if vim.fn.filereadable(envrc_path) == 1 then
@@ -136,7 +136,7 @@ return {
 					},
 				},
 				opts = {
-					default_servers = { "sequential-thinking", "filesystem", "memory", "github" },
+					default_servers = { "filesystem", "memory" },
 				},
 			},
 			opts = {
@@ -148,7 +148,7 @@ return {
 					files = {
 						".clinerules",
 						".cursorrules",
-            ".cursor/rules",
+						".cursor/rules",
 						".goosehints",
 						".rules",
 						".windsurfrules",
@@ -174,7 +174,6 @@ return {
 					groups = {
 						["code_reviewer"] = {
 							description = "An agent specialised in reviewing code changes.",
-							system_prompt = "You are an senior engineer who is reviewing code. Your goal is to analyze the user's code changes and provide candid and constructive feedback. Use the provided tools to understand the context of the changes, find related code, and read relevant files.",
 							tools = {
 								"get_changed_files", -- To see what has changed in the git worktree
 								"read_file", -- To read the full content of specific files
@@ -189,10 +188,12 @@ return {
 							},
 						},
 						["find_usages"] = {
+							description = "An agent specialised in finding usages of symbols across repositories containing multiple languages",
 							tools = {
 								"read_file",
 								"run_command",
 								"get_diagnostics",
+								"mcp",
 							},
 						},
 					},

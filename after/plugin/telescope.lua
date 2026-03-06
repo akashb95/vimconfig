@@ -3,6 +3,12 @@ local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
 local builtin = require("telescope.builtin")
 local actions = require("telescope.actions")
 
+local function send_all_to_qf_and_refine(prompt_bufnr)
+	actions.send_to_qflist(prompt_bufnr)
+	actions.close(prompt_bufnr)
+	builtin.quickfix()
+end
+
 telescope.setup({
 	defaults = {
 		cache_picker = {
@@ -30,12 +36,12 @@ telescope.setup({
 		},
 		mappings = {
 			i = {
-				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-				["<M-q>"] = actions.send_to_qflist + actions.open_qflist,
+				["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+				["<C-r>"] = send_all_to_qf_and_refine,
 			},
 			n = {
-				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-				["<M-q>"] = actions.send_to_qflist + actions.open_qflist,
+				["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+				["<C-r>"] = send_all_to_qf_and_refine,
 			},
 		},
 		preview = {

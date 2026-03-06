@@ -1,3 +1,8 @@
+vim.opt_local.expandtab = true
+
+vim.opt_local.formatoptions:remove("t")
+vim.opt_local.formatoptions:remove("o")
+
 if vim.fn.exists(":RustLsp") == 0 then
 	-- Sometimes, the RustLsp crashes or fails to boot up.
 	-- In that case, fall back to the default functionality provided by neovim.

@@ -8,6 +8,7 @@ opts:
 mcp_servers:
   - filesystem
   - github
+  - memory
 tools:
   - code_reviewer
 ---

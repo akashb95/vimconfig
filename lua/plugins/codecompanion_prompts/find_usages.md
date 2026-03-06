@@ -7,6 +7,9 @@ opts:
   is_slash_cmd: true
 tools:
   - find_usages
+mcp_servers:
+  - filesystem
+  - memory
 ---
 
 ## system

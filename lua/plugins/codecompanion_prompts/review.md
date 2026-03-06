@@ -21,6 +21,23 @@ If you are already on the trunk branch, compare the changes made on the head sin
 ${review.diff_trunk_against_head}
 ```
 
+[STRATEGY]
+When using the cmd_runner_tool, register the following preferences:
+* `eza` over `ls` and `tree`
+  ```
+  ${common.eza_help}
+  ```
+* `fd` over `find`
+  ```
+  ${common.fd_help}
+  ```
+* `rg` over `grep`
+  ```
+  ${common.rg_help}
+  ```
+
+If you are having trouble using these tools, fall back to the legacy implementations.
+
 AGENTS.md:
 ```markdown
 ${common.read_agents_md}

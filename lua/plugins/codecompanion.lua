@@ -37,7 +37,7 @@ return {
 								},
 							},
 							env = {
-								api_key = "cmd:op read op://Employee/ukafu5czkq37oo7thictjenh4e/credential --no-newline",
+								api_key = "GEMINI_API_KEY",
 							},
 						})
 					end,

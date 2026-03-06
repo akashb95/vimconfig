@@ -40,4 +40,8 @@ return {
 		-- This can cause lag across the whole nvim instance.
 		noautocmd = true,
 	},
+	config = function(_, opts)
+		require("auto-save").setup(opts)
+		vim.keymap.set("n", "<leader>aus", "<cmd>ASToggle<CR>", { desc = "Toggle [au]to-[s]ave" })
+	end,
 }

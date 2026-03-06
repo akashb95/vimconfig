@@ -24,4 +24,9 @@ return {
 			desc = "Buffer Local Keymaps (which-key)",
 		},
 	},
+	config = function(_, opts)
+		require("which-key").setup(opts)
+		vim.o.timeout = true
+		vim.o.timeoutlen = 250
+	end,
 }

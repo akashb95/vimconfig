@@ -6,21 +6,10 @@ return {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-telescope/telescope.nvim",
+		"NotAShelf/direnv.nvim",
 	},
 	config = function()
 		local codecompanion = require("codecompanion")
-
-		-- TODO: tidy up and make less hacky
-		-- Load environment variables from ~/.envrc if it exists
-		local envrc_path = vim.fn.expand("~/.envrc")
-		if vim.fn.filereadable(envrc_path) == 1 then
-			for line in io.lines(envrc_path) do
-				local key, value = string.match(line, "^export%s+([%w_]+)%s*=%s*['\"]?(.-)['\"]?$")
-				if key and value then
-					vim.env[key] = value
-				end
-			end
-		end
 
 		local function get_git_root_or_cwd()
 			return vim.fs.root(0, ".git") or vim.fn.getcwd()

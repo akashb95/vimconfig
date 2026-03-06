@@ -55,4 +55,16 @@ return {
 			pattern = [[\b(KEYWORDS):]], -- ripgrep regex
 		},
 	},
+	config = function(_, opts)
+		local todo = require("todo-comments")
+		todo.setup(opts)
+
+		vim.keymap.set("n", "]t", function()
+			todo.jump_next({ keywords = { "FIXME", "TRACE", "TODO" } })
+		end, { desc = "Next trace comment" })
+
+		vim.keymap.set("n", "[t", function()
+			todo.jump_prev({ keywords = { "FIXME", "TRACE", "TODO" } })
+		end, { desc = "Previous trace comment" })
+	end,
 }

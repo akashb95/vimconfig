@@ -31,6 +31,19 @@ return {
 						})
 					end,
 				},
+				acp = {
+					gemini_cli = function()
+						return require("codecompanion.adapters").extend("gemini_cli", {
+							defaults = {
+								auth_method = "gemini-api-key",
+								mcpServers = "inherit_from_config",
+							},
+							env = {
+								GEMINI_API_KEY = "GEMINI_API_KEY",
+							},
+						})
+					end,
+				},
 			},
 			display = {
 				diff = {
@@ -125,7 +138,7 @@ return {
 					},
 				},
 				opts = {
-					default_servers = { "filesystem", "memory" },
+					default_servers = { "filesystem", "memory", "sequential-thinking" },
 				},
 			},
 			opts = {
@@ -321,6 +334,13 @@ return {
 			"<Leader>cca",
 			"<CMD>CodeCompanionActions<CR>",
 			{ desc = "[c]ode[c]ompanion [a]ctions", noremap = true, silent = true }
+		)
+
+		vim.keymap.set(
+			{ "n", "v" },
+			"<Leader>ccy",
+			"<cmd>CodeCompanionChat adapter=gemini_cli command=yolo<cr>",
+			{ desc = "[c]ode[c]ompanion [y]olo mode (gemini_cli)", noremap = true, silent = true }
 		)
 	end,
 }

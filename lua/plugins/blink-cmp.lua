@@ -7,6 +7,32 @@ return {
 		"folke/snacks.nvim",
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{ "echasnovski/mini.nvim" },
+		{
+			"milanglacier/minuet-ai.nvim",
+			dependencies = { "nvim-lua/plenary.nvim" },
+			config = function()
+				require("minuet").setup({
+					provider = "gemini",
+					n_completions = 1,
+					provider_options = {
+						gemini = {
+							model = "gemini-3.0-flash",
+						},
+					},
+				})
+
+				-- Keymap to toggle Minuet source in blink.cmp
+				vim.keymap.set("n", "<leader>cmpmin", function()
+					if vim.g.minuet_enabled == false then
+						vim.g.minuet_enabled = true
+						vim.notify("Minuet Enabled", vim.log.levels.INFO)
+					else
+						vim.g.minuet_enabled = false
+						vim.notify("Minuet Disabled", vim.log.levels.WARN)
+					end
+				end, { desc = "[cmp] Toggle [min]uet AI autocomplete" })
+			end,
+		},
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -56,8 +82,8 @@ return {
 			["<Down>"] = { "select_next", "fallback" },
 			["<Tab>"] = {
 				function(cmp)
-					if not cmp.get_selected_item() == nil then
-						return cmp.accept({ index = 0 })
+					if cmp.get_selected_item() ~= nil then
+						return cmp.accept()
 					end
 					return cmp.accept()
 				end,
@@ -127,15 +153,18 @@ return {
 
 			-- ghost_text = { enabled = true },
 			menu = {
+				auto_show_delay_ms = 50,
 				draw = {
 					components = {
 						kind_icon = {
 							ellipsis = false,
 							text = function(ctx)
 								local icon = ctx.kind_icon
-								local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-								if dev_icon then
-									icon = dev_icon
+								if ctx.source_name == "Path" then
+									local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+									if dev_icon then
+										icon = dev_icon
+									end
 								end
 
 								return icon .. ctx.icon_gap
@@ -155,12 +184,14 @@ return {
 				"path",
 				"buffer",
 				"ripgrep",
+				"minuet",
 			},
 			providers = {
 				lsp = {
 					name = "lsp",
 					max_items = 25,
 					enabled = true,
+					async = true,
 					module = "blink.cmp.sources.lsp",
 					score_offset = 90,
 				},
@@ -169,6 +200,7 @@ return {
 					module = "blink-ripgrep",
 					max_items = 3,
 					name = "Ripgrep",
+					async = true,
 					-- the options below are optional, some default values are shown
 					---@module "blink-ripgrep"
 					---@type blink-ripgrep.Options

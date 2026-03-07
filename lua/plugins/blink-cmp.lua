@@ -1,3 +1,5 @@
+vim.g.minuet_enabled = false
+
 return {
 	"saghen/blink.cmp",
 	dependencies = {
@@ -16,7 +18,17 @@ return {
 					n_completions = 1,
 					provider_options = {
 						gemini = {
-							model = "gemini-3.0-flash",
+							stream = true,
+							model = "gemini-flash-latest",
+							optional = {
+								generationConfig = {
+									maxOutputTokens = 128,
+									temperature = 0.1,
+									thinkingConfig = {
+										thinkingBudget = 0,
+									},
+								},
+							},
 						},
 					},
 				})
@@ -63,6 +75,7 @@ return {
 				and vim.bo.buftype ~= "prompt"
 				and vim.b.completion ~= false
 		end,
+
 		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
 		-- 'super-tab' for mappings similar to vscode (tab to accept)
 		-- 'enter' for enter to accept
@@ -113,42 +126,10 @@ return {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
 			nerd_font_variant = "mono",
-
-			kind_icons = {
-				Text = "T",
-				Method = "𝓂",
-				Function = "ƒ",
-				Constructor = "🏗️",
-
-				Field = ".f",
-				Variable = "var",
-				Property = "𝐏",
-
-				Class = "𝒞",
-				Interface = "🧩",
-				Struct = "{}",
-				Module = "📦",
-
-				Unit = "u",
-				Value = "v",
-				Enum = "enum",
-				EnumMember = "▫",
-
-				Keyword = "🔑",
-				Constant = "с",
-
-				Snippet = "✂️",
-				Color = "🎨",
-				File = "📄",
-				Reference = "જ⁀➴",
-				Folder = "📁",
-				Event = "📣",
-				Operator = "⦻",
-				TypeParameter = "𝐓",
-			},
 		},
 
 		completion = {
+			trigger = { prefetch_on_insert = false },
 			documentation = { auto_show = false },
 
 			-- ghost_text = { enabled = true },
@@ -320,6 +301,8 @@ return {
 					name = "minuet",
 					module = "minuet.blink",
 					score_offset = 100,
+					timeout_ms = 2000,
+					async = true,
 					enabled = function()
 						return vim.g.minuet_enabled ~= false
 					end,

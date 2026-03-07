@@ -16,6 +16,7 @@ return {
 		{
 			"nvim-tree/nvim-web-devicons",
 		},
+		{ "nvim-telescope/telescope-smart-history.nvim" },
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -31,6 +32,7 @@ return {
 
 		telescope.setup({
 			defaults = {
+
 				cache_picker = {
 					num_pickers = 2,
 					limit_entries = 500,
@@ -58,10 +60,14 @@ return {
 					i = {
 						["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
 						["<C-r>"] = send_all_to_qf_and_refine,
+						["<C-p>"] = actions.cycle_history_prev,
+						["<C-n>"] = actions.cycle_history_next,
 					},
 					n = {
 						["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
 						["<C-r>"] = send_all_to_qf_and_refine,
+						["<C-p>"] = actions.cycle_history_prev,
+						["<C-n>"] = actions.cycle_history_next,
 					},
 				},
 				preview = {
@@ -79,6 +85,15 @@ return {
 				},
 				wrap_results = true,
 			},
+			pickers = {
+				search_history = {
+					mappings = {
+						i = {
+							["<cr>"] = "select_default",
+						},
+					},
+				},
+			},
 			extensions = {
 				fzf = {
 					fuzzy = true,
@@ -87,11 +102,13 @@ return {
 					case_mode = "smart_case",
 				},
 				live_grep_args = { auto_quoting = true },
+				smart_history = {},
 			},
 		})
 
 		telescope.load_extension("live_grep_args")
 		pcall(telescope.load_extension, "fzf")
+		pcall(telescope.load_extension, "smart_history")
 
 		vim.keymap.set(
 			"n",
@@ -108,7 +125,12 @@ return {
 			live_grep_args_shortcuts.grep_word_under_cursor({ postfix = " --iglob **/*.*" })
 		end, { noremap = true, silent = true, desc = "[t]elescope [g]rep word [u]nder [c]ursor" })
 
-		vim.keymap.set("n", "<leader>tb", builtin.buffers, { noremap = true, silent = true, desc = "[t]elescope [b]uffers" })
+		vim.keymap.set(
+			"n",
+			"<leader>tb",
+			builtin.buffers,
+			{ noremap = true, silent = true, desc = "[t]elescope [b]uffers" }
+		)
 		vim.keymap.set("n", "<leader>tfg", function()
 			builtin.git_files({ layout_strategy = "vertical" })
 		end, { noremap = true, silent = true, desc = "[t]elescope find [f]iles added to [g]it" })
@@ -146,7 +168,12 @@ return {
 			{ noremap = true, desc = "[g]o to [D]ocument [s]ymbols" }
 		)
 
-		vim.keymap.set({ "n", "v" }, "gTd", builtin.lsp_definitions, { noremap = true, desc = "[g]o to [T]ype [d]efinition" })
+		vim.keymap.set(
+			{ "n", "v" },
+			"gTd",
+			builtin.lsp_definitions,
+			{ noremap = true, desc = "[g]o to [T]ype [d]efinition" }
+		)
 
 		vim.keymap.set({ "n", "v" }, "gr", builtin.lsp_references, { noremap = true, desc = "[g]o to [r]eferences" })
 	end,

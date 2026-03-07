@@ -316,6 +316,15 @@ return {
 					end,
 				},
 
+				minuet = {
+					name = "minuet",
+					module = "minuet.blink",
+					score_offset = 100,
+					enabled = function()
+						return vim.g.minuet_enabled ~= false
+					end,
+				},
+
 				path = {
 					max_items = 2,
 					transform_items = function(_, items)

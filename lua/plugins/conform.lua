@@ -27,7 +27,7 @@ return {
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "black" },
+				python = { "ruff_fix", "ruff_format" },
 				go = go_formatters,
 				javascript = { "prettier" },
 				json = { "prettier" },

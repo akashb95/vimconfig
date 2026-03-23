@@ -33,6 +33,7 @@ return {
 				json = { "prettier" },
 				html = { "prettier" },
 				rust = { "cargofmt" },
+				sql = { "sleek" },
 			},
 		}
 	end,

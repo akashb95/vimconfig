@@ -45,6 +45,7 @@ return {
 			},
 			tools = {
 				enable_clippy = false,
+				test_executor = "neotest",
 			},
 		}
 	end,

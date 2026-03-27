@@ -2,9 +2,15 @@
 vim.keymap.set("n", "gd", function()
 	vim.lsp.buf.definition({ reuse_win = true })
 end, { desc = "[g]o to [d]eclaration", noremap = true })
+
 vim.keymap.set("n", "go", vim.lsp.buf.type_definition, {})
-vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+
+vim.keymap.set("n", "grr", vim.lsp.buf.references, { desc = "[g]o to [rr]eferences" })
+
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[c]ode [a]ction" })
+
 vim.keymap.set("n", "df", vim.diagnostic.open_float, { desc = "open [d]iagnostic [f]loat", noremap = true })
+
 vim.keymap.set("n", "tdf", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 	if vim.diagnostic.is_enabled() then
@@ -13,6 +19,14 @@ vim.keymap.set("n", "tdf", function()
 		vim.notify("Hiding inline diagnostics")
 	end
 end, { desc = " [t]oggle [d]iagnostic [f]loat" })
+
+vim.keymap.set("n", "gri", function()
+	vim.lsp.buf.typehierarchy("subtypes")
+end, { desc = "[g]o to [i]mplementations/subtypes" })
+
+vim.keymap.set("n", "grI", function()
+	vim.lsp.buf.typehierarchy("supertypes")
+end, { desc = "[g]o to [I]nterfaces/supertypes" })
 
 -- Enable the following language servers
 --  Add any additional override configuration in the following tables. Available keys are:
@@ -112,39 +126,11 @@ local servers = {
 		},
 	},
 	postgres_lsp = {},
-	pyright = {
-		on_init = function(client)
-			local python_path
-			if vim.env.VIRTUAL_ENV then
-				python_path = vim.fs.joinpath(vim.env.VIRTUAL_ENV, "bin", "python")
-			else
-				local root_dir = (
-					client.workspace_folders
-					and client.workspace_folders[1]
-					and client.workspace_folders[1].name
-				) or vim.fn.getcwd()
-				python_path = vim.fs.joinpath(root_dir, ".venv", "bin", "python")
-			end
-
-			if vim.fn.executable(python_path) == 1 then
-				client.config.settings.python.pythonPath = python_path
-			else
-				client.config.settings.python.pythonPath = vim.fn.exepath("python3") or "python"
-			end
-
-			client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-			return true
-		end,
+	pyrefly = {
 		settings = {
 			python = {
-				analysis = {
-					autoSearchPaths = true,
-					typeCheckingMode = "standard",
-					extraPaths = {
-						"plz-out/gen",
-						"plz-out/python/venv",
-					},
-					exclude = { "plz-out" },
+				pyrefly = {
+					displayTypeErrors = "force-on",
 				},
 			},
 		},
@@ -156,7 +142,9 @@ local servers = {
 			local buffer_directory = vim.fs.dirname(buffer_name)
 
 			local root_marker_path = vim.fs.find({
-				-- Order here matters
+				-- Ordering matters
+				"pyrefly.toml",
+				"pyproject.toml",
 				"requirements.txt",
 				".git",
 			}, { upward = true, path = buffer_directory })[1]
@@ -184,11 +172,11 @@ require("mason").setup()
 -- for you, so that they are available from within Neovim.
 vim.list_extend(vim.tbl_keys(servers or {}), {
 	"stylua", -- Used to format lua code
-	{ "black", version = "23.7.0" },
-	"pylint",
+	"ruff",
 	-- "goimports",
 	"prettier",
 	"stylua",
+	"sleek",
 })
 require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers or {}) })
 

@@ -27,21 +27,21 @@ return {
 					return true
 				end,
 
-        default_settings = {
-          --- options to send to rust-analyzer
-          --- See: https://rust-analyzer.github.io/book/configuration
-          ["rust-analyzer"] = {
-            check = {
-              workspace = false,
-            },
-            -- checkOnSave = {
-            	-- enable = false,
-            -- },
-            -- diagnostics = {
-            	-- enable = false, -- Do not double-up with Bacon LS
-            -- },
-          },
-        },
+				default_settings = {
+					--- options to send to rust-analyzer
+					--- See: https://rust-analyzer.github.io/book/configuration
+					["rust-analyzer"] = {
+						check = {
+							workspace = false,
+						},
+						checkOnSave = {
+							enable = false,
+						},
+						diagnostics = {
+							enable = false, -- Do not double-up with Bacon LS
+						},
+					},
+				},
 			},
 			tools = {
 				enable_clippy = false,

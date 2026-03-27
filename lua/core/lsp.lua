@@ -118,11 +118,12 @@ local servers = {
 		},
 	},
 	rust_analyzer = {},
-	bacon = {},
 	bacon_ls = {
 		init_options = {
 			updateOnSave = true,
 			updateOnSaveWaitMillis = 1000,
+			runBaconInBackground = true,
+			runBaconInBackgroundCommandArguments = { "--headless", "-j", "bacon-ls" },
 		},
 	},
 	postgres_lsp = {},
@@ -177,6 +178,7 @@ vim.list_extend(vim.tbl_keys(servers or {}), {
 	"prettier",
 	"stylua",
 	"sleek",
+	"bacon",
 })
 require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers or {}) })
 

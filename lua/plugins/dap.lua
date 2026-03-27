@@ -4,6 +4,7 @@ return {
 		"mfussenegger/nvim-dap",
 		"nvim-neotest/nvim-nio",
 		"rcarriga/nvim-dap-ui",
+		"mfussenegger/nvim-dap-python",
 	},
 	opts = {},
 	config = function()
@@ -11,6 +12,8 @@ return {
 		local dapgo = require("dap-go")
 		dapui.setup()
 		dapgo.setup()
+		require("dap-python").setup("python") -- Uses `python` from $PATH
+
 		dap.listeners.before.attach.dapui_config = function()
 			dapui.open()
 		end

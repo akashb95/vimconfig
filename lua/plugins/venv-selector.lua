@@ -1,3 +1,8 @@
+local VIRTUAL_ENV_DIRECTORY_CANDIDATES = {
+	"venv",
+	".venv",
+}
+
 return {
 	"linux-cultist/venv-selector.nvim",
 	dependencies = {
@@ -6,29 +11,42 @@ return {
 		"mfussenegger/nvim-dap-python",
 		"nvim-telescope/telescope.nvim",
 	},
-	branch = "regexp", -- This is the recommended branch for the latest features and Neovim >= 0.10
 	lazy = false,
 	config = function()
-		local venv_selector = require("venv-selector")
-		local hooks = require("venv-selector.hooks")
+		local vs = require("venv-selector")
 
-		venv_selector.setup({
+		vs.setup({
 			settings = {
 				options = {
 					notify_user_on_venv_activation = true,
 				},
-				hooks = {
-					-- Include default hooks
-					hooks.basedpyright_hook,
-					hooks.pyright_hook,
-					hooks.pylance_hook,
-					hooks.pylsp_hook,
-					-- Add our custom hook for Pyrefly
-					function(venv_python)
-						hooks.set_python_path_for_client("pyrefly", venv_python)
-					end,
-				},
 			},
+		})
+
+		-- Auto-activate .venv or venv in the project root if no venv is currently active
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "python",
+			callback = function(args)
+				-- If a venv is already active (e.g., loaded from cache), we're done
+				if vs.python() ~= nil then
+					return
+				end
+
+				-- Find the project root (Git root or Python project root)
+				local root = vim.fs.root(args.buf, { ".git", "pyproject.toml", "setup.py" })
+				if not root then
+					return
+				end
+
+				-- Check for .venv or venv directory
+				for _, venv_name in ipairs(VIRTUAL_ENV_DIRECTORY_CANDIDATES) do
+					local python_path = vim.fs.joinpath(root, venv_name, "bin", "python")
+					if vim.fn.executable(python_path) == 1 then
+						vs.activate_from_path(python_path)
+						return
+					end
+				end
+			end,
 		})
 	end,
 	keys = {

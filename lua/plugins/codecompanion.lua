@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	version = "v19.7.0",
+	version = "v19.8.0",
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -18,6 +18,14 @@ return {
 		codecompanion.setup({
 			adapters = {
 				http = {
+					ollama = function()
+						return require("codecompanion.adapters").extend("ollama", {
+							parameters = {
+                -- Wait for Ollama server to respond before proceeding.
+								sync = true,
+							},
+						})
+					end,
 					gemini = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							schema = {
@@ -172,7 +180,10 @@ return {
 			},
 			interactions = {
 				chat = {
-					adapter = "gemini",
+					adapter = {
+						name = "ollama",
+						model = "qwen3.5:latest",
+					},
 					groups = {
 						["code_reviewer"] = {
 							description = "An agent specialised in reviewing code changes.",
@@ -300,10 +311,16 @@ return {
 					},
 				},
 				inline = {
-					adapter = "gemini",
+					adapter = {
+						name = "ollama",
+						model = "qwen3.5:latest",
+					},
 				},
 				cmd = {
-					adapter = "gemini",
+					adapter = {
+						name = "ollama",
+						model = "qwen3.5:latest",
+					},
 				},
 			},
 		})

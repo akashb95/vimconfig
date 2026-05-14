@@ -21,7 +21,7 @@ return {
 					ollama = function()
 						return require("codecompanion.adapters").extend("ollama", {
 							parameters = {
-                -- Wait for Ollama server to respond before proceeding.
+								-- Wait for Ollama server to respond before proceeding.
 								sync = true,
 							},
 						})

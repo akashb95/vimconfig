@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	version = "v19.8.0",
+	version = "v19.13.0",
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -358,6 +358,13 @@ return {
 			"<Leader>ccy",
 			"<cmd>CodeCompanionChat adapter=gemini_cli command=yolo<cr>",
 			{ desc = "[c]ode[c]ompanion [y]olo mode (gemini_cli)", noremap = true, silent = true }
+		)
+
+		vim.keymap.set(
+			{ "n", "v" },
+			"<Leader>ccly",
+			"<cmd>CodeCompanionChat adapter=ollama command=yolo<cr>",
+			{ desc = "[c]ode[c]ompanion [l]ocal [y]olo mode", noremap = true, silent = true }
 		)
 	end,
 }

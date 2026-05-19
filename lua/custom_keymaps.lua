@@ -19,3 +19,5 @@ vim.keymap.set("n", "<C-c>", function()
 	end
 	return vim.cmd("write")
 end, { desc = "Save modifiable buffers, quit unmodifiable buffers" })
+
+vim.keymap.set("t", "<C-x>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })

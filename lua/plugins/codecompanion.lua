@@ -310,7 +310,18 @@ return {
 						},
 					},
 				},
-				inline = {
+				cli = {
+					agent = "claude_code",
+					agents = {
+						claude_code = {
+							cmd = "claude",
+							args = {},
+							description = "Claude Code CLI",
+							provider = "terminal",
+						},
+					},
+				},
+				cmd = {
 					adapter = {
 						name = "ollama",
 						model = "qwen3.5:latest",

@@ -118,14 +118,14 @@ local servers = {
 		},
 	},
 	rust_analyzer = {},
-	bacon_ls = {
-		init_options = {
-			updateOnSave = true,
-			updateOnSaveWaitMillis = 1000,
-			runBaconInBackground = true,
-			runBaconInBackgroundCommandArguments = { "--headless", "-j", "bacon-ls" },
-		},
-	},
+	-- bacon_ls = {
+	-- 	init_options = {
+	-- 		updateOnSave = true,
+	-- 		updateOnSaveWaitMillis = 1000,
+	-- 		runBaconInBackground = true,
+	-- 		runBaconInBackgroundCommandArguments = { "--headless", "-j", "bacon-ls" },
+	-- 	},
+	-- },
 	postgres_lsp = {},
 	pyrefly = {
 		settings = {

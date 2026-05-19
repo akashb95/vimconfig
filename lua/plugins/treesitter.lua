@@ -6,8 +6,6 @@ return {
 		"nvim-treesitter/nvim-treesitter-textobjects",
 	},
 	config = function()
-		local markid = require("markid")
-
 		require("nvim-treesitter.configs").setup({
 			-- Consolidating the parser lists from both your files
 			ensure_installed = {
@@ -67,12 +65,6 @@ return {
 					node_decremental = "N",
 				},
 			},
-
-			markid = {
-				enable = true,
-				colors = markid.colors.dark,
-			},
-
 			textobjects = {
 				move = {
 					enable = true,

@@ -337,17 +337,17 @@ return {
 		})
 
 		-- claude
-		vim.keymap.set({ "n", "v" }, "<LocalLeader>cp", function()
+		vim.keymap.set({ "n", "v" }, "<Leader>clp", function()
 			return require("codecompanion").cli({ prompt = true })
 		end, { desc = "Prompt the CLI agent" })
 
-		vim.keymap.set({ "n", "v" }, "<LocalLeader>ca", function()
+		vim.keymap.set({ "n", "v" }, "<Leader>cla", function()
 			return require("codecompanion").cli("#{this}", { focus = false })
 		end, { desc = "Add context to the CLI agent" })
 
-		vim.keymap.set({ "v" }, "<LocalLeader>ce", function()
+		vim.keymap.set({ "v" }, "<Leader>cle", function()
 			return require("codecompanion").cli("Can you explain this code?")
-		end, { desc = "Add context to the CLI agent" })
+		end, { desc = "Explain code using CLI agent" })
 
 		-- generic
 		vim.keymap.set(

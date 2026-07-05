@@ -19,6 +19,12 @@ return {
 			"<CMD>[GitBlameCopyCommitURL<CR>",
 			desc = "[g]it [b]lame [c]opy commit [url]",
 		},
+		{
+			"<leader>furl",
+			"<CMD>GitBlameCopyFileURL<CR>",
+			desc = "copy [f]ile github [url]",
+			mode = { "n", "v" },
+		},
 	},
 
 	opts = {

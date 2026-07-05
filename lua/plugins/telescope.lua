@@ -147,8 +147,9 @@ return {
 		end, { noremap = true, silent = true, desc = "[t]elescope [s]earch [h]istory" })
 
 		vim.keymap.set("n", "<leader>gst", function()
+			local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
 			builtin.git_status({
-				use_file_path = true,
+				cwd = root,
 				use_git_root = true,
 				git_icons = {
 					added = "+",

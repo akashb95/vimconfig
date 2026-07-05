@@ -7,6 +7,7 @@ vim.opt.syntax = "off"
 vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= vim.o.swapfile == false
 
 vim.opt.clipboard = "unnamedplus"
+vim.opt.autoread = true
 
 vim.o.spell = false
 

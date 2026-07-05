@@ -55,5 +55,38 @@ return {
 			return { timeout_ms = 10000 }
 		end
 		require("conform").setup(opts)
+
+		-- Run golangci-lint run --fix after save on the actual file so it uses the
+		-- same .golangci.yml config as CI. Must run post-write (not pre-write) because
+		-- golangci-lint needs the file on disk, not a stdin buffer.
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			group = vim.api.nvim_create_augroup("GolangCILint", { clear = true }),
+			pattern = "*.go",
+			callback = function(ev)
+				if disable_format_on_save then
+					return
+				end
+				if vim.fn.executable("golangci-lint") == 0 then
+					return
+				end
+				local filepath = vim.api.nvim_buf_get_name(ev.buf)
+				local dirname = vim.fn.fnamemodify(filepath, ":h")
+				local root = vim.fs.root(filepath, { "go.mod" })
+				if not root then
+					return
+				end
+				-- Compute path of the current package relative to the module root.
+				-- golangci-lint picks up .golangci.yml automatically when cwd is the root.
+				local rel = dirname:sub(#root + 2)
+				local pkg = rel ~= "" and ("./" .. rel) or "."
+				vim.system({ "golangci-lint", "run", "--fix", pkg }, { cwd = root }, function()
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(ev.buf) then
+							vim.cmd("checktime " .. vim.fn.fnameescape(filepath))
+						end
+					end)
+				end)
+			end,
+		})
 	end,
 }

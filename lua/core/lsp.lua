@@ -171,16 +171,15 @@ require("mason").setup()
 
 -- You can add other tools here that you want Mason to install
 -- for you, so that they are available from within Neovim.
-vim.list_extend(vim.tbl_keys(servers or {}), {
+local ensure_installed = vim.tbl_keys(servers or {})
+vim.list_extend(ensure_installed, {
 	"stylua", -- Used to format lua code
 	"ruff",
-	-- "goimports",
+	"goimports",
 	"prettier",
-	"stylua",
 	"sleek",
-	"bacon",
 })
-require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers or {}) })
+require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 local function extend_capabilities_and_setup(server_name, server_config)
 	-- LSP servers and clients are able to communicate to each other what features they support.

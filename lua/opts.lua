@@ -4,7 +4,7 @@ vim.g.maplocalleader = "\\"
 vim.opt.syntax = "off"
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= vim.o.swapfile == false
+vim.g.have_nerd_font = os.getenv("NERD_FONT") ~= nil
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.autoread = true

@@ -86,6 +86,7 @@ return {
 					"--trim",
 				},
 				wrap_results = true,
+				file_ignore_patterns = { "%.git/", "node_modules/", "dist/", "build/", "plz%-out/" },
 			},
 			pickers = {
 				search_history = {
@@ -136,6 +137,9 @@ return {
 		vim.keymap.set("n", "<leader>tfg", function()
 			builtin.git_files({ layout_strategy = "vertical" })
 		end, { noremap = true, silent = true, desc = "[t]elescope find [f]iles added to [g]it" })
+		vim.keymap.set("n", "<leader>tff", function()
+			builtin.find_files({ cwd = vim.fn.getcwd(), layout_strategy = "vertical" })
+		end, { noremap = true, silent = true, desc = "[t]elescope [f]ind [f]iles (cwd)" })
 		vim.keymap.set(
 			"n",
 			"<leader>gc",

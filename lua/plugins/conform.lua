@@ -32,6 +32,8 @@ return {
 				javascript = { "prettier" },
 				json = { "prettier" },
 				html = { "prettier" },
+				markdown = { "prettier" },
+				yaml = { "yamlfmt" },
 				rust = { "cargofmt" },
 				sql = { "sleek" },
 			},
@@ -59,6 +61,8 @@ return {
 		-- Run golangci-lint run --fix after save on the actual file so it uses the
 		-- same .golangci.yml config as CI. Must run post-write (not pre-write) because
 		-- golangci-lint needs the file on disk, not a stdin buffer.
+		-- Runs via `go tool` (not a PATH binary) so the repo's pinned go.mod tool
+		-- version is used, not whatever is installed system-wide.
 		vim.api.nvim_create_autocmd("BufWritePost", {
 			group = vim.api.nvim_create_augroup("GolangCILint", { clear = true }),
 			pattern = "*.go",
@@ -66,7 +70,7 @@ return {
 				if disable_format_on_save then
 					return
 				end
-				if vim.fn.executable("golangci-lint") == 0 then
+				if vim.fn.executable("go") == 0 then
 					return
 				end
 				local filepath = vim.api.nvim_buf_get_name(ev.buf)
@@ -79,7 +83,7 @@ return {
 				-- golangci-lint picks up .golangci.yml automatically when cwd is the root.
 				local rel = dirname:sub(#root + 2)
 				local pkg = rel ~= "" and ("./" .. rel) or "."
-				vim.system({ "golangci-lint", "run", "--fix", pkg }, { cwd = root }, function()
+				vim.system({ "go", "tool", "golangci-lint", "run", "--fix", pkg }, { cwd = root }, function()
 					vim.schedule(function()
 						if vim.api.nvim_buf_is_valid(ev.buf) then
 							vim.cmd("checktime " .. vim.fn.fnameescape(filepath))

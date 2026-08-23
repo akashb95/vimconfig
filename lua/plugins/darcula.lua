@@ -4,6 +4,10 @@ function ColourMyPencils(colour)
 
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+	-- darcula-solid's Visual is white-on-light-blue (too low contrast for
+	-- Telescope's selection row, which links to Visual by default).
+	vim.api.nvim_set_hl(0, "TelescopeSelection", { link = "CursorLine" })
 end
 
 return {

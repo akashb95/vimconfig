@@ -25,7 +25,7 @@ return {
 		open_for_directories = true,
 		change_neovim_cwd_on_close = false,
 		open_multiple_tabs = true,
-		yazi_floating_window_winblend = 20,
+		yazi_floating_window_winblend = 0,
 		keymaps = {
 			show_help = "?",
 		},

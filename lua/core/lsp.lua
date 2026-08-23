@@ -46,11 +46,13 @@ local servers = {
 		cmd = { "gopls" },
 		settings = {
 			gopls = {
+				gofumpt = true,
 				analyses = {
 					-- Disable the analyzer that detects and removes unused imports
 					unusedimports = false,
 				},
 				diagnosticsDelay = "2s",
+				vulncheck = "off",
 				-- Gopls publishes diagnostics for all files within root_dir.
 				-- One of the diagnostics steps is `go mod tidy`. This takes a long time in large repos.
 				-- By default, it is done on edit, causing stop-the-world pauses very frequently.
@@ -97,7 +99,6 @@ local servers = {
 				"BUILD",
 				"go.work",
 				"go.mod",
-				".git",
 			}, { upward = true, path = buffer_directory })[1]
 			if root_marker_path then
 				root = vim.fs.dirname(root_marker_path)
@@ -157,6 +158,22 @@ local servers = {
 
 			on_dir(root)
 		end,
+		---@param client vim.lsp.Client
+		on_init = function(client)
+			-- In a monorepo subproject, and especially in a linked git worktree, pyrefly reports
+			-- `Cannot find module` for first-party imports that resolve fine at runtime. Point it at
+			-- a generated config that fixes the search path. See lua/core/pyrefly_config.lua.
+			--
+			-- This has to happen on `client.settings` rather than in `before_init`: the settings
+			-- table is snapshotted when the client is created, and pyrefly reads the value by
+			-- pulling the `python` section via `workspace/configuration`.
+			local generated_config = client.root_dir and require("core.pyrefly_config").config_path_for(client.root_dir)
+			if generated_config then
+				client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+					python = { pyrefly = { configPath = generated_config } },
+				})
+			end
+		end,
 	},
 	vtsls = {},
 }
@@ -178,6 +195,7 @@ vim.list_extend(ensure_installed, {
 	"goimports",
 	"prettier",
 	"sleek",
+	"yamlfmt",
 })
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

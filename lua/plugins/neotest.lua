@@ -7,6 +7,7 @@ return {
 		"antoinemadec/FixCursorHold.nvim",
 		"nvim-neotest/neotest-python",
 		"mrcjkb/rustaceanvim",
+		"fredrikaverpil/neotest-golang",
 	},
 	config = function()
 		-- Set specific colors for Neotest status icons
@@ -20,6 +21,7 @@ return {
 		require("neotest").setup({
 			adapters = {
 				require("rustaceanvim.neotest"),
+				require("neotest-golang")({}),
 				require("neotest-python")({
 					-- Runner to use. Will use pytest if available by default.
 					-- Can also be a function to return dynamic value.

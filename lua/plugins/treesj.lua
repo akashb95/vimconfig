@@ -12,5 +12,8 @@ return {
 		vim.keymap.set("n", "<leader>cbrt", function()
 			treesj.toggle({ split = { recursive = true } })
 		end, { desc = "[c]hop [b]lock [r]ecursive [t]oggle" })
+		vim.keymap.set("n", "<leader>cbrs", function()
+			treesj.split({ split = { recursive = true } })
+		end, { desc = "[c]hop [b]lock [r]ecursive [s]plit" })
 	end,
 }
